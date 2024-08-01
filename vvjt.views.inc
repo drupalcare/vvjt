@@ -34,6 +34,10 @@ function vvjt_views_data_alter(array &$data) {
         'type' => 'string',
         'label' => t('Unique ID for the view display'),
       ],
+      'enable_css' => [
+        'type' => 'boolean',
+        'label' => t('Enable CSS Library'),
+      ],
     ],
   ];
 }

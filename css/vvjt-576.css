@@ -8,7 +8,7 @@
  */
 
 @media (min-width:36rem) {
-  .vvjt .vvj__tabs-bundle.v__tabs.vvjt__576 {
+  .vvjt .vvjt-inner.v__tabs.vvjt__576 {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -17,44 +17,44 @@
     gap: 12px;
   }
 
-  .vvjt .vvj__tabs-bundle.v__tabs.vvjt__576 > .vvj__tabs-button {
+  .vvjt .vvjt-inner.v__tabs.vvjt__576 > .tab-buttons {
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
 
-  .vvjt .vvj__tabs-bundle.v__tabs.vvjt__576 .vvj__tabs-button {
+  .vvjt .vvjt-inner.v__tabs.vvjt__576 .tab-buttons {
     flex: 0 1 auto;
     width: auto;
   }
 
-  .vvjt .vvj__tabs-bundle.v__tabs.vvjt__576.left_width_300 .vvj__tabs-button {
+  .vvjt .vvjt-inner.v__tabs.vvjt__576.left_width_300 .tab-buttons {
     max-width: 300px;
   }
 
-  .vvjt .vvj__tabs-bundle.v__tabs.vvjt__576.left_width_400 .vvj__tabs-button {
+  .vvjt .vvjt-inner.v__tabs.vvjt__576.left_width_400 .tab-buttons {
     max-width: 400px;
   }
 
-  .vvjt .vvj__tabs-bundle.v__tabs.vvjt__576.left_width_500 .vvj__tabs-button {
+  .vvjt .vvjt-inner.v__tabs.vvjt__576.left_width_500 .tab-buttons {
     max-width: 500px;
   }
 
-  .vvjt .vvj__tabs-bundle.v__tabs.vvjt__576.left_width_600 .vvj__tabs-button {
+  .vvjt .vvjt-inner.v__tabs.vvjt__576.left_width_600 .tab-buttons {
     max-width: 600px;
   }
 
-  .vvjt .vvj__tabs-bundle.v__tabs.vvjt__576 .vvj__tabs-pane {
+  .vvjt .vvjt-inner.v__tabs.vvjt__576 .tab-panes {
     flex: 1;
   }
 
-  .vvjt .vvj__tabs-bundle.v__tabs.vvjt__576 .vvj__tab-button {
+  .vvjt .vvjt-inner.v__tabs.vvjt__576 .vvjt-button {
     width: 100%;
     clear: both;
     text-align: left;
   }
 
-  .vvjt .vvj__tabs-bundle.v__tabs.vvjt__576 .vvj__tab-pane {
+  .vvjt .vvjt-inner.v__tabs.vvjt__576 .vvjt-pane {
     height: 100%;
   }
 }

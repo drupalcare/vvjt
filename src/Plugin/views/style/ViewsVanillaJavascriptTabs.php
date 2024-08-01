@@ -32,11 +32,13 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
    */
   protected function defineOptions() {
     $options = parent::defineOptions();
-    $options['animation'] = ['default' => 'none'];
+    $options['animation'] = ['default' => 'vvjt__animate_bottom'];
     $options['unique_id'] = ['default' => $this->generateUniqueId()];
     $options['vertical_tabs'] = ['default' => FALSE];
     $options['max_width'] = ['default' => 'left_width_300'];
     $options['available_breakpoints'] = ['default' => 'vvjt__992'];
+    // New option for enabling CSS.
+    $options['enable_css'] = ['default' => TRUE];
     return $options;
   }
 
@@ -45,6 +47,14 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
    */
   public function buildOptionsForm(&$form, FormStateInterface $form_state) {
     parent::buildOptionsForm($form, $form_state);
+
+    // Add enable_css checkbox to the form.
+    $form['enable_css'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Enable CSS Library'),
+      '#default_value' => $this->options['enable_css'],
+      '#description' => $this->t('Check this box to include the CSS library for styling the tabs.'),
+    ];
 
     $form['animation'] = [
       '#type' => 'select',
@@ -101,6 +111,7 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
       '#default_value' => $this->options['available_breakpoints'],
       '#description' => $this->t('Choose the breakpoint at which the vertical tabs will collapse and become horizontal.'),
     ];
+
   }
 
   /**
@@ -123,6 +134,22 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
       $rows[] = $this->view->rowPlugin->render($row);
     }
 
+    $libraries = [
+      'vvjt/vvjt',
+    ];
+
+    // Conditionally include the CSS library based on the option.
+    if ($this->options['enable_css']) {
+      // Updated to attach the vvjs-style library.
+      $libraries[] = 'vvjt/vvjt-style';
+    }
+
+    // Conditionally include the vertical tabs style.
+    if ($this->options['vertical_tabs']) {
+      // Corrected library path for breakpoints.
+      $libraries[] = 'vvjt/' . $this->options['available_breakpoints'];
+    }
+
     return [
       '#theme' => $this->themeFunctions(),
       '#view' => $this->view,
@@ -130,9 +157,7 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
       '#rows' => $rows,
       '#unique_id' => $this->options['unique_id'],
       '#attached' => [
-        'library' => [
-          'vvjt/vvjt',
-        ],
+        'library' => $libraries,
       ],
     ];
   }

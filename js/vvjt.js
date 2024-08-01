@@ -25,7 +25,7 @@
       function removeActiveClassFromButtons(buttons) {
         buttons.forEach(button => {
           if (button) {
-            button.classList.remove('vvjt-active');
+            button.classList.remove('active');
             button.setAttribute('tabindex', '-1');
             button.setAttribute('aria-selected', 'false');
             button.setAttribute('aria-expanded', 'false');
@@ -36,22 +36,22 @@
       // Function to handle tab clicks with event delegation
       function handleTabClicks(tabContainer) {
         tabContainer.addEventListener('click', event => {
-          const button = event.target.closest('.vvj__tab-button');
+          const button = event.target.closest('.vvjt-button');
           if (!button) return;
-
-          const btnId = button.id;
-          const paneId = `${btnId}-pane`;
+          const btnId = button.id.split('-')
+          const raw_id = btnId.slice(2).join('-');
+          const paneId = `vvjt-pane-${raw_id}`;
           const currentPane = document.getElementById(paneId);
-          const parentId = `#vvj__tab-${btnId.split('-')[1]}`;
-          const tabPanes = document.querySelectorAll(`${parentId} .vvj__tab-pane`);
-          const tabButtons = document.querySelectorAll(`${parentId} .vvj__tab-button`);
-
+          const parentId = `#vvjt-${raw_id.split('-')[0]}`;
+          const tabPanes = document.querySelectorAll(`${parentId} .vvjt-pane`);
+          const tabButtons = document.querySelectorAll(`${parentId} .vvjt-button`);
+          console.log(parentId);
           if (currentPane) {
             hideAllPanes(tabPanes);
             removeActiveClassFromButtons(tabButtons);
             currentPane.style.display = 'block';
             currentPane.setAttribute('aria-hidden', 'false');
-            button.classList.add('vvjt-active');
+            button.classList.add('active');
             button.removeAttribute('tabindex');
             button.setAttribute('aria-selected', 'true');
             button.setAttribute('aria-expanded', 'true');
@@ -94,14 +94,14 @@
         });
       }
 
-      const tabContainers = once('vvjTabs', '.vvj__tabs-bundle', context);
+      const tabContainers = once('vvjTabs', '.vvjt-inner', context);
       tabContainers.forEach(container => {
-        const tabButtons = container.querySelectorAll('.vvj__tab-button');
-        const tabPanes = container.querySelectorAll('.vvj__tab-pane');
+        const tabButtons = container.querySelectorAll('.vvjt-button');
+        const tabPanes = container.querySelectorAll('.vvjt-pane');
 
         // Activate the first tab and pane by default
         if (tabButtons.length > 0) {
-          tabButtons[0].classList.add('vvjt-active');
+          tabButtons[0].classList.add('active');
           tabButtons[0].setAttribute('aria-selected', 'true');
           tabButtons[0].setAttribute('aria-expanded', 'true');
           tabButtons[0].setAttribute('tabindex', '0');
@@ -113,7 +113,7 @@
 
         // Initialize tabindex for other buttons
         tabButtons.forEach((button, index) => {
-          if (!button.classList.contains('vvjt-active')) {
+          if (!button.classList.contains('active')) {
             button.setAttribute('tabindex', '-1');
           }
 

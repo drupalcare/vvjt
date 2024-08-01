@@ -11,6 +11,12 @@ vvjt:
     - core/drupalSettings
     - core/once
 
+vvjt-style:
+  version: VERSION
+  css:
+    theme:
+      css/vvjt-style.css: { }
+
 vvjt__576:
   version: VERSION
   css:
