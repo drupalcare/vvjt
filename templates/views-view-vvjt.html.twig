@@ -1,0 +1,91 @@
+{#
+  @file
+  Template for rendering a Views Vanilla Javascript Tabs.
+
+  Available variables:
+  - options: The options array containing settings for the tabs.
+  - rows: An array of row items to be displayed in the tabs.
+  - attributes: A list of HTML attributes for the wrapper div.
+
+  Options settings:
+  - unique_id: A unique identifier for the tabs instance.
+  - animation: Animation type for the tabs.
+  - max_width: Maximum width for the tabs.
+  - available_breakpoints: Breakpoints for responsive design.
+  - vertical_tabs: Whether to display tabs vertically.
+#}
+
+{% set unique_id = options.unique_id %}
+{% set vvjt_id   = 'vvj__tabs-' ~ unique_id %}
+
+{# Set the classes for the Tabs. #}
+{% set classes = [
+  'vvjt',
+  vvjt_id,
+] %}
+
+{# Define breakpoints and attach the corresponding library #}
+{% set vertical_tabs = options.vertical_tabs %}
+ {% if vertical_tabs == 1 %}
+{% set max_width = options.max_width %}
+{% set breakpoints = options.available_breakpoints %}
+{% set breakpoints_lib = 'vvjt/' ~ breakpoints %}
+{{ attach_library(breakpoints_lib) }}
+{% endif %}
+
+{# Animated Tab Display #}
+{% set pb_animated_tab = options.animation %}
+{% set activate_vertical = vertical_tabs == '1' ? ' v__tabs ' ~ breakpoints ~ ' ' ~ max_width : '' %}
+
+<div {{ attributes.addClass(classes).setAttribute('id', vvjt_id) }}>
+  <div class="vvjt__inner">
+    {% set tab_id = 'vvj__tab-' ~ unique_id %}
+    <div id="{{ tab_id }}" class="pb__row vvj__tabs-bundle{{ activate_vertical }}">
+
+      {# Initialize variables to hold the buttons and panes #}
+      {% set buttons = '' %}
+      {% set panes = '' %}
+
+      {# Capture the buttons and panes from each row #}
+      {% for key, row in rows %}
+        {% set row_content = row.content|render %}
+
+        {# Use the unique tag or CSS class to split the content #}
+        {% set split_content = row_content|split('<div class="vvjt-separator"></div>') %}
+        {% set button_content = split_content[0] %}
+        {% set pane_content = split_content[1] %}
+
+        {# Render the button #}
+        {% set button %}
+        <button id="vvj__tab-{{ unique_id }}-{{ key + 1 }}" class="pb__button vvj__tab-button" aria-label="{{ button_content|striptags|trim|t }}" aria-selected="{% if key == 0 %}true{% else %}false{% endif %}" aria-controls="{{ tab_id }}-{{ key + 1 }}-pane" aria-expanded="{% if key == 0 %}true{% else %}false{% endif %}" type="button" role="tab" {% if key != 0 %}tabindex="-1"{% endif %}>
+          {{ button_content|safe_html }}
+        </button>
+        {% endset %}
+
+        {# Render the pane #}
+        {% set pane %}
+        <div id="vvj__tab-{{ unique_id }}-{{ key + 1 }}-pane" role="tabpanel" data-index="{{ key + 1 }}" aria-hidden="{% if key == 0 %}false{% else %}true{% endif %}" aria-labelledby="vvj__tab-{{ unique_id }}-{{ key + 1 }}" class="vvj__tab-pane {{ options.animation == '' ? '' : ' ' ~ options.animation }}" {% if key == 0 %} aria-live="polite"{% endif %}>
+          {{ pane_content|safe_html }}
+        </div>
+        {% endset %}
+
+        {# Collect the buttons and panes #}
+        {% set buttons = buttons ~ button %}
+        {% set panes = panes ~ pane %}
+      {% endfor %}
+
+      {# Render the tab buttons. #}
+      <div class="pb__bar vvj__tabs-button" role="tablist" aria-label="{{ 'Tab List'|t }}">
+        <span class="visually-hidden">{{ 'Use the arrow keys to navigate between tabs'|t }}</span>
+        {{ buttons|safe_html }}
+      </div>
+
+      {# Render the tab content. #}
+      <div class="pb__row vvj__tabs-pane">
+        {{ panes|safe_html }}
+      </div>
+
+    </div> {# End of vvj__tabs-bundle #}
+
+  </div>
+</div> {# End of main wrapper #}
