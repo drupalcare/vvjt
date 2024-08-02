@@ -34,32 +34,31 @@
       }
 
       // Function to handle tab clicks with event delegation
-      function handleTabClicks(tabContainer) {
-        tabContainer.addEventListener('click', event => {
-          const button = event.target.closest('.vvjt-button');
-          if (!button) return;
-          const btnId = button.id.split('-')
-          const raw_id = btnId.slice(2).join('-');
-          const paneId = `vvjt-pane-${raw_id}`;
-          const currentPane = document.getElementById(paneId);
-          const parentId = `#vvjt-${raw_id.split('-')[0]}`;
-          const tabPanes = document.querySelectorAll(`${parentId} .vvjt-pane`);
-          const tabButtons = document.querySelectorAll(`${parentId} .vvjt-button`);
-          console.log(parentId);
-          if (currentPane) {
-            hideAllPanes(tabPanes);
-            removeActiveClassFromButtons(tabButtons);
-            currentPane.style.display = 'block';
-            currentPane.setAttribute('aria-hidden', 'false');
-            button.classList.add('active');
-            button.removeAttribute('tabindex');
-            button.setAttribute('aria-selected', 'true');
-            button.setAttribute('aria-expanded', 'true');
-            button.focus();
-          } else {
-            console.warn(`Pane with ID ${paneId} not found.`);
-          }
-        });
+      function handleTabClicks(tabContainer, event) {
+        const button = event.target.closest('.vvjt-button');
+        if (!button) return;
+
+        const btnId = button.id.split('-');
+        const raw_id = btnId.slice(2).join('-');
+        const paneId = `vvjt-pane-${raw_id}`;
+        const currentPane = document.getElementById(paneId);
+        const parentId = `#vvjt-${raw_id.split('-')[0]}`;
+        const tabPanes = document.querySelectorAll(`${parentId} .vvjt-pane`);
+        const tabButtons = document.querySelectorAll(`${parentId} .vvjt-button`);
+
+        if (currentPane) {
+          hideAllPanes(tabPanes);
+          removeActiveClassFromButtons(tabButtons);
+          currentPane.style.display = 'block';
+          currentPane.setAttribute('aria-hidden', 'false');
+          button.classList.add('active');
+          button.removeAttribute('tabindex');
+          button.setAttribute('aria-selected', 'true');
+          button.setAttribute('aria-expanded', 'true');
+          button.focus();
+        } else {
+          console.warn(`Pane with ID ${paneId} not found.`);
+        }
       }
 
       // Function to handle keyboard navigation
@@ -94,6 +93,19 @@
         });
       }
 
+      // Function to update aria-labels for tab buttons based on image alt text
+      function updateAriaLabelsForButtons(tabButtons) {
+        tabButtons.forEach(button => {
+          const img = button.querySelector('img');
+          if (img && img.alt) {
+            button.setAttribute('aria-label', img.alt);
+          } else {
+            // If no image or alt, use button text as aria-label
+            button.setAttribute('aria-label', button.textContent.trim() || 'Tab');
+          }
+        });
+      }
+
       const tabContainers = once('vvjTabs', '.vvjt-inner', context);
       tabContainers.forEach(container => {
         const tabButtons = container.querySelectorAll('.vvjt-button');
@@ -123,7 +135,11 @@
 
         // Handle keyboard navigation
         handleKeyboardNavigation(tabButtons);
+
+        // Update aria-labels for buttons based on content
+        updateAriaLabelsForButtons(tabButtons);
       });
     }
   };
 })(Drupal, drupalSettings, once);
+

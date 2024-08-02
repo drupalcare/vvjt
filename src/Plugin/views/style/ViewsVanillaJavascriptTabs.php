@@ -37,7 +37,6 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
     $options['vertical_tabs'] = ['default' => FALSE];
     $options['max_width'] = ['default' => 'left_width_300'];
     $options['available_breakpoints'] = ['default' => 'vvjt__992'];
-    // New option for enabling CSS.
     $options['enable_css'] = ['default' => TRUE];
     return $options;
   }
