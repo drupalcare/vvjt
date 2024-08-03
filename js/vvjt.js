@@ -106,6 +106,21 @@
         });
       }
 
+      // Function to disable links within tab buttons
+      function disableLinksInTabButtons(tabButtons) {
+        tabButtons.forEach(button => {
+          const links = button.querySelectorAll('a');
+          links.forEach(link => {
+            link.setAttribute('data-original-href', link.getAttribute('href'));
+            link.removeAttribute('href');
+            link.style.cursor = 'default';
+            link.addEventListener('click', function(event) {
+              event.preventDefault(); // Prevent link from navigating
+            });
+          });
+        });
+      }
+
       const tabContainers = once('vvjTabs', '.vvjt-inner', context);
       tabContainers.forEach(container => {
         const tabButtons = container.querySelectorAll('.vvjt-button');
@@ -138,8 +153,12 @@
 
         // Update aria-labels for buttons based on content
         updateAriaLabelsForButtons(tabButtons);
+
+        // Disable links within tab buttons
+        disableLinksInTabButtons(tabButtons);
       });
     }
   };
 })(Drupal, drupalSettings, once);
+
 
