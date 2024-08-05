@@ -15,15 +15,8 @@
   - vertical_tabs: Whether to display tabs vertically.
 #}
 
-{% set unique_id = options.unique_id %}
-{% set vvjt_id   = 'vvjt-' ~ unique_id %}
-{% set tab_inner_id = 'vvjt-inner-' ~ unique_id %}
-
-
-Copy code
 {#
   This template dynamically assigns CSS classes to a container based on user configuration options.
-
   - 'vvjt': A base class for general styling.
   - `vvjt_id`: A unique identifier class for targeting specific instances.
   - `options.tabs_position`: Adds a class for the tab position, which can be 'top', 'right', 'bottom', or 'left'.
@@ -35,6 +28,10 @@ Copy code
 
   The code ensures that only relevant and non-empty classes are included in the output, optimizing styling and responsiveness.
 #}
+
+{% set unique_id = options.unique_id %}
+{% set vvjt_id   = 'vvjt-' ~ unique_id %}
+{% set tab_inner_id = 'vvjt-inner-' ~ unique_id %}
 
 {% set classes = [
   'vvjt',
