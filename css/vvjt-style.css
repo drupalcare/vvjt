@@ -6,4 +6,29 @@
  * Website:      https://www.flashwebcenter.com
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
+/* Custom */
+.vvjt .tab-buttons .vvjt-button {
+  padding: 12px 6px;
+  font-weight: normal;
+  line-height: normal;
+  border: none;
+  margin: 0;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
+.vvjt .vvjt-inner .tab-buttons .vvjt-button:hover,
+.vvjt .vvjt-inner .tab-buttons .vvjt-button:focus {
+  border: none;
+  font-weight: normal;
+  outline: none;
+}
+
+.vvjt .vvjt-inner .tab-buttons .vvjt-button.active {
+  font-weight: bold;
+}
+
+.vvjt.vertical .vvjt-inner {
+  gap: 12px;
+}

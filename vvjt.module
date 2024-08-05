@@ -18,7 +18,7 @@ use Drupal\Core\Template\Attribute;
 /**
  * Implements hook_help().
  */
-function vvjt_help($route_name, RouteMatchInterface $route_match) {
+function vvjt_help($route_name, RouteMatchInterface $route_match): ?string {
   if ($route_name === 'help.page.vvjt') {
     return _vvjt_helper_render_readme();
   }
@@ -31,7 +31,7 @@ function vvjt_help($route_name, RouteMatchInterface $route_match) {
  * @return string
  *   The rendered content of README.md.
  */
-function _vvjt_helper_render_readme() {
+function _vvjt_helper_render_readme(): string {
   $readme_path = __DIR__ . '/README.md';
   $text = file_get_contents($readme_path);
 
@@ -99,8 +99,10 @@ function template_preprocess_views_view_vvjt(array &$variables) {
   // Conditionally add options as data attributes.
   if (!empty($handler->options['wrap_tabs'])) {
     $list_attributes['data-wrap-tabs'] = 'true';
-  } else {
-    $list_attributes['data-wrap-tabs'] = 'false'; // For consistency.
+  }
+  else {
+    // For consistency.
+    $list_attributes['data-wrap-tabs'] = 'false';
   }
 
   if (!empty($handler->options['animation'])) {
@@ -135,7 +137,8 @@ function template_preprocess_views_view_vvjt(array &$variables) {
 
   // Pass additional settings to the template.
   $variables['settings'] = [
-    'view_id' => $variables['view']->dom_id, // Use $variables to access the view ID.
+  // Use $variables to access the view ID.
+    'view_id' => $variables['view']->dom_id,
     'animation' => $handler->options['animation'],
     'wrap_tabs' => $handler->options['wrap_tabs'],
     'max_width' => $handler->options['max_width'],

@@ -41,8 +41,7 @@ Copy code
   vvjt_id,
   options.tabs_position in ['top', 'bottom'] ? 'horizontal' : 'vertical',
   options.tabs_position,
-  options.tabs_position in ['top', 'bottom'] and options.max_width == 'tabs_width_auto' ? options.max_width :
-  (options.tabs_position in ['left', 'right'] and options.max_width == 'tabs_width_auto' ? 'tabs_width_300' : options.max_width),
+  options.max_width,
   options.tabs_position in ['left', 'right'] ? options.available_breakpoints : '',
   options.animation != 'none' ? options.animation : '',
   options.wrap_tabs ? 'wrap-tabs' : '',

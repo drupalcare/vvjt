@@ -30,7 +30,7 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
   /**
    * Set default options.
    */
-  protected function defineOptions() {
+  protected function defineOptions(): array {
     $options = parent::defineOptions();
     $options['animation'] = ['default' => 'vvjt__animate_bottom'];
     $options['unique_id'] = ['default' => $this->generateUniqueId()];
@@ -38,14 +38,15 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
     $options['max_width'] = ['default' => 'tabs_width_300'];
     $options['available_breakpoints'] = ['default' => 'vvjt__992'];
     $options['enable_css'] = ['default' => TRUE];
-    $options['wrap_tabs'] = ['default' => FALSE]; // Add the wrap_tabs option
+    // Add the wrap_tabs option.
+    $options['wrap_tabs'] = ['default' => FALSE];
     return $options;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildOptionsForm(&$form, FormStateInterface $form_state) {
+  public function buildOptionsForm(&$form, FormStateInterface $form_state): void {
     parent::buildOptionsForm($form, $form_state);
 
     // Add enable_css checkbox to the form.
@@ -94,10 +95,9 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
       '#description' => $this->t('Choose the animation type for the tab pane.'),
     ];
 
-
     $form['max_width'] = [
       '#type' => 'select',
-      '#title' => $this->t('Max Width'),
+      '#title' => $this->t('Tabs Max Width'),
       '#options' => [
         'tabs_width_auto' => $this->t('Auto'),
         'tabs_width_100' => $this->t('100 px'),
@@ -109,12 +109,15 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
       ],
       '#default_value' => $this->options['max_width'],
       '#description' => $this->t('
+        Configure the maximum width of the tab buttons based on the selected tab position.<br><br>
+
         <strong>Vertical Tabs (Left/Right):</strong><br>
-        - The max width is required and defaults to 300px.<br>
-        - You can adjust this value to control the maximum width of the tab buttons when positioned vertically.<br><br>
+        - <strong>Auto:</strong> The tab buttons adjust their width dynamically based on content size and available space, ensuring flexibility across different screen sizes.<br>
+        - <strong>Max Widths (100 px - 600 px):</strong> Set a maximum width to allow tab buttons to expand based on content while preventing them from exceeding a specified width. This is ideal for maintaining consistency without sacrificing adaptability.<br><br>
+
         <strong>Horizontal Tabs (Top/Bottom):</strong><br>
-        - The max width is automatically set to "auto", allowing tabs to adjust based on their content.<br>
-        - You can set a specific max width if your tab buttons contain images or need a specific size constraint.
+        - <strong>Auto:</strong> The tabs automatically resize to fit their content, providing a responsive layout that adapts to the available space.<br>
+        - <strong>Max Widths (100 px - 600 px):</strong> Define a maximum width for tab buttons to ensure they can grow according to content but do not exceed the specified size, which helps in maintaining a clean and organized appearance.
       '),
     ];
 
@@ -135,8 +138,10 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
 
   /**
    * Generates a unique numeric ID for the view display.
+   *
+   * @throws \Random\RandomException
    */
-  protected function generateUniqueId() {
+  protected function generateUniqueId(): int {
     // 8 digit unique ID
     return random_int(10000000, 99999999);
   }
@@ -147,7 +152,7 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
    * @return array
    *   A render array for the 3D carousel.
    */
-  public function render() {
+  public function render(): array {
     $rows = [];
     foreach ($this->view->result as $row) {
       $rows[] = $this->view->rowPlugin->render($row);
@@ -168,7 +173,8 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
       // Include the appropriate library for breakpoints.
       $libraries[] = 'vvjt/vvjt-vertical';
       $libraries[] = 'vvjt/' . $this->options['available_breakpoints'];
-    }else {
+    }
+    else {
       $libraries[] = 'vvjt/vvjt-horizontal';
     }
 

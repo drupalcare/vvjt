@@ -7,63 +7,85 @@
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
 
-@media (min-width:48rem) {
-  .vvjt .vvjt-inner.vvvj-tabs.vvjt__768 {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    flex-grow: 1;
-    gap: 12px;
-  }
-
-  .vvjt .vvjt-inner.vvvj-tabs.vvjt__768 > .tab-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .vvjt .vvjt-inner.vvvj-tabs.vvjt__768 .tab-buttons {
-    flex: 0 1 auto;
+@media (max-width: 48rem) {
+  .vvjt.vertical .vvjt-inner .vvjt-button img {
+    height: auto;
     width: auto;
+    max-width: none;
+    overflow: hidden;
   }
 
-  .vvjt .vvjt-inner.vvvj-tabs.vvjt__768.tabs_width_100 .tab-buttons {
+  .vvjt.vertical .tab-buttons {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 100%;
+  }
+
+  .vvjt.vertical .tab-buttons .vvjt-button {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .vvjt.vertical.wrap-tabs .tab-buttons .vvjt-button {
+    float: left;
+    white-space: normal;
+    overflow-x: visible;
+  }
+}
+
+@media (min-width: 48rem) {
+  .vvjt.vertical .vvjt-inner {
+    flex-direction: row;
+  }
+
+  .vvjt.vertical.right .vvjt-inner {
+    flex-direction: row-reverse;
+  }
+
+  .vvjt.vertical .vvjt-inner .tab-panes {
+    flex: 1; /* Allow tab-panes to take the remaining space */
+    min-width: 0; /* Ensure tab-panes can shrink properly */
+  }
+
+  .vvjt.vertical .vvjt-inner .tab-buttons {
+    display: flex;
+    width: auto; /* Adjust to fit content */
+    flex-direction: column;
+  }
+
+  .vvjt.vertical.tabs_width_auto .tab-buttons {
+    flex: 0 0 auto; /* Allow tab-buttons to shrink/grow naturally */
+  }
+
+  .vvjt.vertical.tabs_width_100 .tab-buttons {
+    flex: 0 0 auto;
     max-width: 100px;
   }
 
-  .vvjt .vvjt-inner.vvvj-tabs.vvjt__768.tabs_width_200 .tab-buttons {
+  .vvjt.vertical.tabs_width_200 .tab-buttons {
+    flex: 0 0 auto;
     max-width: 200px;
   }
 
-  .vvjt .vvjt-inner.vvvj-tabs.vvjt__768.tabs_width_300 .tab-buttons {
+  .vvjt.vertical.tabs_width_300 .tab-buttons {
+    flex: 0 0 auto;
     max-width: 300px;
   }
 
-  .vvjt .vvjt-inner.vvvj-tabs.vvjt__768.tabs_width_400 .tab-buttons {
+  .vvjt.vertical.tabs_width_400 .tab-buttons {
+    flex: 0 0 auto;
     max-width: 400px;
   }
 
-  .vvjt .vvjt-inner.vvvj-tabs.vvjt__768.tabs_width_500 .tab-buttons {
+  .vvjt.vertical.tabs_width_500 .tab-buttons {
+    flex: 0 0 auto;
     max-width: 500px;
   }
 
-  .vvjt .vvjt-inner.vvvj-tabs.vvjt__768.tabs_width_600 .tab-buttons {
+  .vvjt.vertical.tabs_width_600 .tab-buttons {
+    flex: 0 0 auto;
     max-width: 600px;
   }
-
-  .vvjt .vvjt-inner.vvvj-tabs.vvjt__768 .tab-panes {
-    flex: 1;
-  }
-
-  .vvjt .vvjt-inner.vvvj-tabs.vvjt__768 .vvjt-button {
-    width: 100%;
-    clear: both;
-    text-align: left;
-  }
-
-  .vvjt .vvjt-inner.vvvj-tabs.vvjt__768 .vvjt-pane {
-    height: 100%;
-  }
-
 }

@@ -18,7 +18,7 @@ class VVJTTwigExtension extends AbstractExtension {
   /**
    * {@inheritdoc}
    */
-  public function getFilters() {
+  public function getFilters(): array {
     return [
       new TwigFilter('safe_html', $this->safeHtml(...), ['is_safe' => ['html']]),
     ];
@@ -33,7 +33,7 @@ class VVJTTwigExtension extends AbstractExtension {
    * @return \Twig\Markup
    *   The safe HTML string.
    */
-  public function safeHtml($string) {
+  public function safeHtml(string $string): Markup {
     return new Markup($string, 'UTF-8');
   }
 

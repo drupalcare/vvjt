@@ -33,22 +33,24 @@
   width: 100%;
 }
 
-.vvjt .tab-buttons .vvjt-button {
-  display: inline-block;
+.vvjt.horizontal .tab-buttons .vvjt-button {
   overflow: hidden;
   white-space: nowrap;
 }
 
-.vvjt .vvjt-inner .tab-buttons::after {
+.vvjt.horizontal .tab-buttons .tab-buttons::after {
   content: "";
   display: table;
   clear: both;
 }
 
 .vvjt.horizontal.wrap-tabs .tab-buttons {
-  float: left;
   white-space: normal;
   overflow-x: visible;
+}
+
+.vvjt.horizontal.wrap-tabs .tab-buttons .vvjt-button {
+  float: left;
 }
 
 .vvjt.horizontal.tabs_width_auto .vvjt-inner .vvjt-button {

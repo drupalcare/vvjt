@@ -9,8 +9,13 @@
 
 /* Global */
 .vvjt {
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr;
+}
+
+.vvjt * {
+  box-sizing: border-box;
 }
 
 .vvjt .vvjt-inner .tab-panes {
@@ -33,34 +38,20 @@
 
 .vvjt .vvjt-inner .tab-panes {
   display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
+
+.vvjt .vvjt-inner .tab-panes>* {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .vvjt .tab-buttons .vvjt-button {
-  height: auto;
-}
-
-.vvjt .tab-buttons .vvjt-button {
+  white-space: normal;
   display: inline-block;
-  padding: 12px 16px;
-  font-weight: normal;
-  line-height: normal;
-  border: none;
-  margin: 0;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.vvjt .vvjt-inner .tab-buttons .vvjt-button:hover,
-.vvjt .vvjt-inner .tab-buttons .vvjt-button:focus {
-  border: none;
-  font-weight: normal;
-  outline: none;
-}
-
-.vvjt .vvjt-inner .tab-buttons .vvjt-button.active {
-  font-weight: bold;
+  height: auto;
+  text-align: left;
 }
 
 /* Animate slideshow */
