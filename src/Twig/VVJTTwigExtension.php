@@ -20,7 +20,7 @@ class VVJTTwigExtension extends AbstractExtension {
    */
   public function getFilters() {
     return [
-      new TwigFilter('safe_html', [$this, 'safeHtml'], ['is_safe' => ['html']]),
+      new TwigFilter('safe_html', $this->safeHtml(...), ['is_safe' => ['html']]),
     ];
   }
 
