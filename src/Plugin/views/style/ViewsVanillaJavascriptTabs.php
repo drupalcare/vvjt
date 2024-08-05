@@ -34,10 +34,11 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
     $options = parent::defineOptions();
     $options['animation'] = ['default' => 'vvjt__animate_bottom'];
     $options['unique_id'] = ['default' => $this->generateUniqueId()];
-    $options['vertical_tabs'] = ['default' => FALSE];
-    $options['max_width'] = ['default' => 'left_width_300'];
+    $options['tabs_position'] = ['default' => 'top'];
+    $options['max_width'] = ['default' => 'tabs_width_300'];
     $options['available_breakpoints'] = ['default' => 'vvjt__992'];
     $options['enable_css'] = ['default' => TRUE];
+    $options['wrap_tabs'] = ['default' => FALSE]; // Add the wrap_tabs option
     return $options;
   }
 
@@ -55,6 +56,28 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
       '#description' => $this->t('Check this box to include the CSS library for styling the tabs.'),
     ];
 
+    // Add the wrap_tabs checkbox to the form.
+    $form['wrap_tabs'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Wrap Tabs When Exceeded'),
+      '#default_value' => $this->options['wrap_tabs'],
+      '#description' => $this->t('Check this box to wrap tab buttons if they exceed the available space on any screen size. The default is auto-scroll.'),
+    ];
+
+    // Add the tabs position select field.
+    $form['tabs_position'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Tabs Position'),
+      '#options' => [
+        'top' => $this->t('Top'),
+        'right' => $this->t('Right'),
+        'bottom' => $this->t('Bottom'),
+        'left' => $this->t('Left'),
+      ],
+      '#default_value' => $this->options['tabs_position'],
+      '#description' => $this->t('Select the position for the tab buttons.'),
+    ];
+
     $form['animation'] = [
       '#type' => 'select',
       '#title' => $this->t('Animation Type'),
@@ -68,38 +91,36 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
         'vvjt__animate_opacity' => $this->t('Opacity'),
       ],
       '#default_value' => $this->options['animation'],
-      '#description' => $this->t('Choose the animation type.'),
+      '#description' => $this->t('Choose the animation type for the tab pane.'),
     ];
 
-    // Add the vertical_tabs checkbox.
-    $form['vertical_tabs'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Enable Vertical Tabs'),
-      '#description' => $this->t('Check this box to enable vertical tabs and configure additional settings.'),
-      '#default_value' => $this->options['vertical_tabs'],
-    ];
-
-    // Add a message above the dependent fields.
-    $form['dependent_fields_message'] = [
-      '#markup' => '<strong>' . $this->t('The following fields are for Vertical Tabs:') . '</strong>',
-    ];
 
     $form['max_width'] = [
       '#type' => 'select',
       '#title' => $this->t('Max Width'),
       '#options' => [
-        'left_width_300' => $this->t('300 px'),
-        'left_width_400' => $this->t('400 px'),
-        'left_width_500' => $this->t('500 px'),
-        'left_width_600' => $this->t('600 px'),
+        'tabs_width_auto' => $this->t('Auto'),
+        'tabs_width_100' => $this->t('100 px'),
+        'tabs_width_200' => $this->t('200 px'),
+        'tabs_width_300' => $this->t('300 px'),
+        'tabs_width_400' => $this->t('400 px'),
+        'tabs_width_500' => $this->t('500 px'),
+        'tabs_width_600' => $this->t('600 px'),
       ],
       '#default_value' => $this->options['max_width'],
-      '#description' => $this->t('Choose the maximum width for the left buttons when using vertical tabs.'),
+      '#description' => $this->t('
+        <strong>Vertical Tabs (Left/Right):</strong><br>
+        - The max width is required and defaults to 300px.<br>
+        - You can adjust this value to control the maximum width of the tab buttons when positioned vertically.<br><br>
+        <strong>Horizontal Tabs (Top/Bottom):</strong><br>
+        - The max width is automatically set to "auto", allowing tabs to adjust based on their content.<br>
+        - You can set a specific max width if your tab buttons contain images or need a specific size constraint.
+      '),
     ];
 
     $form['available_breakpoints'] = [
       '#type' => 'select',
-      '#title' => $this->t('Available Breakpoints'),
+      '#title' => $this->t('Available Breakpoints for Vertical Tabs (Left/Right)'),
       '#options' => [
         'vvjt__576' => $this->t('576px / 36rem'),
         'vvjt__768' => $this->t('768px / 48rem'),
@@ -110,7 +131,6 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
       '#default_value' => $this->options['available_breakpoints'],
       '#description' => $this->t('Choose the breakpoint at which the vertical tabs will collapse and become horizontal.'),
     ];
-
   }
 
   /**
@@ -139,14 +159,17 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
 
     // Conditionally include the CSS library based on the option.
     if ($this->options['enable_css']) {
-      // Updated to attach the vvjs-style library.
+      // Include the vvjs-style library.
       $libraries[] = 'vvjt/vvjt-style';
     }
 
     // Conditionally include the vertical tabs style.
-    if ($this->options['vertical_tabs']) {
-      // Corrected library path for breakpoints.
+    if ($this->options['tabs_position'] === 'left' || $this->options['tabs_position'] === 'right') {
+      // Include the appropriate library for breakpoints.
+      $libraries[] = 'vvjt/vvjt-vertical';
       $libraries[] = 'vvjt/' . $this->options['available_breakpoints'];
+    }else {
+      $libraries[] = 'vvjt/vvjt-horizontal';
     }
 
     return [

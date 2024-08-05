@@ -7,14 +7,64 @@
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
 
+/* Global */
+.vvjt {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.vvjt .vvjt-inner .tab-panes {
+  overflow: hidden;
+}
+
 .vvjt .tab-panes .vvjt-pane {
   display: none;
   overflow: hidden;
 }
 
+.vvjt .vvjt-inner {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.vvjt .tab-panes > div.vvjt-pane:first-child {
+  display: block;
+}
+
+.vvjt .vvjt-inner .tab-panes {
+  display: grid;
+}
+
+.vvjt .tab-buttons .vvjt-button {
+  height: auto;
+}
+
+.vvjt .tab-buttons .vvjt-button {
+  display: inline-block;
+  padding: 12px 16px;
+  font-weight: normal;
+  line-height: normal;
+  border: none;
+  margin: 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.vvjt .vvjt-inner .tab-buttons .vvjt-button:hover,
+.vvjt .vvjt-inner .tab-buttons .vvjt-button:focus {
+  border: none;
+  font-weight: normal;
+  outline: none;
+}
+
+.vvjt .vvjt-inner .tab-buttons .vvjt-button.active {
+  font-weight: bold;
+}
 
 /* Animate slideshow */
-.vvjt__animate-fading {
+.vvjt.vvjt__animate-fading .vvjt-pane {
   animation: fading 5s ease-in-out infinite;
 }
 
@@ -33,7 +83,7 @@
 
 }
 
-.vvjt__animate_opacity {
+.vvjt.vvjt__animate_opacity .vvjt-pane {
   animation: opac 0.8s ease-out;
 }
 
@@ -48,7 +98,7 @@
 
 }
 
-.vvjt__animate_top {
+.vvjt.vvjt__animate_top .vvjt-pane {
   position: relative;
   animation: animatetop 0.6s ease-out;
 }
@@ -66,7 +116,7 @@
 
 }
 
-.vvjt__animate_left {
+.vvjt.vvjt__animate_left .vvjt-pane {
   position: relative;
   animation: animateleft 0.6s ease-out;
 }
@@ -84,7 +134,7 @@
 
 }
 
-.vvjt__animate_right {
+.vvjt.vvjt__animate_right .vvjt-pane {
   position: relative;
   animation: animateright 0.6s ease-out;
 }
@@ -102,7 +152,7 @@
 
 }
 
-.vvjt__animate_bottom {
+.vvjt.vvjt__animate_bottom .vvjt-pane {
   position: relative;
   animation: animatebottom 0.6s ease-out;
 }
@@ -120,7 +170,7 @@
 
 }
 
-.vvjt__animate_zoom {
+.vvjt.vvjt__animate_zoom .vvjt-pane {
   animation: animatezoom 0.6s ease-out;
 }
 

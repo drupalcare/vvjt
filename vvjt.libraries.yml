@@ -11,6 +11,18 @@ vvjt:
     - core/drupalSettings
     - core/once
 
+vvjt-horizontal:
+  version: VERSION
+  css:
+    theme:
+      css/vvjt-horizontal.css: { }
+
+vvjt-vertical:
+  version: VERSION
+  css:
+    theme:
+      css/vvjt-vertical.css: { }
+
 vvjt-style:
   version: VERSION
   css:

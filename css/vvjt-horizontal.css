@@ -1,0 +1,86 @@
+/**
+ * @file
+ * VVj Tabs.
+ *
+ * Filename:     vvjt-horizontal.css
+ * Website:      https://www.flashwebcenter.com
+ * Developer:    Alaa Haddad https://www.alaahaddad.com.
+ */
+.vvjt.horizontal .vvjt-inner {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.vvjt.horizontal.bottom .tab-buttons {
+  order: 2;
+}
+
+.vvjt.horizontal.bottom .tab-panes {
+  order: 1;
+}
+
+.vvjt.horizontal .vvjt-inner .vvjt-button img {
+  height: initial;
+  width: initial;
+  max-width: initial;
+  overflow: hidden;
+}
+
+.vvjt.horizontal .tab-buttons {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.vvjt .tab-buttons .vvjt-button {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.vvjt .vvjt-inner .tab-buttons::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.vvjt.horizontal.wrap-tabs .tab-buttons {
+  float: left;
+  white-space: normal;
+  overflow-x: visible;
+}
+
+.vvjt.horizontal.tabs_width_auto .vvjt-inner .vvjt-button {
+  max-width: auto;
+}
+
+.vvjt.horizontal.tabs_width_100 .vvjt-inner .vvjt-button {
+  width: 100%;
+  max-width: 100px;
+}
+
+.vvjt.horizontal.tabs_width_200 .vvjt-inner .vvjt-button {
+  width: 100%;
+  max-width: 200px;
+}
+
+.vvjt.horizontal.tabs_width_300 .vvjt-inner .vvjt-button {
+  width: 100%;
+  max-width: 300px;
+}
+
+.vvjt.horizontal.tabs_width_400 .vvjt-inner .vvjt-button {
+  width: 100%;
+  max-width: 400px;
+}
+
+.vvjt.horizontal.tabs_width_500 .vvjt-inner .vvjt-button {
+  width: 100%;
+  max-width: 500px;
+}
+
+.vvjt.horizontal.tabs_width_600 .vvjt-inner .vvjt-button {
+  width: 100%;
+  max-width: 600px;
+}

@@ -1,0 +1,48 @@
+/**
+ * @file
+ * VVj Tabs.
+ *
+ * Filename:     vvjt.css
+ * Website:      https://www.flashwebcenter.com
+ * Developer:    Alaa Haddad https://www.alaahaddad.com.
+ */
+@media (max-width:62rem) {
+  .vvjt.vertical .tab-buttons {
+    flex-direction: row;
+    overflow-x: auto;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+  }
+
+  .vvjt.vertical.wrap-tabs .tab-buttons {
+    overflow: hidden;
+    white-space: normal;
+    flex-wrap: wrap;
+  }
+
+  .vvjt.horizontal .vvjt-inner .vvjt-button img {
+    height: initial;
+    width: initial;
+    max-width: initial;
+    overflow: hidden;
+  }
+
+}
+
+@media (min-width:62rem) {
+  .vvjt.vertical .vvjt-inner {
+    grid-template-columns: 300px auto;
+    gap: 12px;
+  }
+
+  .vvjt.vertical .vvjt-inner .tab-buttons {
+    width: 100%;
+    flex-wrap: nowrap;
+    flex-direction: column;
+  }
+
+  .vvjt.vertical .vvjt-inner .tab-buttons {
+    max-width: 300px;
+  }
+
+}

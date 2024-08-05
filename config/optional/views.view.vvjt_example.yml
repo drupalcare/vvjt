@@ -80,7 +80,7 @@ display:
           grouping: {  }
           animation: vvjt__animate_bottom
           vertical_tabs: 0
-          max_width: left_width_300
+          max_width: tabs_width_300
           available_breakpoints: vvjt__992
       row:
         type: fields

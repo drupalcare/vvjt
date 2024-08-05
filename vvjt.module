@@ -97,8 +97,10 @@ function template_preprocess_views_view_vvjt(array &$variables) {
   $list_attributes = [];
 
   // Conditionally add options as data attributes.
-  if (!empty($handler->options['vertical_tabs'])) {
-    $list_attributes['data-vertical-tabs'] = 'true';
+  if (!empty($handler->options['wrap_tabs'])) {
+    $list_attributes['data-wrap-tabs'] = 'true';
+  } else {
+    $list_attributes['data-wrap-tabs'] = 'false'; // For consistency.
   }
 
   if (!empty($handler->options['animation'])) {
@@ -117,17 +119,30 @@ function template_preprocess_views_view_vvjt(array &$variables) {
     $list_attributes['data-unique-id'] = $handler->options['unique_id'];
   }
 
+  if (!empty($handler->options['tabs_position'])) {
+    $list_attributes['data-tabs-position'] = $handler->options['tabs_position'];
+  }
+
+  if (!empty($handler->options['enable_css'])) {
+    $list_attributes['data-enable-css'] = $handler->options['enable_css'] ? 'true' : 'false';
+  }
+
   // Create an Attribute object for the list.
   $variables['list_attributes'] = new Attribute($list_attributes);
 
+  // Pass options to the template for direct access.
+  $variables['options'] = $handler->options;
+
   // Pass additional settings to the template.
   $variables['settings'] = [
-    'view_id' => $handler->view->dom_id,
+    'view_id' => $variables['view']->dom_id, // Use $variables to access the view ID.
     'animation' => $handler->options['animation'],
-    'vertical_tabs' => $handler->options['vertical_tabs'],
+    'wrap_tabs' => $handler->options['wrap_tabs'],
     'max_width' => $handler->options['max_width'],
     'available_breakpoints' => $handler->options['available_breakpoints'],
     'unique_id' => $handler->options['unique_id'],
+    'tabs_position' => $handler->options['tabs_position'],
+    'enable_css' => $handler->options['enable_css'],
   ];
 
   // Customize theme hook suggestions for rows.
