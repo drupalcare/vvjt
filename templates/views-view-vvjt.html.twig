@@ -21,7 +21,7 @@
   - `vvjt_id`: A unique identifier class for targeting specific instances.
   - `options.tabs_position`: Adds a class for the tab position, which can be 'top', 'right', 'bottom', or 'left'.
   - `options.max_width`: Determines the max width class. If tabs are positioned 'left' or 'right' and 'auto' is selected,
-    the max width defaults to 'tabs_width_300'. For 'top' or 'bottom', 'auto' is included if selected.
+    the max width defaults to 'tw-300'. For 'top' or 'bottom', 'auto' is included if selected.
   - `options.available_breakpoints`: Applied only if the tabs are vertical ('left' or 'right') to control responsive behavior.
   - `options.animation`: Adds the animation class unless the animation is set to 'none'.
   - `options.wrap_tabs`: Chooses between 'wrap-tabs' and 'auto-scroll-tabs' based on the user's wrapping preference.
@@ -81,17 +81,15 @@
       {% endfor %}
 
       {# Render the tab buttons. #}
-      <div class="tab-buttons" role="tablist" aria-label="{{ 'Tab List'|t }}">
+      <div class="tab-buttons" role="tablist" aria-label="{{ 'Tab List'|t }}"{% if options.background_buttons and not options.disable_background %} style="background-color:{{ options.background_buttons }}"{% endif %}>
         <span class="visually-hidden">{{ 'Use the arrow keys to navigate between tabs'|t }}</span>
         {{ buttons|safe_html }}
       </div>
 
       {# Render the tab content. #}
-      <div class="tab-panes">
+      <div class="tab-panes"{% if options.background_panes and not options.disable_background %} style="background-color:{{ options.background_panes }}"{% endif %}>
         {{ panes|safe_html }}
       </div>
 
     </div> {# End of vvjt-inner #}
-
-
 </div> {# End of main wrapper #}

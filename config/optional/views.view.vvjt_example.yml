@@ -78,10 +78,10 @@ display:
         type: views_vvjt
         options:
           grouping: {  }
-          animation: vvjt__animate_bottom
+          animation: a-bottom
           vertical_tabs: 0
-          max_width: tabs_width_300
-          available_breakpoints: vvjt__992
+          max_width: tw-300
+          available_breakpoints: 992
       row:
         type: fields
         options:

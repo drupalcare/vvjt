@@ -129,6 +129,18 @@ function template_preprocess_views_view_vvjt(array &$variables) {
     $list_attributes['data-enable-css'] = $handler->options['enable_css'] ? 'true' : 'false';
   }
 
+  if (!empty($handler->options['disable_background'])) {
+    $list_attributes['data-disable-background'] = $handler->options['disable_background'] ? 'true' : 'false';
+  }
+
+  if (!empty($handler->options['background_buttons'])) {
+    $list_attributes['data-background-buttons'] = $handler->options['background_buttons'];
+  }
+
+  if (!empty($handler->options['background_panes'])) {
+    $list_attributes['data-background-panes'] = $handler->options['background_panes'];
+  }
+
   // Create an Attribute object for the list.
   $variables['list_attributes'] = new Attribute($list_attributes);
 
@@ -146,6 +158,9 @@ function template_preprocess_views_view_vvjt(array &$variables) {
     'unique_id' => $handler->options['unique_id'],
     'tabs_position' => $handler->options['tabs_position'],
     'enable_css' => $handler->options['enable_css'],
+    'disable_background' => $handler->options['disable_background'],
+    'background_buttons' => $handler->options['background_buttons'],
+    'background_panes' => $handler->options['background_panes'],
   ];
 
   // Customize theme hook suggestions for rows.

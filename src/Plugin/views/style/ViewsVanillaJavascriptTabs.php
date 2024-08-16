@@ -32,13 +32,15 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
    */
   protected function defineOptions(): array {
     $options = parent::defineOptions();
-    $options['animation'] = ['default' => 'vvjt__animate_bottom'];
+    $options['animation'] = ['default' => 'a-bottom'];
     $options['unique_id'] = ['default' => $this->generateUniqueId()];
     $options['tabs_position'] = ['default' => 'top'];
-    $options['max_width'] = ['default' => 'tabs_width_300'];
-    $options['available_breakpoints'] = ['default' => 'vvjt__992'];
+    $options['max_width'] = ['default' => 'tw-300'];
+    $options['available_breakpoints'] = ['default' => '992'];
     $options['enable_css'] = ['default' => TRUE];
-    // Add the wrap_tabs option.
+    $options['disable_background'] = ['default' => FALSE];
+    $options['background_buttons'] = ['default' => '#ECECEC'];
+    $options['background_panes'] = ['default' => '#F7F7F7'];
     $options['wrap_tabs'] = ['default' => FALSE];
     return $options;
   }
@@ -84,12 +86,12 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
       '#title' => $this->t('Animation Type'),
       '#options' => [
         'none' => $this->t('None'),
-        'vvjt__animate_top' => $this->t('Top'),
-        'vvjt__animate_bottom' => $this->t('Bottom'),
-        'vvjt__animate_left' => $this->t('Left'),
-        'vvjt__animate_right' => $this->t('Right'),
-        'vvjt__animate_zoom' => $this->t('Zoom'),
-        'vvjt__animate_opacity' => $this->t('Opacity'),
+        'a-top' => $this->t('Slide from Top'),
+        'a-bottom' => $this->t('Slide from Bottom'),
+        'a-left' => $this->t('Slide from Left'),
+        'a-right' => $this->t('Slide from Right'),
+        'a-zoom' => $this->t('Zoom'),
+        'a-opacity' => $this->t('Opacity'),
       ],
       '#default_value' => $this->options['animation'],
       '#description' => $this->t('Choose the animation type for the tab pane.'),
@@ -99,13 +101,13 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
       '#type' => 'select',
       '#title' => $this->t('Tabs Max Width'),
       '#options' => [
-        'tabs_width_auto' => $this->t('Auto'),
-        'tabs_width_100' => $this->t('100 px'),
-        'tabs_width_200' => $this->t('200 px'),
-        'tabs_width_300' => $this->t('300 px'),
-        'tabs_width_400' => $this->t('400 px'),
-        'tabs_width_500' => $this->t('500 px'),
-        'tabs_width_600' => $this->t('600 px'),
+        'tw-auto' => $this->t('Auto'),
+        'tw-100' => $this->t('100 px'),
+        'tw-200' => $this->t('200 px'),
+        'tw-300' => $this->t('300 px'),
+        'tw-400' => $this->t('400 px'),
+        'tw-500' => $this->t('500 px'),
+        'tw-600' => $this->t('600 px'),
       ],
       '#default_value' => $this->options['max_width'],
       '#description' => $this->t('
@@ -125,15 +127,54 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
       '#type' => 'select',
       '#title' => $this->t('Available Breakpoints for Vertical Tabs (Left/Right)'),
       '#options' => [
-        'vvjt__576' => $this->t('576px / 36rem'),
-        'vvjt__768' => $this->t('768px / 48rem'),
-        'vvjt__992' => $this->t('992px / 62rem'),
-        'vvjt__1200' => $this->t('1200px / 75rem'),
-        'vvjt__1400' => $this->t('1400px / 87.5rem'),
+        '576' => $this->t('576px / 36rem'),
+        '768' => $this->t('768px / 48rem'),
+        '992' => $this->t('992px / 62rem'),
+        '1200' => $this->t('1200px / 75rem'),
+        '1400' => $this->t('1400px / 87.5rem'),
       ],
       '#default_value' => $this->options['available_breakpoints'],
       '#description' => $this->t('Choose the breakpoint at which the vertical tabs will collapse and become horizontal.'),
     ];
+    // Add the background color field for buttons.
+    $form['background_buttons'] = [
+      '#type' => 'color',
+      '#title' => $this->t('Tabs Buttons Background Color'),
+      '#default_value' => $this->options['background_buttons'],
+      '#description' => $this->t('Select the background color to be applied to the tabs buttons. This color will determine the appearance of the buttons in the tab interface.'),
+      // Allow for empty value.
+      '#empty_value' => '',
+      '#states' => [
+        'disabled' => [
+          ':input[name="style_options[disable_background]"]' => ['checked' => TRUE],
+        ],
+      ],
+    ];
+
+    // Add the background color field for panes.
+    $form['background_panes'] = [
+      '#type' => 'color',
+      '#title' => $this->t('Tabs Panes Background Color'),
+      '#default_value' => $this->options['background_panes'],
+      '#description' => $this->t('Select the background color to be applied to the content panes within the tabs. This color will be used as the background for the content displayed in each pane.'),
+      // Allow for empty value.
+      '#empty_value' => '',
+      '#states' => [
+        'disabled' => [
+          ':input[name="style_options[disable_background]"]' => ['checked' => TRUE],
+        ],
+      ],
+    ];
+
+    // Add the disable background checkbox.
+    $form['disable_background'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Disable Background Colors for Buttons and Panes'),
+      '#default_value' => $this->options['disable_background'],
+      '#description' => $this->t('Check this box to completely disable the background colors for both the tabs buttons and the content panes.'),
+    ];
+
+
   }
 
   /**
@@ -172,7 +213,7 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
     if ($this->options['tabs_position'] === 'left' || $this->options['tabs_position'] === 'right') {
       // Include the appropriate library for breakpoints.
       $libraries[] = 'vvjt/vvjt-vertical';
-      $libraries[] = 'vvjt/' . $this->options['available_breakpoints'];
+      $libraries[] = 'vvjt/vvjt__' . $this->options['available_breakpoints'];
     }
     else {
       $libraries[] = 'vvjt/vvjt-horizontal';

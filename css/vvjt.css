@@ -8,14 +8,27 @@
  */
 
 /* Global */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  white-space: nowrap;
+}
+
+.vvjt,
+.vvjt * {
+  box-sizing: border-box;
+}
+
 .vvjt {
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr;
-}
-
-.vvjt * {
-  box-sizing: border-box;
 }
 
 .vvjt .vvjt-inner .tab-panes {
@@ -74,7 +87,7 @@
 
 }
 
-.vvjt.vvjt__animate_opacity .vvjt-pane {
+.vvjt.a-opacity .vvjt-pane {
   animation: opac 0.8s ease-out;
 }
 
@@ -89,7 +102,7 @@
 
 }
 
-.vvjt.vvjt__animate_top .vvjt-pane {
+.vvjt.a-top .vvjt-pane {
   position: relative;
   animation: animatetop 0.6s ease-out;
 }
@@ -107,7 +120,7 @@
 
 }
 
-.vvjt.vvjt__animate_left .vvjt-pane {
+.vvjt.a-left .vvjt-pane {
   position: relative;
   animation: animateleft 0.6s ease-out;
 }
@@ -125,7 +138,7 @@
 
 }
 
-.vvjt.vvjt__animate_right .vvjt-pane {
+.vvjt.a-right .vvjt-pane {
   position: relative;
   animation: animateright 0.6s ease-out;
 }
@@ -143,7 +156,7 @@
 
 }
 
-.vvjt.vvjt__animate_bottom .vvjt-pane {
+.vvjt.a-bottom .vvjt-pane {
   position: relative;
   animation: animatebottom 0.6s ease-out;
 }
@@ -161,7 +174,7 @@
 
 }
 
-.vvjt.vvjt__animate_zoom .vvjt-pane {
+.vvjt.a-zoom .vvjt-pane {
   animation: animatezoom 0.6s ease-out;
 }
 

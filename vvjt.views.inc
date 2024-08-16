@@ -38,6 +38,18 @@ function vvjt_views_data_alter(array &$data): void {
         'type' => 'boolean',
         'label' => t('Enable CSS Library'),
       ],
+      'background_panes' => [
+        'type' => 'string',
+        'label' => t('Background Color for Panes'),
+      ],
+      'background_buttons' => [
+        'type' => 'string',
+        'label' => t('Background Color for Buttons'),
+      ],
+      'disable_background' => [
+        'type' => 'boolean',
+        'label' => t('Disable Background Colors'),
+      ],
     ],
   ];
 }

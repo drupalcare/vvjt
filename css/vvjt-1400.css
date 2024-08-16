@@ -55,36 +55,36 @@
     flex-direction: column;
   }
 
-  .vvjt.vertical.tabs_width_auto .tab-buttons {
+  .vvjt.vertical.tw-auto .tab-buttons {
     flex: 0 0 auto; /* Allow tab-buttons to shrink/grow naturally */
   }
 
-  .vvjt.vertical.tabs_width_100 .tab-buttons {
+  .vvjt.vertical.tw-100 .tab-buttons {
     flex: 0 0 auto;
     max-width: 100px;
   }
 
-  .vvjt.vertical.tabs_width_200 .tab-buttons {
+  .vvjt.vertical.tw-200 .tab-buttons {
     flex: 0 0 auto;
     max-width: 200px;
   }
 
-  .vvjt.vertical.tabs_width_300 .tab-buttons {
+  .vvjt.vertical.tw-300 .tab-buttons {
     flex: 0 0 auto;
     max-width: 300px;
   }
 
-  .vvjt.vertical.tabs_width_400 .tab-buttons {
+  .vvjt.vertical.tw-400 .tab-buttons {
     flex: 0 0 auto;
     max-width: 400px;
   }
 
-  .vvjt.vertical.tabs_width_500 .tab-buttons {
+  .vvjt.vertical.tw-500 .tab-buttons {
     flex: 0 0 auto;
     max-width: 500px;
   }
 
-  .vvjt.vertical.tabs_width_600 .tab-buttons {
+  .vvjt.vertical.tw-600 .tab-buttons {
     flex: 0 0 auto;
     max-width: 600px;
   }
