@@ -35,7 +35,7 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
     $options['animation'] = ['default' => 'a-bottom'];
     $options['unique_id'] = ['default' => $this->generateUniqueId()];
     $options['tabs_position'] = ['default' => 'top'];
-    $options['max_width'] = ['default' => 'tw-300'];
+    $options['max_width'] = ['default' => 300];
     $options['max_height'] = ['default' => 0];
     $options['available_breakpoints'] = ['default' => '992'];
     $options['enable_css'] = ['default' => TRUE];
@@ -99,28 +99,20 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
     ];
 
     $form['max_width'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Tabs Max Width'),
-      '#options' => [
-        'tw-auto' => $this->t('Auto'),
-        'tw-100' => $this->t('100 px'),
-        'tw-200' => $this->t('200 px'),
-        'tw-300' => $this->t('300 px'),
-        'tw-400' => $this->t('400 px'),
-        'tw-500' => $this->t('500 px'),
-        'tw-600' => $this->t('600 px'),
-      ],
+      '#type' => 'number',
+      '#title' => $this->t('Max Width (px) for Tabs'),
       '#default_value' => $this->options['max_width'],
-      '#description' => $this->t('Configure the maximum width for each tab button in a horizontal layout or for the tabs container in a vertical layout according to the position of the selected tab.<br><br>
+      '#description' => $this->t('Configure the maximum width for each tab button in a horizontal layout or for the tabs container in a vertical layout.<br><br>
 
         <strong>Vertical Tabs (Left/Right) (Max width for buttons container):</strong><br>
-        - <strong>Auto:</strong> The tab buttons adjust their width dynamically based on content size and available space, ensuring flexibility across different screen sizes.<br>
-        - <strong>Max Widths (100 px - 600 px):</strong> Set a maximum width to allow tab buttons to expand based on content while preventing them from exceeding a specified width. This is ideal for maintaining consistency without sacrificing adaptability.<br><br>
+        - <strong>Auto (0 px):</strong> The tab buttons adjust their width dynamically based on content size and available space, ensuring flexibility across different screen sizes. Note that the max width will collapse on smaller screens. The default max width is set to 300px in the CSS for vertical tabs.<br>
+        - <strong>Max Width (in pixels):</strong> Set a maximum width in pixels to allow tab buttons to expand based on content while preventing them from exceeding a specified width. This is ideal for maintaining consistency without sacrificing adaptability.<br><br>
 
         <strong>Horizontal Tabs (Top/Bottom) (Max width for each button):</strong><br>
-        - <strong>Auto:</strong> The tabs automatically resize to fit their content, providing a responsive layout that adapts to the available space.<br>
-        - <strong>Max Widths (100 px - 600 px):</strong> Define a maximum width for tab buttons to ensure they can grow according to content but do not exceed the specified size, which helps in maintaining a clean and organized appearance.
-      '),
+        - <strong>Auto (0 px):</strong> The tabs automatically resize to fit their content, providing a responsive layout that adapts to the available space. The max width remains consistent across different screen sizes.<br>
+        - <strong>Max Width (in pixels):</strong> Define a maximum width in pixels for tab buttons to ensure they can grow according to content but do not exceed the specified size, maintaining a clean and organized appearance.'),
+      '#step' => 1,
+      '#min' => 0,
     ];
 
     $form['max_height'] = [

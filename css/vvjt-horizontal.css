@@ -53,36 +53,7 @@
   float: left;
 }
 
-.vvjt.horizontal.tw-auto .vvjt-inner .vvjt-button {
+.vvjt.horizontal .vvjt-inner .vvjt-button {
   max-width: auto;
-}
-
-.vvjt.horizontal.tw-100 .vvjt-inner .vvjt-button {
-  width: 100%;
-  max-width: 100px;
-}
-
-.vvjt.horizontal.tw-200 .vvjt-inner .vvjt-button {
-  width: 100%;
-  max-width: 200px;
-}
-
-.vvjt.horizontal.tw-300 .vvjt-inner .vvjt-button {
-  width: 100%;
-  max-width: 300px;
-}
-
-.vvjt.horizontal.tw-400 .vvjt-inner .vvjt-button {
-  width: 100%;
-  max-width: 400px;
-}
-
-.vvjt.horizontal.tw-500 .vvjt-inner .vvjt-button {
-  width: 100%;
-  max-width: 500px;
-}
-
-.vvjt.horizontal.tw-600 .vvjt-inner .vvjt-button {
-  width: 100%;
-  max-width: 600px;
+  width: auto;
 }

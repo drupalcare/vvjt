@@ -27,7 +27,7 @@ function vvjt_views_data_alter(array &$data): void {
         'label' => t('Max Height'),
       ],
       'max_width' => [
-        'type' => 'string',
+        'type' => 'numeric',
         'label' => t('Max Width'),
       ],
       'available_breakpoints' => [

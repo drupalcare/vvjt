@@ -38,13 +38,38 @@
   vvjt_id,
   tab_layout,
   options.tabs_position,
-  options.max_width,
+  options.max_width != 0 ? 'max-w': '',
   options.max_height != 0 ? 'max-h': '',
   options.tabs_position in ['left', 'right'] ? options.available_breakpoints : '',
   options.animation != 'none' ? options.animation : '',
   options.wrap_tabs ? 'wrap-tabs' : '',
 ] %}
 
+{% set background_buttons = '' %}
+{% if options.background_buttons and not options.disable_background %}
+  {% set background_buttons = 'background-color:' ~ options.background_buttons ~ '; ' %}
+{% endif %}
+
+{% set background_panes = '' %}
+{% if options.background_buttons and not options.disable_background %}
+  {% set background_panes = 'background-color:' ~ options.background_panes ~ '; ' %}
+{% endif %}
+
+{% set max_height = '' %}
+{% if options.max_height > 0 and tab_layout == 'vertical' %}
+  {% set max_height = 'max-height:' ~ options.max_height ~ 'px; height: 100%; ' %}
+{% endif %}
+
+{% set vertical_width = '' %}
+{% set horizontal_width = '' %}
+
+{% if options.max_width > 0 %}
+  {% if tab_layout == 'vertical' %}
+    {% set vertical_width = 'max-width:' ~ options.max_width ~ 'px; width: 100%; ' %}
+  {% elseif tab_layout == 'horizontal' %}
+    {% set horizontal_width = 'max-width:' ~ options.max_width ~ 'px; width: 100%; ' %}
+  {% endif %}
+{% endif %}
 
 
 <div {{ attributes.addClass(classes).setAttribute('id', vvjt_id) }}>
@@ -65,7 +90,7 @@
 
         {# Render the button #}
         {% set button %}
-        <button id="vvjt-button-{{ unique_id }}-{{ key + 1 }}" class="button vvjt-button" aria-label="{{ button_content|striptags|trim|t }}" aria-selected="{{ key == 0 ? 'true' : 'false' }}" aria-controls="{{ tab_id }}-{{ key + 1 }}-pane" aria-expanded="{{ key == 0 ? 'true' : 'false' }}" type="button" role="tab" {% if key != 0 %}tabindex="-1"{% endif %}>
+        <button id="vvjt-button-{{ unique_id }}-{{ key + 1 }}" class="button vvjt-button" aria-label="{{ button_content|striptags|trim|t }}" aria-selected="{{ key == 0 ? 'true' : 'false' }}" aria-controls="{{ tab_id }}-{{ key + 1 }}-pane" aria-expanded="{{ key == 0 ? 'true' : 'false' }}" type="button" role="tab" {% if key != 0 %}tabindex="-1"{% endif %} {% if horizontal_width %} style="{{ horizontal_width }}"{% endif %}>
           {{ button_content|safe_html }}
         </button>
         {% endset %}
@@ -83,14 +108,14 @@
       {% endfor %}
 
       {# Render the tab buttons. #}
-      <div class="tab-buttons" role="tablist" aria-label="{{ 'Tab List'|t }}"{% if (options.background_buttons and not options.disable_background) or (options.max_height > 0 and tab_layout == 'vertical') %} style="{% if options.background_buttons and not options.disable_background %}background-color:{{ options.background_buttons }}; {% endif %}{% if options.max_height > 0 and tab_layout == 'vertical' %}max-height:{{ options.max_height }}px;{% endif %}"{% endif %}>
+      <div class="tab-buttons" role="tablist" aria-label="{{ 'Tab List'|t }}"{% if background_buttons or max_height or vertical_width %} style="{{ background_buttons }}{{ max_height }}{{ vertical_width }}"{% endif %}>
 
         <span class="visually-hidden">{{ 'Use the arrow keys to navigate between tabs'|t }}</span>
         {{ buttons|safe_html }}
       </div>
 
       {# Render the tab content. #}
-      <div class="tab-panes"{% if options.background_panes and not options.disable_background %} style="background-color:{{ options.background_panes }}"{% endif %}>
+      <div class="tab-panes"{% if background_panes %} style="{{ background_panes }}"{% endif %}>
         {{ panes|safe_html }}
       </div>
 

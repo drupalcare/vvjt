@@ -22,48 +22,14 @@
   }
 
   .vvjt.vertical .vvjt-inner .tab-buttons {
-    display: flex;
-    width: auto;
-    flex-direction: column;
-  }
-
-  .vvjt.vertical.tw-auto .tab-buttons {
-    flex: 0 0 auto;
-  }
-
-  .vvjt.vertical.tw-100 .tab-buttons {
-    flex: 0 0 auto;
-    max-width: 100px;
-  }
-
-  .vvjt.vertical.tw-200 .tab-buttons {
-    flex: 0 0 auto;
-    max-width: 200px;
-  }
-
-  .vvjt.vertical.tw-300 .tab-buttons {
-    flex: 0 0 auto;
     max-width: 300px;
-  }
-
-  .vvjt.vertical.tw-400 .tab-buttons {
+    display: flex;
+    flex-direction: column;
+    width: auto;
     flex: 0 0 auto;
-    max-width: 400px;
-  }
-
-  .vvjt.vertical.tw-500 .tab-buttons {
-    flex: 0 0 auto;
-    max-width: 500px;
-  }
-
-  .vvjt.vertical.tw-600 .tab-buttons {
-    flex: 0 0 auto;
-    max-width: 600px;
   }
 
   .vvjt.vertical.max-h .tab-buttons {
-    display: flex;
-    flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
   }
@@ -79,7 +45,6 @@
     height: auto;
     width: auto;
     max-width: none;
-    overflow: hidden;
   }
 
   .vvjt.vertical .tab-buttons {
@@ -104,6 +69,12 @@
     flex-direction: initial;
     overflow-y: initial;
     max-height: initial !important;
+    height: auto!important;
+  }
+
+  .vvjt.vertical.max-w .tab-buttons {
+    max-width: initial !important;
+    width: initial;!important;
   }
 
   .vvjt.vertical.max-h .tab-buttons > * {
