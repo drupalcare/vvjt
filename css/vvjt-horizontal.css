@@ -54,6 +54,6 @@
 }
 
 .vvjt.horizontal .vvjt-inner .vvjt-button {
-  max-width: auto;
+  max-width: initial;
   width: auto;
 }
