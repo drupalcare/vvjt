@@ -113,6 +113,7 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
         - <strong>Max Width (in pixels):</strong> Define a maximum width in pixels for tab buttons to ensure they can grow according to content but do not exceed the specified size, maintaining a clean and organized appearance.'),
       '#step' => 1,
       '#min' => 0,
+      '#required' => TRUE,
     ];
 
     $form['max_height'] = [
@@ -122,6 +123,7 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
       '#description' => $this->t('Defines the maximum height for the buttons container in vertical layout (Left/Right) or insert zero for auto.'),
       '#step' => 1,
       '#min' => 0,
+      '#required' => TRUE,
     ];
 
     $form['available_breakpoints'] = [
