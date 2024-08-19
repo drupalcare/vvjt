@@ -32,17 +32,19 @@
 {% set unique_id = options.unique_id %}
 {% set vvjt_id   = 'vvjt-' ~ unique_id %}
 {% set tab_inner_id = 'vvjt-inner-' ~ unique_id %}
-
+{% set tab_layout = options.tabs_position in ['top', 'bottom'] ? 'horizontal' : 'vertical' %}
 {% set classes = [
   'vvjt',
   vvjt_id,
-  options.tabs_position in ['top', 'bottom'] ? 'horizontal' : 'vertical',
+  tab_layout,
   options.tabs_position,
   options.max_width,
+  options.max_height != 0 ? 'max-h': '',
   options.tabs_position in ['left', 'right'] ? options.available_breakpoints : '',
   options.animation != 'none' ? options.animation : '',
   options.wrap_tabs ? 'wrap-tabs' : '',
 ] %}
+
 
 
 <div {{ attributes.addClass(classes).setAttribute('id', vvjt_id) }}>
@@ -81,7 +83,8 @@
       {% endfor %}
 
       {# Render the tab buttons. #}
-      <div class="tab-buttons" role="tablist" aria-label="{{ 'Tab List'|t }}"{% if options.background_buttons and not options.disable_background %} style="background-color:{{ options.background_buttons }}"{% endif %}>
+      <div class="tab-buttons" role="tablist" aria-label="{{ 'Tab List'|t }}"{% if (options.background_buttons and not options.disable_background) or (options.max_height > 0 and tab_layout == 'vertical') %} style="{% if options.background_buttons and not options.disable_background %}background-color:{{ options.background_buttons }}; {% endif %}{% if options.max_height > 0 and tab_layout == 'vertical' %}max-height:{{ options.max_height }}px;{% endif %}"{% endif %}>
+
         <span class="visually-hidden">{{ 'Use the arrow keys to navigate between tabs'|t }}</span>
         {{ buttons|safe_html }}
       </div>

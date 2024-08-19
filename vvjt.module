@@ -109,6 +109,10 @@ function template_preprocess_views_view_vvjt(array &$variables) {
     $list_attributes['data-animation'] = $handler->options['animation'];
   }
 
+  if (!empty($handler->options['max_height'])) {
+    $list_attributes['data-max-height'] = $handler->options['max_height'];
+  }
+
   if (!empty($handler->options['max_width'])) {
     $list_attributes['data-max-width'] = $handler->options['max_width'];
   }
@@ -154,6 +158,7 @@ function template_preprocess_views_view_vvjt(array &$variables) {
     'animation' => $handler->options['animation'],
     'wrap_tabs' => $handler->options['wrap_tabs'],
     'max_width' => $handler->options['max_width'],
+    'max_height' => $handler->options['max_height'],
     'available_breakpoints' => $handler->options['available_breakpoints'],
     'unique_id' => $handler->options['unique_id'],
     'tabs_position' => $handler->options['tabs_position'],

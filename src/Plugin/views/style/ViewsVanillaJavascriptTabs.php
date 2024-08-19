@@ -36,6 +36,7 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
     $options['unique_id'] = ['default' => $this->generateUniqueId()];
     $options['tabs_position'] = ['default' => 'top'];
     $options['max_width'] = ['default' => 'tw-300'];
+    $options['max_height'] = ['default' => 0];
     $options['available_breakpoints'] = ['default' => '992'];
     $options['enable_css'] = ['default' => TRUE];
     $options['disable_background'] = ['default' => FALSE];
@@ -110,17 +111,25 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
         'tw-600' => $this->t('600 px'),
       ],
       '#default_value' => $this->options['max_width'],
-      '#description' => $this->t('
-        Configure the maximum width of the tab buttons based on the selected tab position.<br><br>
+      '#description' => $this->t('Configure the maximum width for each tab button in a horizontal layout or for the tabs container in a vertical layout according to the position of the selected tab.<br><br>
 
-        <strong>Vertical Tabs (Left/Right):</strong><br>
+        <strong>Vertical Tabs (Left/Right) (Max width for buttons container):</strong><br>
         - <strong>Auto:</strong> The tab buttons adjust their width dynamically based on content size and available space, ensuring flexibility across different screen sizes.<br>
         - <strong>Max Widths (100 px - 600 px):</strong> Set a maximum width to allow tab buttons to expand based on content while preventing them from exceeding a specified width. This is ideal for maintaining consistency without sacrificing adaptability.<br><br>
 
-        <strong>Horizontal Tabs (Top/Bottom):</strong><br>
+        <strong>Horizontal Tabs (Top/Bottom) (Max width for each button):</strong><br>
         - <strong>Auto:</strong> The tabs automatically resize to fit their content, providing a responsive layout that adapts to the available space.<br>
         - <strong>Max Widths (100 px - 600 px):</strong> Define a maximum width for tab buttons to ensure they can grow according to content but do not exceed the specified size, which helps in maintaining a clean and organized appearance.
       '),
+    ];
+
+    $form['max_height'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Max Height (px) for Vertical Tabs (Left/Right)'),
+      '#default_value' => $this->options['max_height'],
+      '#description' => $this->t('Defines the maximum height for the buttons container in vertical layout (Left/Right) or insert zero for auto.'),
+      '#step' => 1,
+      '#min' => 0,
     ];
 
     $form['available_breakpoints'] = [
@@ -136,6 +145,7 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
       '#default_value' => $this->options['available_breakpoints'],
       '#description' => $this->t('Choose the breakpoint at which the vertical tabs will collapse and become horizontal.'),
     ];
+
     // Add the background color field for buttons.
     $form['background_buttons'] = [
       '#type' => 'color',
@@ -173,7 +183,6 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
       '#default_value' => $this->options['disable_background'],
       '#description' => $this->t('Check this box to completely disable the background colors for both the tabs buttons and the content panes.'),
     ];
-
 
   }
 

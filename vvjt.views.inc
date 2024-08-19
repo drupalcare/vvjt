@@ -22,6 +22,10 @@ function vvjt_views_data_alter(array &$data): void {
         'type' => 'boolean',
         'label' => t('Enable Vertical Tabs'),
       ],
+      'max_height' => [
+        'type' => 'numeric',
+        'label' => t('Max Height'),
+      ],
       'max_width' => [
         'type' => 'string',
         'label' => t('Max Width'),

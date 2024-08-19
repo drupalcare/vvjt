@@ -7,35 +7,7 @@
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
 
-@media (max-width: 48rem) {
-  .vvjt.vertical .vvjt-inner .vvjt-button img {
-    height: auto;
-    width: auto;
-    max-width: none;
-    overflow: hidden;
-  }
-
-  .vvjt.vertical .tab-buttons {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-    width: 100%;
-  }
-
-  .vvjt.vertical .tab-buttons .vvjt-button {
-    display: inline-block;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  .vvjt.vertical.wrap-tabs .tab-buttons .vvjt-button {
-    float: left;
-    white-space: normal;
-    overflow-x: visible;
-  }
-}
-
-@media (min-width: 48rem) {
+@media (min-width:48rem) {
   .vvjt.vertical .vvjt-inner {
     flex-direction: row;
   }
@@ -45,18 +17,18 @@
   }
 
   .vvjt.vertical .vvjt-inner .tab-panes {
-    flex: 1; /* Allow tab-panes to take the remaining space */
-    min-width: 0; /* Ensure tab-panes can shrink properly */
+    flex: 1;
+    min-width: 0;
   }
 
   .vvjt.vertical .vvjt-inner .tab-buttons {
     display: flex;
-    width: auto; /* Adjust to fit content */
+    width: auto;
     flex-direction: column;
   }
 
   .vvjt.vertical.tw-auto .tab-buttons {
-    flex: 0 0 auto; /* Allow tab-buttons to shrink/grow naturally */
+    flex: 0 0 auto;
   }
 
   .vvjt.vertical.tw-100 .tab-buttons {
@@ -88,4 +60,54 @@
     flex: 0 0 auto;
     max-width: 600px;
   }
+
+  .vvjt.vertical.max-h .tab-buttons {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .vvjt.vertical.max-h .tab-buttons > * {
+    flex: 0 0 auto;
+  }
+
+}
+
+@media (max-width:48rem) {
+  .vvjt.vertical .vvjt-inner .vvjt-button img {
+    height: auto;
+    width: auto;
+    max-width: none;
+    overflow: hidden;
+  }
+
+  .vvjt.vertical .tab-buttons {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .vvjt.vertical .tab-buttons .vvjt-button {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .vvjt.vertical.wrap-tabs .tab-buttons .vvjt-button {
+    float: left;
+    white-space: normal;
+    overflow-x: visible;
+  }
+
+  .vvjt.vertical.max-h .tab-buttons {
+    flex-direction: initial;
+    overflow-y: initial;
+    max-height: initial !important;
+  }
+
+  .vvjt.vertical.max-h .tab-buttons > * {
+    flex: initial;
+  }
+
 }
