@@ -118,9 +118,9 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
 
     $form['max_height'] = [
       '#type' => 'number',
-      '#title' => $this->t('Max Height (px) for Vertical Tabs (Left/Right)'),
+      '#title' => $this->t('Max Height (px) for Vertical Tabs Buttons Container (Left/Right)'),
       '#default_value' => $this->options['max_height'],
-      '#description' => $this->t('Defines the maximum height for the buttons container in vertical layout (Left/Right) or insert zero for auto.'),
+      '#description' => $this->t('Defines the maximum height for the buttons container in a vertical layout (Left/Right). Enter zero for auto. This setting does not affect the pane height.'),
       '#step' => 1,
       '#min' => 0,
       '#required' => TRUE,
