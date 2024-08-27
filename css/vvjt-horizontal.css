@@ -19,13 +19,6 @@
   order: 1;
 }
 
-.vvjt.horizontal .vvjt-inner .vvjt-button img {
-  height: initial;
-  width: initial;
-  max-width: initial;
-  overflow: hidden;
-}
-
 .vvjt.horizontal .tab-buttons {
   display: block;
   overflow-x: auto;
