@@ -28,9 +28,8 @@
 
   The code ensures that only relevant and non-empty classes are included in the output, optimizing styling and responsiveness.
 #}
-
 {% set unique_id = options.unique_id %}
-{% set vvjt_id   = 'vvjt-' ~ unique_id %}
+{% set vvjt_id = 'vvjt-' ~ unique_id %}
 {% set tab_inner_id = 'vvjt-inner-' ~ unique_id %}
 {% set tab_layout = options.tabs_position in ['top', 'bottom'] ? 'horizontal' : 'vertical' %}
 {% set classes = [
@@ -71,7 +70,6 @@
   {% endif %}
 {% endif %}
 
-
 <div {{ attributes.addClass(classes).setAttribute('id', vvjt_id) }}>
     <div id="{{ tab_inner_id }}" class="vvjt-inner">
 
@@ -88,16 +86,19 @@
         {% set button_content = split_content[0] %}
         {% set pane_content = split_content[1]|default('') %}
 
+        {# Define a valid ID for the pane controlled by the button #}
+        {% set pane_id = 'vvjt-pane-' ~ unique_id ~ '-' ~ (key + 1) %}
+
         {# Render the button #}
         {% set button %}
-        <button id="vvjt-button-{{ unique_id }}-{{ key + 1 }}" class="button vvjt-button" aria-label="{{ button_content|striptags|trim|t }}" aria-selected="{{ key == 0 ? 'true' : 'false' }}" aria-controls="{{ tab_id }}-{{ key + 1 }}-pane" aria-expanded="{{ key == 0 ? 'true' : 'false' }}" type="button" role="tab" {% if key != 0 %}tabindex="-1"{% endif %} {% if horizontal_width %} style="{{ horizontal_width }}"{% endif %}>
+        <button id="vvjt-button-{{ unique_id }}-{{ key + 1 }}" class="button vvjt-button" aria-label="{{ button_content|striptags|trim|t }}" aria-selected="{{ key == 0 ? 'true' : 'false' }}" aria-controls="{{ pane_id }}" aria-expanded="{{ key == 0 ? 'true' : 'false' }}" type="button" role="tab" {% if key != 0 %}tabindex="-1"{% endif %} {% if horizontal_width %} style="{{ horizontal_width }}"{% endif %}>
           {{ button_content|safe_html }}
         </button>
         {% endset %}
 
         {# Render the pane #}
         {% set pane %}
-        <div id="vvjt-pane-{{ unique_id }}-{{ key + 1 }}" role="tabpanel" data-index="{{ key + 1 }}" aria-hidden="{{ key == 0 ? 'false' : 'true' }}" aria-labelledby="vvjt-button-{{ unique_id }}-{{ key + 1 }}" class="vvjt-pane" {% if key == 0 %} aria-live="polite"{% endif %}>
+        <div id="{{ pane_id }}" role="tabpanel" data-index="{{ key + 1 }}" aria-hidden="{{ key == 0 ? 'false' : 'true' }}" aria-labelledby="vvjt-button-{{ unique_id }}-{{ key + 1 }}" class="vvjt-pane" {% if key == 0 %} aria-live="polite"{% endif %}>
           {{ pane_content|safe_html }}
         </div>
         {% endset %}

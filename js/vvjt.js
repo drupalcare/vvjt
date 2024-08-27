@@ -33,18 +33,17 @@
         });
       }
 
-      // Function to handle tab clicks with event delegation
+      // Function to handle tab clicks
       function handleTabClicks(tabContainer, event) {
         const button = event.target.closest('.vvjt-button');
         if (!button) return;
 
-        const btnId = button.id.split('-');
-        const raw_id = btnId.slice(2).join('-');
+        const btnIdParts = button.id.split('-');
+        const raw_id = btnIdParts.slice(2).join('-');
         const paneId = `vvjt-pane-${raw_id}`;
-        const currentPane = document.getElementById(paneId);
-        const parentId = `#vvjt-${raw_id.split('-')[0]}`;
-        const tabPanes = document.querySelectorAll(`${parentId} .vvjt-pane`);
-        const tabButtons = document.querySelectorAll(`${parentId} .vvjt-button`);
+        const currentPane = tabContainer.querySelector(`#${paneId}`); // Scoped to tabContainer
+        const tabPanes = tabContainer.querySelectorAll('.vvjt-pane');
+        const tabButtons = tabContainer.querySelectorAll('.vvjt-button');
 
         if (currentPane) {
           hideAllPanes(tabPanes);
@@ -126,22 +125,25 @@
         const tabButtons = container.querySelectorAll('.vvjt-button');
         const tabPanes = container.querySelectorAll('.vvjt-pane');
 
-        // Activate the first tab and pane by default
-        if (tabButtons.length > 0) {
-          tabButtons[0].classList.add('active');
-          tabButtons[0].setAttribute('aria-selected', 'true');
-          tabButtons[0].setAttribute('aria-expanded', 'true');
-          tabButtons[0].setAttribute('tabindex', '0');
-          if (tabPanes.length > 0) {
-            tabPanes[0].style.display = 'block';
-            tabPanes[0].setAttribute('aria-hidden', 'false');
-          }
-        }
-
-        // Initialize tabindex for other buttons
+        // Initialize ARIA attributes and tabindex on page load
         tabButtons.forEach((button, index) => {
-          if (!button.classList.contains('active')) {
+          if (index === 0) {
+            button.classList.add('active');
+            button.setAttribute('aria-selected', 'true');
+            button.setAttribute('aria-expanded', 'true');
+            button.setAttribute('tabindex', '0');
+            if (tabPanes[index]) {
+              tabPanes[index].style.display = 'block';
+              tabPanes[index].setAttribute('aria-hidden', 'false');
+            }
+          } else {
+            button.setAttribute('aria-selected', 'false');
+            button.setAttribute('aria-expanded', 'false');
             button.setAttribute('tabindex', '-1');
+            if (tabPanes[index]) {
+              tabPanes[index].style.display = 'none';
+              tabPanes[index].setAttribute('aria-hidden', 'true');
+            }
           }
 
           // Attach click event listener
