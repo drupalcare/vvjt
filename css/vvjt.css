@@ -8,7 +8,7 @@
  */
 
 /* Global */
-.visually-hidden {
+.vvj-tabs .visually-hidden {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -23,6 +23,13 @@
 .vvj-tabs,
 .vvj-tabs * {
   box-sizing: border-box;
+}
+
+.vvj-tabs,
+.vvj-tabs .view-content {
+  width: 100%;
+  min-width: 100%;
+  display: block!important;
 }
 
 .vvjt {
