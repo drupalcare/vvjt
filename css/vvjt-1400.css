@@ -7,20 +7,20 @@
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
 @media (min-width:87.5rem) {
-  .vvjt.vertical .vvjt-inner {
+  .vvjt.br-1400.vertical .vvjt-inner {
     flex-direction: row;
   }
 
-  .vvjt.vertical.right .vvjt-inner {
+  .vvjt.br-1400.vertical.right .vvjt-inner {
     flex-direction: row-reverse;
   }
 
-  .vvjt.vertical .vvjt-inner .tab-panes {
+  .vvjt.br-1400.vertical .vvjt-inner .tab-panes {
     flex: 1;
     min-width: 0;
   }
 
-  .vvjt.vertical .vvjt-inner .tab-buttons {
+  .vvjt.br-1400.vertical .vvjt-inner .tab-buttons {
     max-width: 300px;
     display: flex;
     flex-direction: column;
@@ -28,55 +28,55 @@
     flex: 0 0 auto;
   }
 
-  .vvjt.vertical.max-h .tab-buttons {
+  .vvjt.br-1400.vertical.max-h .tab-buttons {
     overflow-y: auto;
     overflow-x: hidden;
   }
 
-  .vvjt.vertical.max-h .tab-buttons > * {
+  .vvjt.br-1400.vertical.max-h .tab-buttons > * {
     flex: 0 0 auto;
   }
 
 }
 
 @media (max-width:87.5rem) {
-  .vvjt.vertical .vvjt-inner .vvjt-button img {
+  .vvjt.br-1400.vertical .vvjt-inner .vvjt-button img {
     height: auto;
     width: auto;
     max-width: none;
   }
 
-  .vvjt.vertical .tab-buttons {
+  .vvjt.br-1400.vertical .tab-buttons {
     display: block;
     overflow-x: auto;
     white-space: nowrap;
   }
 
-  .vvjt.vertical .tab-buttons .vvjt-button {
+  .vvjt.br-1400.vertical .tab-buttons .vvjt-button {
     display: inline-block;
     overflow: hidden;
     white-space: nowrap;
   }
 
-  .vvjt.vertical.wrap-tabs .tab-buttons .vvjt-button {
+  .vvjt.br-1400.vertical.wrap-tabs .tab-buttons .vvjt-button {
     float: left;
     white-space: normal;
     overflow-x: visible;
   }
 
-  .vvjt.vertical.max-h .tab-buttons {
+  .vvjt.br-1400.vertical.max-h .tab-buttons {
     flex-direction: initial;
     overflow-y: initial;
     max-height: initial !important;
     height: auto!important;
   }
 
-  .vvjt.vertical.max-w .tab-buttons {
+  .vvjt.br-1400.vertical.max-w .tab-buttons {
     max-width: initial !important;
     width: initial;!important;
   }
 
-  .vvjt.vertical.max-h .tab-buttons > * {
+  .vvjt.br-1400.vertical.max-h .tab-buttons > * {
     flex: initial;
   }
 

@@ -41,7 +41,7 @@
         const btnIdParts = button.id.split('-');
         const raw_id = btnIdParts.slice(2).join('-');
         const paneId = `vvjt-pane-${raw_id}`;
-        const currentPane = tabContainer.querySelector(`#${paneId}`); // Scoped to tabContainer
+        const currentPane = tabContainer.querySelector(`#${paneId}`);
         const tabPanes = tabContainer.querySelectorAll('.vvjt-pane');
         const tabButtons = tabContainer.querySelectorAll('.vvjt-button');
 
@@ -99,7 +99,6 @@
           if (img && img.alt) {
             button.setAttribute('aria-label', img.alt);
           } else {
-            // If no image or alt, use button text as aria-label
             button.setAttribute('aria-label', button.textContent.trim() || 'Tab');
           }
         });
@@ -114,12 +113,13 @@
             link.removeAttribute('href');
             link.style.cursor = 'default';
             link.addEventListener('click', function(event) {
-              event.preventDefault(); // Prevent link from navigating
+              event.preventDefault();
             });
           });
         });
       }
 
+      // Scoped selection using `once` to ensure the behavior is only applied once per element
       const tabContainers = once('vvjTabs', '.vvjt-inner', context);
       tabContainers.forEach(container => {
         const tabButtons = container.querySelectorAll('.vvjt-button');
@@ -146,21 +146,22 @@
             }
           }
 
-          // Attach click event listener
+          // Attach click event listener scoped to the current container
           button.addEventListener('click', handleTabClicks.bind(null, container));
         });
 
-        // Handle keyboard navigation
+        // Handle keyboard navigation scoped to the current container
         handleKeyboardNavigation(tabButtons);
 
-        // Update aria-labels for buttons based on content
+        // Update aria-labels for buttons based on content scoped to the current container
         updateAriaLabelsForButtons(tabButtons);
 
-        // Disable links within tab buttons
+        // Disable links within tab buttons scoped to the current container
         disableLinksInTabButtons(tabButtons);
       });
     }
   };
 })(Drupal, drupalSettings, once);
+
 
 

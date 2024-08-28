@@ -39,7 +39,7 @@
   options.tabs_position,
   options.max_width != 0 ? 'max-w': '',
   options.max_height != 0 ? 'max-h': '',
-  options.tabs_position in ['left', 'right'] ? options.available_breakpoints : '',
+  options.tabs_position in ['left', 'right'] ? 'br-' ~ options.available_breakpoints : '',
   options.animation != 'none' ? options.animation : '',
   options.wrap_tabs ? 'wrap-tabs' : '',
 ] %}
