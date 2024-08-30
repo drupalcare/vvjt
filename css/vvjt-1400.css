@@ -76,8 +76,7 @@
 
   .vvjt.br-1400.vertical.max-w .tab-buttons {
     max-width: initial !important;
-    width: initial;
-    !important;
+    width: initial !important;
   }
 
   .vvjt.br-1400.vertical.max-h .tab-buttons > * {
