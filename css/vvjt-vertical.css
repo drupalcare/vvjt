@@ -15,3 +15,13 @@
 .vvjt.vertical .tab-panes {
   width: 100%;
 }
+
+.vvjt.vertical.max-w .vvjt-inner .tab-buttons {
+  max-width: calc(var(--vertical-width, 300) * 1px);
+  width: 100%;
+}
+
+.vvjt.vertical.max-h .vvjt-inner .tab-buttons {
+  height: 100%;
+  max-height: calc(var(--vertical-height) * 1px);
+}

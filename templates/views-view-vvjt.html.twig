@@ -15,19 +15,6 @@
   - vertical_tabs: Whether to display tabs vertically.
 #}
 
-{#
-  This template dynamically assigns CSS classes to a container based on user configuration options.
-  - 'vvjt': A base class for general styling.
-  - `vvjt_id`: A unique identifier class for targeting specific instances.
-  - `options.tabs_position`: Adds a class for the tab position, which can be 'top', 'right', 'bottom', or 'left'.
-  - `options.max_width`: Determines the max width class. If tabs are positioned 'left' or 'right' and 'auto' is selected,
-    the max width defaults to 'tw-300'. For 'top' or 'bottom', 'auto' is included if selected.
-  - `options.available_breakpoints`: Applied only if the tabs are vertical ('left' or 'right') to control responsive behavior.
-  - `options.animation`: Adds the animation class unless the animation is set to 'none'.
-  - `options.wrap_tabs`: Chooses between 'wrap-tabs' and 'auto-scroll-tabs' based on the user's wrapping preference.
-
-  The code ensures that only relevant and non-empty classes are included in the output, optimizing styling and responsiveness.
-#}
 {% set unique_id = options.unique_id %}
 {% set vvjt_id = 'vvjt-' ~ unique_id %}
 {% set tab_inner_id = 'vvjt-inner-' ~ unique_id %}
@@ -44,81 +31,84 @@
   options.wrap_tabs ? 'wrap-tabs' : '',
 ] %}
 
+{# Set CSS variables for specific elements #}
 {% set background_buttons = '' %}
-{% if options.background_buttons and not options.disable_background %}
-  {% set background_buttons = 'background-color:' ~ options.background_buttons ~ '; ' %}
-{% endif %}
-
 {% set background_panes = '' %}
-{% if options.background_buttons and not options.disable_background %}
-  {% set background_panes = 'background-color:' ~ options.background_panes ~ '; ' %}
-{% endif %}
-
 {% set max_height = '' %}
-{% if options.max_height > 0 and tab_layout == 'vertical' %}
-  {% set max_height = 'max-height:' ~ options.max_height ~ 'px; height: 100%; ' %}
-{% endif %}
-
 {% set vertical_width = '' %}
 {% set horizontal_width = '' %}
 
+{% if options.background_buttons and not options.disable_background %}
+  {% set background_buttons = options.background_buttons %}
+{% endif %}
+
+{% if options.background_panes and not options.disable_background %}
+  {% set background_panes = options.background_panes %}
+{% endif %}
+
+{% if options.max_height > 0 and tab_layout == 'vertical' %}
+  {% set max_height = options.max_height %}
+{% endif %}
+
 {% if options.max_width > 0 %}
   {% if tab_layout == 'vertical' %}
-    {% set vertical_width = 'max-width:' ~ options.max_width ~ 'px; width: 100%; ' %}
+    {% set vertical_width = options.max_width %}
   {% elseif tab_layout == 'horizontal' %}
-    {% set horizontal_width = 'max-width:' ~ options.max_width ~ 'px; width: 100%; ' %}
+    {% set horizontal_width = options.max_width %}
   {% endif %}
 {% endif %}
 
 <div {{ attributes.addClass(classes).setAttribute('id', vvjt_id) }}>
-    <div id="{{ tab_inner_id }}" class="vvjt-inner">
+  <div id="{{ tab_inner_id }}" class="vvjt-inner">
 
-      {# Initialize variables to hold the buttons and panes #}
-      {% set buttons = '' %}
-      {% set panes = '' %}
+    {# Initialize variables to hold the buttons and panes #}
+    {% set buttons = '' %}
+    {% set panes = '' %}
 
-      {# Capture the buttons and panes from each row #}
-      {% for key, row in rows %}
-        {% set row_content = row.content|render %}
+    {# Capture the buttons and panes from each row #}
+    {% for key, row in rows %}
+      {% set row_content = row.content|render %}
 
-        {# Use the unique tag or CSS class to split the content #}
-        {% set split_content = row_content|split('<div class="vvjt-separator"></div>') %}
-        {% set button_content = split_content[0] %}
-        {% set pane_content = split_content[1]|default('') %}
+      {# Use the unique tag or CSS class to split the content #}
+      {% set split_content = row_content|split('<div class="vvjt-separator"></div>') %}
+      {% set button_content = split_content[0] %}
+      {% set pane_content = split_content[1]|default('') %}
 
-        {# Define a valid ID for the pane controlled by the button #}
-        {% set pane_id = 'vvjt-pane-' ~ unique_id ~ '-' ~ (key + 1) %}
+      {# Define a valid ID for the pane controlled by the button #}
+      {% set pane_id = 'vvjt-pane-' ~ unique_id ~ '-' ~ (key + 1) %}
 
-        {# Render the button #}
-        {% set button %}
-        <button id="vvjt-button-{{ unique_id }}-{{ key + 1 }}" class="button vvjt-button" aria-label="{{ button_content|striptags|trim|t }}" aria-selected="{{ key == 0 ? 'true' : 'false' }}" aria-controls="{{ pane_id }}" aria-expanded="{{ key == 0 ? 'true' : 'false' }}" type="button" role="tab" {% if key != 0 %}tabindex="-1"{% endif %} {% if horizontal_width %} style="{{ horizontal_width }}"{% endif %}>
-          {{ button_content|safe_html }}
-        </button>
-        {% endset %}
+      {# Render the button #}
+      {% set button %}
+      <button id="vvjt-button-{{ unique_id }}-{{ key + 1 }}" class="button vvjt-button" aria-label="{{ button_content|striptags|trim|t }}" aria-selected="{{ key == 0 ? 'true' : 'false' }}" aria-controls="{{ pane_id }}" aria-expanded="{{ key == 0 ? 'true' : 'false' }}" type="button" role="tab" {% if key != 0 %}tabindex="-1"{% endif %}{% if horizontal_width %} style="--horizontal-width: {{ horizontal_width }};"{% endif %}>
+        {{ button_content|safe_html }}
+      </button>
+      {% endset %}
 
-        {# Render the pane #}
-        {% set pane %}
-        <div id="{{ pane_id }}" role="tabpanel" data-index="{{ key + 1 }}" aria-hidden="{{ key == 0 ? 'false' : 'true' }}" aria-labelledby="vvjt-button-{{ unique_id }}-{{ key + 1 }}" class="vvjt-pane" {% if key == 0 %} aria-live="polite"{% endif %}>
-          {{ pane_content|safe_html }}
-        </div>
-        {% endset %}
-
-        {# Collect the buttons and panes #}
-        {% set buttons = buttons ~ button %}
-        {% set panes = panes ~ pane %}
-      {% endfor %}
-
-      {# Render the tab buttons. #}
-      <div class="tab-buttons" role="tablist" aria-label="{{ 'Tab List'|t }}"{% if background_buttons or max_height or vertical_width %} style="{{ background_buttons }}{{ max_height }}{{ vertical_width }}"{% endif %}>
-
-        <span class="visually-hidden">{{ 'Use the arrow keys to navigate between tabs'|t }}</span>
-        {{ buttons|safe_html }}
+      {# Render the pane #}
+      {% set pane %}
+      <div id="{{ pane_id }}" role="tabpanel" data-index="{{ key + 1 }}" aria-hidden="{{ key == 0 ? 'false' : 'true' }}" aria-labelledby="vvjt-button-{{ unique_id }}-{{ key + 1 }}" class="vvjt-pane" {% if key == 0 %} aria-live="polite"{% endif %}>
+        {{ pane_content|safe_html }}
       </div>
+      {% endset %}
 
-      {# Render the tab content. #}
-      <div class="tab-panes"{% if background_panes %} style="{{ background_panes }}"{% endif %}>
-        {{ panes|safe_html }}
-      </div>
+      {# Collect the buttons and panes #}
+      {% set buttons = buttons ~ button %}
+      {% set panes = panes ~ pane %}
+    {% endfor %}
 
-    </div> {# End of vvjt-inner #}
+    {# Render the tab buttons with specific styles. #}
+    <div class="tab-buttons" role="tablist" aria-label="{{ 'Tab List'|t }}"{% if background_buttons or max_height or vertical_width %} style="{% if background_buttons %} --bg-buttons: {{ background_buttons }};{% endif %}{% if max_height %} --vertical-height: {{ max_height }};{% endif %}{% if vertical_width %} --vertical-width: {{ vertical_width }};{% endif %}"{% endif %}>
+      <span class="visually-hidden">{{ 'Use the arrow keys to navigate between tabs'|t }}</span>
+      {{ buttons|safe_html }}
+    </div>
+
+    {# Render the tab content with specific styles. #}
+    <div class="tab-panes"
+         {% if background_panes %}
+           style="--bg-panes: {{ background_panes }};"
+         {% endif %}>
+      {{ panes|safe_html }}
+    </div>
+
+  </div> {# End of vvjt-inner #}
 </div> {# End of main wrapper #}

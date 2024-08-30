@@ -29,7 +29,7 @@
 .vvj-tabs .view-content {
   width: 100%;
   min-width: 100%;
-  display: block!important;
+  display: block !important;
 }
 
 .vvjt {
@@ -38,8 +38,22 @@
   grid-template-columns: 1fr;
 }
 
+.vvjt .vvjt-inner {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 .vvjt .vvjt-inner .tab-panes {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
   overflow: hidden;
+  background-color: var(--bg-panes);
+}
+
+.vvjt .vvjt-inner .tab-panes>* {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .vvjt .tab-panes .vvjt-pane {
@@ -47,24 +61,12 @@
   overflow: hidden;
 }
 
-.vvjt .vvjt-inner {
-  width: 100%;
-  overflow-x: hidden;
-}
-
 .vvjt .tab-panes > div.vvjt-pane:first-child {
   display: block;
 }
 
-.vvjt .vvjt-inner .tab-panes {
-  display: grid;
-  grid-template-columns: 1fr;
-  width: 100%;
-}
-
-.vvjt .vvjt-inner .tab-panes>* {
-  width: 100%;
-  box-sizing: border-box;
+.vvjt .vvjt-inner .tab-buttons {
+  background-color: var(--bg-buttons);
 }
 
 .vvjt .tab-buttons .vvjt-button {

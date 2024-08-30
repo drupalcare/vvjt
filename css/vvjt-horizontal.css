@@ -50,3 +50,8 @@
   max-width: initial;
   width: auto;
 }
+
+.vvjt.horizontal.max-w .vvjt-inner .tab-buttons .vvjt-button {
+  max-width: calc(var(--horizontal-width) * 1px);
+  width: 100%;
+}

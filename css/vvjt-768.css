@@ -6,7 +6,6 @@
  * Website:      https://www.flashwebcenter.com
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
-
 @media (min-width:48rem) {
   .vvjt.br-768.vertical .vvjt-inner {
     flex-direction: row;
@@ -22,11 +21,13 @@
   }
 
   .vvjt.br-768.vertical .vvjt-inner .tab-buttons {
-    max-width: 300px;
     display: flex;
     flex-direction: column;
-    width: auto;
     flex: 0 0 auto;
+  }
+
+  .vvjt.br-768.vertical .vvjt-inner .tab-buttons:not(.vvjt.max-w .tab-buttons) {
+    width: auto;
   }
 
   .vvjt.br-768.vertical.max-h .tab-buttons {
@@ -69,12 +70,13 @@
     flex-direction: initial;
     overflow-y: initial;
     max-height: initial !important;
-    height: auto!important;
+    height: auto !important;
   }
 
   .vvjt.br-768.vertical.max-w .tab-buttons {
     max-width: initial !important;
-    width: initial;!important;
+    width: initial;
+    !important;
   }
 
   .vvjt.br-768.vertical.max-h .tab-buttons > * {
