@@ -1,5 +1,4 @@
 vvjt:
-  version: VERSION
   css:
     theme:
       css/vvjt.css: { }
@@ -12,49 +11,41 @@ vvjt:
     - core/once
 
 vvjt-horizontal:
-  version: VERSION
   css:
     theme:
       css/vvjt-horizontal.css: { }
 
 vvjt-vertical:
-  version: VERSION
   css:
     theme:
       css/vvjt-vertical.css: { }
 
 vvjt-style:
-  version: VERSION
   css:
     theme:
       css/vvjt-style.css: { }
 
 vvjt__576:
-  version: VERSION
   css:
     theme:
       css/vvjt-576.css: { }
 
 vvjt__768:
-  version: VERSION
   css:
     theme:
       css/vvjt-768.css: { }
 
 vvjt__992:
-  version: VERSION
   css:
     theme:
       css/vvjt-992.css: { }
 
 vvjt__1200:
-  version: VERSION
   css:
     theme:
       css/vvjt-1200.css: { }
 
 vvjt__1400:
-  version: VERSION
   css:
     theme:
       css/vvjt-1400.css: { }
