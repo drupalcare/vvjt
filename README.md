@@ -33,6 +33,28 @@ UI:
    will collapse and become horizontal. Options include 576px, 768px, 992px, 
    1200px, and 1400px.
 
+## Token Support in Views Text Areas
+
+In Views headers, footers, or empty text areas—when using *Global: Text area* or
+*Global: Unfiltered text*—there is an option called **"Use replacement tokens
+from the first row."**
+
+The default Twig-style tokens (e.g., `{{ title }}` or `{{ field_image }}`)
+**will not work** with the VVJT style. Instead, use the custom tokens provided
+by VVJT:
+
+**Examples:**
+
+- `{{ title }}` → `[vvjt:title]`  
+- `{{ field_image }}` → `[vvjt:field_image]`
+
+To strip any HTML from the output, you can append `:plain` to the token:
+
+- `[vvjt:title:plain]`
+
+These tokens pull data from the **first row** of the View result and are
+designed to work seamlessly with the VVJT rendering system.
+
 ## Example Usage
 1. Create a new view or edit an existing view.
 2. Under the "Format" section, select "Views Vanilla JavaScript Tabs" as the 
