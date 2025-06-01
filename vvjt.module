@@ -208,7 +208,6 @@ function vvjt_preprocess_views_view(&$variables) {
   }
 }
 
-
 /**
  * Implements hook_token_info().
  */
