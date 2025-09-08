@@ -28,6 +28,11 @@
 }
 
 .vvjt .vvjt-inner .tab-buttons .vvjt-button.active {
+  border-bottom: 2px solid #ccc;
+  outline: none;
+}
+
+.vvjt .vvjt-inner .tab-buttons .vvjt-button.active * {
   font-weight: bold;
 }
 
