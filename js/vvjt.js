@@ -65,9 +65,9 @@
       // Disable links within buttons
       this.disableButtonLinks(tabButtons);
 
-      // Show first tab and attach behaviors to it
+      // Show first tab and attach behaviors to it (without moving focus)
       if (tabPanes[0]) {
-        this.showTab(container, tabButtons[0], tabPanes[0], settings);
+        this.showTab(container, tabButtons[0], tabPanes[0], settings, false);
       }
     },
 
@@ -123,7 +123,7 @@
       const currentPane = container.querySelector(`#${paneId}`);
 
       if (currentPane) {
-        this.showTab(container, button, currentPane, settings);
+        this.showTab(container, button, currentPane, settings, true);
       } else {
         console.warn(`Pane with ID ${paneId} not found.`);
       }
@@ -140,8 +140,10 @@
      *   The pane to show.
      * @param {object} settings
      *   The drupalSettings object.
+     * @param {boolean} moveFocus
+     *   Whether to move focus to the active button. Default false.
      */
-    showTab: function(container, activeButton, activePane, settings) {
+    showTab: function(container, activeButton, activePane, settings, moveFocus = false) {
       const buttons = container.querySelectorAll('.vvjt-button');
       const panes = container.querySelectorAll('.vvjt-pane');
 
@@ -165,10 +167,14 @@
 
       // Activate the button
       activeButton.classList.add('active');
-      activeButton.removeAttribute('tabindex');
+      activeButton.setAttribute('tabindex', '0');
       activeButton.setAttribute('aria-selected', 'true');
       activeButton.setAttribute('aria-expanded', 'true');
-      activeButton.focus();
+
+      // Only move focus when called from user interaction
+      if (moveFocus) {
+        activeButton.focus();
+      }
 
       // CRITICAL FIX: Re-attach behaviors to newly visible content
       // This fixes the Field Group tabs and nested views issue
@@ -225,7 +231,6 @@
       // Focus and click the new button
       const newButton = buttons[newIndex];
       if (newButton) {
-        newButton.focus();
         // Parse IDs to find corresponding pane
         const btnIdParts = newButton.id.split('-');
         const rawId = btnIdParts.slice(2).join('-');
@@ -233,7 +238,7 @@
         const pane = container.querySelector(`#${paneId}`);
 
         if (pane) {
-          this.showTab(container, newButton, pane, settings);
+          this.showTab(container, newButton, pane, settings, true);
         }
       }
     },
