@@ -42,44 +42,59 @@
 }
 
 @media (max-width:74.99875rem) {
-  .vvjt.br-1200.vertical .vvjt-inner .vvjt-button img {
+  /* Images in Vertical-to-Horizontal Transformation */
+  .vvjt.br-1400.vertical .vvjt-inner .vvjt-button img {
     height: auto;
     width: auto;
     max-width: none;
   }
 
-  .vvjt.br-1200.vertical .tab-buttons {
+  /* Vertical Tabs Become Horizontal Scrolling */
+  .vvjt.br-1400.vertical .tab-buttons {
     display: block;
     overflow-x: auto;
     white-space: nowrap;
   }
 
-  .vvjt.br-1200.vertical .tab-buttons .vvjt-button {
+  .vvjt.br-1400.vertical .tab-buttons .vvjt-button {
     display: inline-block;
     overflow: hidden;
     white-space: nowrap;
   }
 
-  .vvjt.br-1200.vertical.wrap-tabs .tab-buttons .vvjt-button {
+  /* Wrap Mode for Vertical-to-Horizontal */
+  .vvjt.br-1400.vertical.wrap-tabs .tab-buttons .vvjt-button {
     float: left;
     white-space: normal;
     overflow-x: visible;
   }
 
-  .vvjt.br-1200.vertical.max-h .tab-buttons {
+  /* Reset Max-Height on Mobile */
+  .vvjt.br-1400.vertical.max-h .tab-buttons {
     flex-direction: initial;
     overflow-y: initial;
     max-height: initial !important;
     height: auto !important;
   }
 
-  .vvjt.br-1200.vertical.max-w .tab-buttons {
+  /* Reset Max-Width on Mobile */
+  .vvjt.br-1400.vertical.max-w .tab-buttons {
     max-width: initial !important;
     width: initial !important;
   }
 
-  .vvjt.br-1200.vertical.max-h .tab-buttons > * {
+  .vvjt.br-1400.vertical.max-h .tab-buttons > * {
     flex: initial;
+  }
+
+  /* Horizontal Tabs - Mobile Optimizations */
+  .vvjt.horizontal .tab-buttons {
+    gap: 0.25rem;
+  }
+
+  .vvjt.horizontal .vvjt-button {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
   }
 
 }

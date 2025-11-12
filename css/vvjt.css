@@ -1,13 +1,20 @@
 /**
  * @file
- * VVj Tabs.
+ * VVj Tabs - Global Foundation
  *
  * Filename:     vvjt.css
  * Website:      https://www.flashwebcenter.com
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
+ *
+ * Purpose:      Core structure and animations for all tab layouts
+ * Scope:        Universal - Always loaded
+ * Rules:        Complete spacing and typography - NO colors/backgrounds/shadows
  */
 
-/* Global */
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
 .vvj-tabs .visually-hidden {
   position: absolute;
   width: 1px;
@@ -19,6 +26,10 @@
   border: 0;
   white-space: nowrap;
 }
+
+/* ============================================
+   GLOBAL BOX MODEL
+   ============================================ */
 
 .vvj-tabs,
 .vvj-tabs * {
@@ -32,6 +43,10 @@
   display: block !important;
 }
 
+/* ============================================
+   CONTAINER STRUCTURE
+   ============================================ */
+
 .vvjt {
   box-sizing: border-box;
   display: grid;
@@ -43,15 +58,20 @@
   overflow-x: hidden;
 }
 
+/* ============================================
+   TAB PANES STRUCTURE
+   ============================================ */
+
 .vvjt .vvjt-inner .tab-panes {
   display: grid;
   grid-template-columns: 1fr;
   width: 100%;
   overflow: hidden;
   background-color: var(--bg-panes);
+  transition: width 0.3s ease;
 }
 
-.vvjt .vvjt-inner .tab-panes>* {
+.vvjt .vvjt-inner .tab-panes > * {
   width: 100%;
   box-sizing: border-box;
 }
@@ -65,18 +85,95 @@
   display: block;
 }
 
+/* ============================================
+   TAB BUTTONS STRUCTURE
+   ============================================ */
+
 .vvjt .vvjt-inner .tab-buttons {
+  transition: width 0.3s ease;
   background-color: var(--bg-buttons);
 }
 
 .vvjt .tab-buttons .vvjt-button {
-  white-space: normal;
+  padding: 12px;
   display: inline-block;
+  font-weight: normal;
+  line-height: normal;
+  border: none;
+  margin: 0;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  background-color: transparent;
+  white-space: normal;
   height: auto;
-  text-align: left;
+  text-align: start;
+  position: relative;
+  transition: padding 0.3s ease, background-color 0.3s ease;
 }
 
-/* Animate slideshow */
+.vvjt .vvjt-inner .tab-buttons .vvjt-button:hover,
+.vvjt .vvjt-inner .tab-buttons .vvjt-button:focus {
+  border: none;
+  font-weight: normal;
+  outline: none;
+  opacity: 0.8;
+}
+
+.vvjt .vvjt-inner .tab-buttons .vvjt-button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  z-index: 1;
+}
+
+/* ============================================
+   TAB PANES - Content Area Spacing
+   ============================================ */
+
+.vvjt .tab-panes {
+  padding: 1rem;
+}
+
+/* ============================================
+   VERTICAL TABS - Spacing
+   ============================================ */
+
+.vvjt.vertical .vvjt-inner {
+  gap: 12px;
+}
+
+/* ============================================
+   UTILITY
+   ============================================ */
+
+.vvj-tabs {
+  display: block;
+  margin: 1rem auto;
+}
+
+.vvj-tabs .vvjt-pane a {
+  height: auto;
+}
+
+/* ============================================
+   IMAGE BUTTONS
+   ============================================ */
+
+.vvjt .tab-buttons .vvjt-button img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.vvjt .tab-buttons .vvjt-button:hover img {
+  transform: scale(1.1);
+}
+
+/* ============================================
+   ANIMATIONS - Pane Transitions
+   ============================================ */
+
+/* Continuous Fading (Slideshow Mode) */
 .vvjt.vvjt__animate-fading .vvjt-pane {
   animation: fading 5s ease-in-out infinite;
 }
@@ -85,17 +182,15 @@
   0% {
     opacity: 0;
   }
-
   50% {
     opacity: 1;
   }
-
   100% {
     opacity: 0;
   }
-
 }
 
+/* Opacity Fade In */
 .vvjt.a-opacity .vvjt-pane {
   animation: opac 0.8s ease-out;
 }
@@ -104,13 +199,12 @@
   from {
     opacity: 0;
   }
-
   to {
     opacity: 1;
   }
-
 }
 
+/* Slide From Top */
 .vvjt.a-top .vvjt-pane {
   position: relative;
   animation: animatetop 0.6s ease-out;
@@ -121,14 +215,13 @@
     top: -100px;
     opacity: 0;
   }
-
   to {
     top: 0;
     opacity: 1;
   }
-
 }
 
+/* Slide From Left */
 .vvjt.a-left .vvjt-pane {
   position: relative;
   animation: animateleft 0.6s ease-out;
@@ -139,14 +232,13 @@
     left: -100px;
     opacity: 0;
   }
-
   to {
     left: 0;
     opacity: 1;
   }
-
 }
 
+/* Slide From Right */
 .vvjt.a-right .vvjt-pane {
   position: relative;
   animation: animateright 0.6s ease-out;
@@ -157,14 +249,13 @@
     right: -100px;
     opacity: 0;
   }
-
   to {
     right: 0;
     opacity: 1;
   }
-
 }
 
+/* Slide From Bottom */
 .vvjt.a-bottom .vvjt-pane {
   position: relative;
   animation: animatebottom 0.6s ease-out;
@@ -175,14 +266,13 @@
     bottom: -100px;
     opacity: 0;
   }
-
   to {
     bottom: 0;
     opacity: 1;
   }
-
 }
 
+/* Zoom/Scale In */
 .vvjt.a-zoom .vvjt-pane {
   animation: animatezoom 0.6s ease-out;
 }
@@ -191,9 +281,7 @@
   from {
     transform: scale(0);
   }
-
   to {
     transform: scale(1.05);
   }
-
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\vvjt\Plugin\views\style;
 
 use Drupal\Core\Form\FormStateInterface;
@@ -33,7 +35,14 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
   protected $usesRowClass = TRUE;
 
   /**
-   * Set default options.
+   * Cached unique ID for this view display.
+   *
+   * @var int|null
+   */
+  protected ?int $cachedUniqueId = NULL;
+
+  /**
+   * {@inheritdoc}
    */
   protected function defineOptions(): array {
     $options = parent::defineOptions();
@@ -57,24 +66,53 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
   public function buildOptionsForm(&$form, FormStateInterface $form_state): void {
     parent::buildOptionsForm($form, $form_state);
 
-    // Add enable_css checkbox to the form.
-    $form['enable_css'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Enable CSS Library'),
-      '#default_value' => $this->options['enable_css'],
-      '#description' => $this->t('Check this box to include the CSS library for styling the tabs.'),
+    $this->setDefaultElementWeights($form);
+    $this->buildLayoutSection($form);
+    $this->buildAnimationSection($form);
+    $this->buildStylingSection($form);
+    $this->buildResponsiveSection($form);
+    $this->buildAdvancedOptionsSection($form);
+    $this->buildTokenDocumentation($form);
+  }
+
+  /**
+   * Set weights for default Drupal form elements to ensure proper order.
+   *
+   * @param array $form
+   *   The form array (passed by reference).
+   */
+  protected function setDefaultElementWeights(array &$form): void {
+    $default_elements = [
+      'grouping' => -100,
+      'row_class' => -90,
+      'default_row_class' => -85,
+      'uses_fields' => -80,
+      'class' => -75,
+      'wrapper_class' => -70,
     ];
 
-    // Add the wrap_tabs checkbox to the form.
-    $form['wrap_tabs'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Wrap Tabs When Exceeded'),
-      '#default_value' => $this->options['wrap_tabs'],
-      '#description' => $this->t('Check this box to wrap tab buttons if they exceed the available space on any screen size. The default is auto-scroll.'),
+    foreach ($default_elements as $element_key => $weight) {
+      if (isset($form[$element_key])) {
+        $form[$element_key]['#weight'] = $weight;
+      }
+    }
+  }
+
+  /**
+   * Build layout configuration section.
+   *
+   * @param array $form
+   *   The form array (passed by reference).
+   */
+  protected function buildLayoutSection(array &$form): void {
+    $form['layout_section'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Layout Settings'),
+      '#open' => TRUE,
+      '#weight' => -40,
     ];
 
-    // Add the tabs position select field.
-    $form['tabs_position'] = [
+    $form['layout_section']['tabs_position'] = [
       '#type' => 'select',
       '#title' => $this->t('Tabs Position'),
       '#options' => [
@@ -87,23 +125,14 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
       '#description' => $this->t('Select the position for the tab buttons.'),
     ];
 
-    $form['animation'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Animation Type'),
-      '#options' => [
-        'none' => $this->t('None'),
-        'a-top' => $this->t('Slide from Top'),
-        'a-bottom' => $this->t('Slide from Bottom'),
-        'a-left' => $this->t('Slide from Left'),
-        'a-right' => $this->t('Slide from Right'),
-        'a-zoom' => $this->t('Zoom'),
-        'a-opacity' => $this->t('Opacity'),
-      ],
-      '#default_value' => $this->options['animation'],
-      '#description' => $this->t('Choose the animation type for the tab pane.'),
+    $form['layout_section']['wrap_tabs'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Wrap Tabs When Exceeded'),
+      '#default_value' => $this->options['wrap_tabs'],
+      '#description' => $this->t('Check this box to wrap tab buttons if they exceed the available space on any screen size. The default is auto-scroll.'),
     ];
 
-    $form['max_width'] = [
+    $form['layout_section']['max_width'] = [
       '#type' => 'number',
       '#title' => $this->t('Max Width (px) for Tabs'),
       '#default_value' => $this->options['max_width'],
@@ -121,7 +150,7 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
       '#required' => TRUE,
     ];
 
-    $form['max_height'] = [
+    $form['layout_section']['max_height'] = [
       '#type' => 'number',
       '#title' => $this->t('Max Height (px) for Vertical Tabs Buttons Container (Left/Right)'),
       '#default_value' => $this->options['max_height'],
@@ -130,131 +159,271 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
       '#min' => 0,
       '#required' => TRUE,
     ];
+  }
 
-    $form['available_breakpoints'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Available Breakpoints for Vertical Tabs (Left/Right)'),
-      '#options' => [
-        '576' => $this->t('576px / 36rem'),
-        '768' => $this->t('768px / 48rem'),
-        '992' => $this->t('992px / 62rem'),
-        '1200' => $this->t('1200px / 75rem'),
-        '1400' => $this->t('1400px / 87.5rem'),
-      ],
-      '#default_value' => $this->options['available_breakpoints'],
-      '#description' => $this->t('Choose the breakpoint at which the vertical tabs will collapse and become horizontal.'),
+  /**
+   * Build animation configuration section.
+   *
+   * @param array $form
+   *   The form array (passed by reference).
+   */
+  protected function buildAnimationSection(array &$form): void {
+    $form['animation_section'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Animation Settings'),
+      '#open' => TRUE,
+      '#weight' => -30,
     ];
 
-    // Add the background color field for buttons.
-    $form['background_buttons'] = [
+    $form['animation_section']['animation'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Animation Type'),
+      '#options' => [
+        'none' => $this->t('None'),
+        'a-top' => $this->t('Slide from Top'),
+        'a-bottom' => $this->t('Slide from Bottom'),
+        'a-left' => $this->t('Slide from Left'),
+        'a-right' => $this->t('Slide from Right'),
+        'a-zoom' => $this->t('Zoom'),
+        'a-opacity' => $this->t('Opacity'),
+      ],
+      '#default_value' => $this->options['animation'],
+      '#description' => $this->t('Choose the animation type for the tab pane.'),
+    ];
+  }
+
+  /**
+   * Build styling configuration section.
+   *
+   * @param array $form
+   *   The form array (passed by reference).
+   */
+  protected function buildStylingSection(array &$form): void {
+    $form['styling_section'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Styling Settings'),
+      '#open' => TRUE,
+      '#weight' => -20,
+    ];
+
+    $form['styling_section']['background_buttons'] = [
       '#type' => 'color',
       '#title' => $this->t('Tabs Buttons Background Color'),
       '#default_value' => $this->options['background_buttons'],
       '#description' => $this->t('Select the background color to be applied to the tabs buttons. This color will determine the appearance of the buttons in the tab interface.'),
-      // Allow for empty value.
       '#empty_value' => '',
       '#states' => [
         'disabled' => [
-          ':input[name="style_options[disable_background]"]' => ['checked' => TRUE],
+          ':input[name="style_options[styling_section][disable_background]"]' => ['checked' => TRUE],
         ],
       ],
     ];
 
-    // Add the background color field for panes.
-    $form['background_panes'] = [
+    $form['styling_section']['background_panes'] = [
       '#type' => 'color',
       '#title' => $this->t('Tabs Panes Background Color'),
       '#default_value' => $this->options['background_panes'],
       '#description' => $this->t('Select the background color to be applied to the content panes within the tabs. This color will be used as the background for the content displayed in each pane.'),
-      // Allow for empty value.
       '#empty_value' => '',
       '#states' => [
         'disabled' => [
-          ':input[name="style_options[disable_background]"]' => ['checked' => TRUE],
+          ':input[name="style_options[styling_section][disable_background]"]' => ['checked' => TRUE],
         ],
       ],
     ];
 
-    // Add the disable background checkbox.
-    $form['disable_background'] = [
+    $form['styling_section']['disable_background'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Disable Background Colors for Buttons and Panes'),
       '#default_value' => $this->options['disable_background'],
       '#description' => $this->t('Check this box to completely disable the background colors for both the tabs buttons and the content panes.'),
     ];
+  }
 
-    $form['vvjt_token_info'] = [
+  /**
+   * Build responsive configuration section.
+   *
+   * @param array $form
+   *   The form array (passed by reference).
+   */
+  protected function buildResponsiveSection(array &$form): void {
+    $form['responsive_section'] = [
       '#type' => 'details',
-      '#title' => $this->t('VVJT Tokens'),
-      '#open' => TRUE,
+      '#title' => $this->t('Responsive Settings'),
+      '#open' => FALSE,
+      '#weight' => -15,
     ];
 
-    $form['vvjt_token_info']['description'] = [
+    $form['responsive_section']['available_breakpoints'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Responsive Breakpoint for Vertical Tabs'),
+      '#options' => [
+        '576' => $this->t('576 px'),
+        '768' => $this->t('768 px'),
+        '992' => $this->t('992 px'),
+        '1200' => $this->t('1200 px'),
+        '1400' => $this->t('1400 px'),
+      ],
+      '#default_value' => $this->options['available_breakpoints'],
+      '#description' => $this->t('Choose the breakpoint at which the vertical tabs (Left/Right) will collapse and become horizontal.'),
+    ];
+  }
+
+  /**
+   * Build advanced options section.
+   *
+   * @param array $form
+   *   The form array (passed by reference).
+   */
+  protected function buildAdvancedOptionsSection(array &$form): void {
+    $form['advanced_section'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Advanced Options'),
+      '#open' => FALSE,
+      '#weight' => -10,
+    ];
+
+    $form['advanced_section']['enable_css'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Enable CSS Library'),
+      '#default_value' => $this->options['enable_css'],
+      '#description' => $this->t('Check this box to include the CSS library for styling the tabs.'),
+    ];
+  }
+
+  /**
+   * Build token documentation section.
+   *
+   * @param array $form
+   *   The form array (passed by reference).
+   */
+  protected function buildTokenDocumentation(array &$form): void {
+    $form['token_section'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Token Documentation'),
+      '#open' => FALSE,
+      '#weight' => 100,
+    ];
+
+    $form['token_section']['description'] = [
       '#markup' => $this->t('<p>When using <em>Global: Text area</em> or <em>Global: Unfiltered text</em> in the Views header, footer, or empty text areas, the default Twig-style tokens (e.g., <code>{{ title }}</code>) will not work with the VVJT style plugin.</p>
         <p>Instead, use the custom VVJT token format to access field values from the <strong>first row</strong> of the View result:</p>
         <ul>
-          <li><code>[vvjt:field_name]</code> – The rendered output of the field (e.g., linked title, image, formatted text).</li>
-          <li><code>[vvjt:field_name:plain]</code> – A plain-text version of the field, with all HTML stripped.</li>
+          <li><code>[vvjt:field_name]</code> — The rendered output of the field (e.g., linked title, image, formatted text).</li>
+          <li><code>[vvjt:field_name:plain]</code> — A plain-text version of the field, with all HTML stripped.</li>
         </ul>
         <p>Examples:</p>
         <ul>
-          <li><code>{{ title }}</code> ➜ <code>[vvjt:title]</code></li>
-          <li><code>{{ field_image }}</code> ➜ <code>[vvjt:field_image]</code></li>
-          <li><code>{{ body }}</code> ➜ <code>[vvjt:body:plain]</code></li>
+          <li><code>{{ title }}</code> → <code>[vvjt:title]</code></li>
+          <li><code>{{ field_image }}</code> → <code>[vvjt:field_image]</code></li>
+          <li><code>{{ body }}</code> → <code>[vvjt:body:plain]</code></li>
         </ul>
         <p>These tokens offer safe and flexible field output for dynamic headings, summaries, and fallback messages in VVJT-enabled Views.</p>'),
     ];
+  }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function submitOptionsForm(&$form, FormStateInterface $form_state): void {
+    $values = $form_state->getValue('style_options');
+    $flattened_values = $this->flattenFormValues($values);
+    $form_state->setValue('style_options', $flattened_values);
+
+    parent::submitOptionsForm($form, $form_state);
+  }
+
+  /**
+   * Flatten nested form values to match original structure.
+   *
+   * @param array $values
+   *   Nested form values.
+   *
+   * @return array
+   *   Flattened values array.
+   */
+  protected function flattenFormValues(array $values): array {
+    $flattened = [];
+
+    if (isset($values['layout_section'])) {
+      $flattened['tabs_position'] = $values['layout_section']['tabs_position'] ?? 'top';
+      $flattened['wrap_tabs'] = $values['layout_section']['wrap_tabs'] ?? FALSE;
+      $flattened['max_width'] = $values['layout_section']['max_width'] ?? 300;
+      $flattened['max_height'] = $values['layout_section']['max_height'] ?? 0;
+    }
+
+    if (isset($values['animation_section'])) {
+      $flattened['animation'] = $values['animation_section']['animation'] ?? 'a-bottom';
+    }
+
+    if (isset($values['styling_section'])) {
+      $flattened['background_buttons'] = $values['styling_section']['background_buttons'] ?? '#ECECEC';
+      $flattened['background_panes'] = $values['styling_section']['background_panes'] ?? '#F7F7F7';
+      $flattened['disable_background'] = $values['styling_section']['disable_background'] ?? FALSE;
+    }
+
+    if (isset($values['responsive_section'])) {
+      $flattened['available_breakpoints'] = $values['responsive_section']['available_breakpoints'] ?? '992';
+    }
+
+    if (isset($values['advanced_section'])) {
+      $flattened['enable_css'] = $values['advanced_section']['enable_css'] ?? TRUE;
+    }
+
+    $flattened['unique_id'] = $this->options['unique_id'] ?? $this->generateUniqueId();
+
+    return $flattened;
   }
 
   /**
    * Generates a unique numeric ID for the view display.
    *
-   * @throws \Random\RandomException
+   * @return int
+   *   A unique ID between 10000000 and 99999999.
+   *
+   * @throws \Exception
+   *   If an appropriate source of randomness cannot be found.
    */
   protected function generateUniqueId(): int {
-    // 8 digit unique ID
-    return random_int(10000000, 99999999);
+    if ($this->cachedUniqueId !== NULL) {
+      return $this->cachedUniqueId;
+    }
+
+    $this->cachedUniqueId = random_int(10000000, 99999999);
+
+    if ($this->cachedUniqueId < 10000000) {
+      $this->cachedUniqueId += 10000000;
+    }
+    if ($this->cachedUniqueId > 99999999) {
+      $this->cachedUniqueId = $this->cachedUniqueId % 90000000 + 10000000;
+    }
+
+    return $this->cachedUniqueId;
   }
 
   /**
-   * Renders the view with the 3D carousel style.
-   *
-   * @return array
-   *   A render array for the 3D carousel.
+   * {@inheritdoc}
    */
   public function render(): array {
     $rows = [];
-    foreach ($this->view->result as $row) {
-      $rows[] = $this->view->rowPlugin->render($row);
+
+    if (!empty($this->view->result)) {
+      foreach ($this->view->result as $row) {
+        $rendered_row = $this->view->rowPlugin->render($row);
+        if ($rendered_row !== NULL) {
+          $rows[] = $rendered_row;
+        }
+      }
     }
 
-    $libraries = [
-      'vvjt/vvjt',
-    ];
-
-    // Conditionally include the CSS library based on the option.
-    if ($this->options['enable_css']) {
-      // Include the vvjs-style library.
-      $libraries[] = 'vvjt/vvjt-style';
-    }
-
-    // Conditionally include the vertical tabs style.
-    if ($this->options['tabs_position'] === 'left' || $this->options['tabs_position'] === 'right') {
-      // Include the appropriate library for breakpoints.
-      $libraries[] = 'vvjt/vvjt-vertical';
-      $libraries[] = 'vvjt/vvjt__' . $this->options['available_breakpoints'];
-    }
-    else {
-      $libraries[] = 'vvjt/vvjt-horizontal';
-    }
+    $libraries = $this->buildLibraryList();
 
     $build = [
       '#theme' => $this->themeFunctions(),
       '#view' => $this->view,
       '#options' => $this->options,
       '#rows' => $rows,
-      '#unique_id' => $this->options['unique_id'],
+      '#unique_id' => $this->options['unique_id'] ?? $this->generateUniqueId(),
       '#attached' => [
         'library' => $libraries,
       ],
@@ -264,13 +433,39 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
   }
 
   /**
+   * Build the list of libraries to attach.
+   *
+   * @return array
+   *   An array of library names to attach.
+   */
+  protected function buildLibraryList(): array {
+    $libraries = ['vvjt/vvjt'];
+
+    if (!empty($this->options['enable_css'])) {
+      $libraries[] = 'vvjt/vvjt-style';
+    }
+
+    if ($this->options['tabs_position'] === 'left' || $this->options['tabs_position'] === 'right') {
+      $libraries[] = 'vvjt/vvjt-vertical';
+      $libraries[] = 'vvjt/vvjt__' . ($this->options['available_breakpoints'] ?? '992');
+    }
+    else {
+      $libraries[] = 'vvjt/vvjt-horizontal';
+    }
+
+    return $libraries;
+  }
+
+  /**
    * {@inheritdoc}
    */
-  public function validate() {
+  public function validate(): array {
     $errors = parent::validate();
+
     if (!$this->usesFields()) {
       $errors[] = $this->t('Views Tabs requires Fields as row style');
     }
+
     return $errors;
   }
 

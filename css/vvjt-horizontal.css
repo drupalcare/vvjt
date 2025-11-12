@@ -1,16 +1,35 @@
 /**
  * @file
- * VVj Tabs.
+ * VVj Tabs - Horizontal Layout
  *
  * Filename:     vvjt-horizontal.css
  * Website:      https://www.flashwebcenter.com
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
+ *
+ * Purpose:      Horizontal tabs layout structure
+ * Scope:        Loaded when orientation = horizontal
+ * Rules:        Complete spacing and structure - NO colors/backgrounds/shadows
  */
+
+/* ============================================
+   CONTAINER GRID
+   ============================================ */
+
 .vvjt.horizontal .vvjt-inner {
   display: grid;
   grid-template-columns: 1fr;
 }
 
+.vvjt.horizontal .vvjt-inner > * {
+  min-width: 0;
+  min-height: 0;
+}
+
+/* ============================================
+   POSITION VARIANTS
+   ============================================ */
+
+/* Bottom Position - Tabs Below Content */
 .vvjt.horizontal.bottom .tab-buttons {
   order: 2;
 }
@@ -19,39 +38,99 @@
   order: 1;
 }
 
+/* ============================================
+   TAB BUTTONS CONTAINER - Default Scrollbar Mode
+   ============================================ */
+
 .vvjt.horizontal .tab-buttons {
-  display: block;
-  overflow-x: auto;
-  white-space: nowrap;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
   width: 100%;
+
+  /* Scrolling Behavior */
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+
+  /* Scrollbar Styling - Cross Browser */
+  scrollbar-width: thin;
 }
 
-.vvjt.horizontal .tab-buttons .vvjt-button {
-  overflow: hidden;
+/* Webkit Scrollbar Styling (Chrome, Safari, Edge) */
+.vvjt.horizontal .tab-buttons::-webkit-scrollbar {
+  height: 6px;
+}
+
+.vvjt.horizontal .tab-buttons::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.vvjt.horizontal .tab-buttons::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.vvjt.horizontal .tab-buttons::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================
+   INDIVIDUAL BUTTONS - Default
+   ============================================ */
+
+.vvjt.horizontal .vvjt-button {
+  /* Prevent Shrinking */
+  flex-shrink: 0;
+  flex-grow: 0;
+
+  /* Text Handling */
   white-space: nowrap;
-}
+  overflow: hidden;
+  text-overflow: ellipsis;
 
-.vvjt.horizontal .tab-buttons .tab-buttons::after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.vvjt.horizontal.wrap-tabs .tab-buttons {
-  white-space: normal;
-  overflow-x: visible;
-}
-
-.vvjt.horizontal.wrap-tabs .tab-buttons .vvjt-button {
-  float: left;
-}
-
-.vvjt.horizontal .vvjt-inner .vvjt-button {
+  /* Sizing */
+  min-width: max-content;
   max-width: initial;
   width: auto;
 }
 
+/* ============================================
+   WRAP MODE - Multi-row Layout
+   ============================================ */
+
+.vvjt.horizontal.wrap-tabs .tab-buttons {
+  flex-wrap: wrap;
+  overflow-x: visible;
+  overflow-y: visible;
+}
+
+.vvjt.horizontal.wrap-tabs .vvjt-button {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* ============================================
+   MAX-WIDTH MODE - Fixed Button Width
+   ============================================ */
+
 .vvjt.horizontal.max-w .vvjt-inner .tab-buttons .vvjt-button {
   max-width: calc(var(--horizontal-width) * 1px);
   width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ============================================
+   PRINT OPTIMIZATION
+   ============================================ */
+
+@media print {
+  .vvjt.horizontal .tab-buttons {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
 }

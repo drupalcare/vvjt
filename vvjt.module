@@ -4,13 +4,13 @@
  * @file
  * Provides the module implementation for vvjt.
  *
- * Contains template preprocessing and theme definitions for Views.
- *
  * Filename:     vvjt.module
  * Website:      https://www.flashwebcenter.com
  * Description:  template.
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
+
+declare(strict_types=1);
 
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Render\Markup;
@@ -18,11 +18,12 @@ use Drupal\views\ViewExecutable;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Template\Attribute;
 use Drupal\vvjt\Plugin\views\style\ViewsVanillaJavascriptTabs;
+use Drupal\vvjt\VvjtConstants;
 
 /**
  * Implements hook_help().
  */
-function vvjt_help($route_name, RouteMatchInterface $route_match): ?string {
+function vvjt_help(string $route_name, RouteMatchInterface $route_match): ?string {
   if ($route_name === 'help.page.vvjt') {
     return _vvjt_helper_render_readme();
   }
@@ -30,34 +31,67 @@ function vvjt_help($route_name, RouteMatchInterface $route_match): ?string {
 }
 
 /**
- * Helper function to render README.md.
+ * Helper function to render README.md with enhanced error handling.
  *
  * @return string
- *   The rendered content of README.md.
+ *   The rendered content of README.md or appropriate fallback message.
  */
 function _vvjt_helper_render_readme(): string {
   $readme_path = __DIR__ . '/README.md';
-  $text = file_get_contents($readme_path);
 
-  if ($text === FALSE) {
-    return t('README.md file not found.');
+  try {
+    $text = file_get_contents($readme_path);
+
+    if ($text === FALSE) {
+      \Drupal::logger('vvjt')->warning('README.md file could not be read from path: @path', [
+        '@path' => $readme_path,
+      ]);
+      return (string) t('README.md file not found.');
+    }
+
+    if (!\Drupal::moduleHandler()->moduleExists('markdown')) {
+      return '<pre>' . htmlspecialchars($text, ENT_QUOTES | ENT_HTML5, 'UTF-8') . '</pre>';
+    }
+
+    return _vvjt_render_markdown($text);
+
   }
-
-  if (!\Drupal::moduleHandler()->moduleExists('markdown')) {
-    return '<pre>' . htmlspecialchars($text) . '</pre>';
+  catch (\Exception $e) {
+    \Drupal::logger('vvjt')->error('Error rendering README.md: @message', [
+      '@message' => $e->getMessage(),
+    ]);
+    return (string) t('Error loading help documentation.');
   }
+}
 
-  // Use the Markdown filter to render the README.
-  $filter_manager = \Drupal::service('plugin.manager.filter');
-  $settings = \Drupal::config('markdown.settings')->getRawData();
-  $filter = $filter_manager->createInstance('markdown', ['settings' => $settings]);
-  return $filter->process($text, 'en')->getProcessedText();
+/**
+ * Render markdown content using the markdown filter.
+ *
+ * @param string $text
+ *   The markdown text to render.
+ *
+ * @return string
+ *   The rendered HTML content.
+ */
+function _vvjt_render_markdown(string $text): string {
+  try {
+    $filter_manager = \Drupal::service('plugin.manager.filter');
+    $settings = \Drupal::config('markdown.settings')->getRawData();
+    $filter = $filter_manager->createInstance('markdown', ['settings' => $settings]);
+    return $filter->process($text, 'en')->getProcessedText();
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('vvjt')->warning('Markdown processing failed: @message', [
+      '@message' => $e->getMessage(),
+    ]);
+    return '<pre>' . htmlspecialchars($text, ENT_QUOTES | ENT_HTML5, 'UTF-8') . '</pre>';
+  }
 }
 
 /**
  * Implements hook_theme().
  */
-function vvjt_theme($existing, $type, $theme, $path) {
+function vvjt_theme(array $existing, string $type, string $theme, string $path): array {
   return [
     'views_view_vvjt_fields' => [
       'variables' => [
@@ -90,133 +124,239 @@ function vvjt_theme($existing, $type, $theme, $path) {
 /**
  * Implements hook_preprocess_HOOK() for views_view_vvjt.
  */
-function template_preprocess_views_view_vvjt(array &$variables) {
-  // Load necessary views theme functions.
+function template_preprocess_views_view_vvjt(array &$variables): void {
   \Drupal::moduleHandler()->loadInclude('views', 'inc', 'views.theme');
 
-  // Access the style plugin handler.
-  $handler = $variables['view']->style_plugin;
-
-  // Initialize list attributes array.
-  $list_attributes = [];
-
-  // Conditionally add options as data attributes.
-  if (!empty($handler->options['wrap_tabs'])) {
-    $list_attributes['data-wrap-tabs'] = 'true';
-  }
-  else {
-    // For consistency.
-    $list_attributes['data-wrap-tabs'] = 'false';
+  $handler = $variables['view']->style_plugin ?? NULL;
+  if (!$handler) {
+    \Drupal::logger('vvjt')->error('Style plugin handler not found in view preprocessing.');
+    return;
   }
 
-  if (!empty($handler->options['animation'])) {
-    $list_attributes['data-animation'] = $handler->options['animation'];
-  }
+  $options = $handler->options ?? [];
 
-  if (!empty($handler->options['max_height'])) {
-    $list_attributes['data-max-height'] = $handler->options['max_height'];
-  }
+  $variables['list_attributes'] = _vvjt_build_data_attributes($options);
+  $variables['settings'] = _vvjt_build_template_settings($handler, $options);
 
-  if (!empty($handler->options['max_width'])) {
-    $list_attributes['data-max-width'] = $handler->options['max_width'];
-  }
+  _vvjt_customize_row_theme_suggestions($variables);
 
-  if (!empty($handler->options['available_breakpoints'])) {
-    $list_attributes['data-available-breakpoints'] = $handler->options['available_breakpoints'];
-  }
-
-  if (!empty($handler->options['unique_id'])) {
-    $list_attributes['data-unique-id'] = $handler->options['unique_id'];
-  }
-
-  if (!empty($handler->options['tabs_position'])) {
-    $list_attributes['data-tabs-position'] = $handler->options['tabs_position'];
-  }
-
-  if (!empty($handler->options['enable_css'])) {
-    $list_attributes['data-enable-css'] = $handler->options['enable_css'] ? 'true' : 'false';
-  }
-
-  if (!empty($handler->options['disable_background'])) {
-    $list_attributes['data-disable-background'] = $handler->options['disable_background'] ? 'true' : 'false';
-  }
-
-  if (!empty($handler->options['background_buttons'])) {
-    $list_attributes['data-background-buttons'] = $handler->options['background_buttons'];
-  }
-
-  if (!empty($handler->options['background_panes'])) {
-    $list_attributes['data-background-panes'] = $handler->options['background_panes'];
-  }
-
-  // Create an Attribute object for the list.
-  $variables['list_attributes'] = new Attribute($list_attributes);
-
-  // Pass options to the template for direct access.
-  $variables['options'] = $handler->options;
-
-  // Pass additional settings to the template.
-  $variables['settings'] = [
-  // Use $variables to access the view ID.
-    'view_id' => $variables['view']->dom_id,
-    'animation' => $handler->options['animation'],
-    'wrap_tabs' => $handler->options['wrap_tabs'],
-    'max_width' => $handler->options['max_width'],
-    'max_height' => $handler->options['max_height'],
-    'available_breakpoints' => $handler->options['available_breakpoints'],
-    'unique_id' => $handler->options['unique_id'],
-    'tabs_position' => $handler->options['tabs_position'],
-    'enable_css' => $handler->options['enable_css'],
-    'disable_background' => $handler->options['disable_background'],
-    'background_buttons' => $handler->options['background_buttons'],
-    'background_panes' => $handler->options['background_panes'],
-  ];
-
-  // Customize theme hook suggestions for rows.
-  if (!empty($variables['rows'])) {
-    foreach ($variables['rows'] as $key => $row) {
-      if (isset($row['#theme']) && is_array($row['#theme'])) {
-        foreach ($row['#theme'] as $idx => $theme_hook_suggestion) {
-          // Modify theme hook suggestions to use the custom theme function.
-          $variables['rows'][$key]['#theme'][$idx] = str_replace('views_view_fields', 'views_view_vvjt_fields', $theme_hook_suggestion);
-        }
-      }
-    }
-  }
-
-  // Call the default preprocess function for unformatted views.
   template_preprocess_views_view_unformatted($variables);
 }
 
 /**
- * Prepares variables for views_view_vvjt_fields template.
+ * Build data attributes array from tabs options.
+ *
+ * @param array $options
+ *   The tabs configuration options.
+ *
+ * @return \Drupal\Core\Template\Attribute
+ *   Attribute object containing data attributes.
  */
-function template_preprocess_views_view_vvjt_fields(array &$variables) {
-  // Load necessary views theme functions.
-  \Drupal::moduleHandler()->loadInclude('views', 'inc', 'views.theme');
+function _vvjt_build_data_attributes(array $options): Attribute {
+  $list_attributes = [];
 
-  // Preprocess views view fields.
+  foreach (VvjtConstants::DATA_ATTRIBUTE_MAP as $option_key => $data_key) {
+    if (!empty($options[$option_key])) {
+      $list_attributes[VvjtConstants::DATA_ATTRIBUTE_PREFIX . $data_key] = $options[$option_key];
+    }
+  }
+
+  foreach (VvjtConstants::BOOLEAN_ATTRIBUTE_MAP as $option_key => $data_key) {
+    if (isset($options[$option_key])) {
+      $list_attributes[VvjtConstants::DATA_ATTRIBUTE_PREFIX . $data_key] = $options[$option_key] ? 'true' : 'false';
+    }
+  }
+
+  if (!empty($options['background_buttons'])) {
+    $list_attributes[VvjtConstants::DATA_ATTRIBUTE_PREFIX . 'background-buttons'] = $options['background_buttons'];
+  }
+
+  if (!empty($options['background_panes'])) {
+    $list_attributes[VvjtConstants::DATA_ATTRIBUTE_PREFIX . 'background-panes'] = $options['background_panes'];
+  }
+
+  return new Attribute($list_attributes);
+}
+
+/**
+ * Build template settings array.
+ *
+ * @param object $handler
+ *   The style plugin handler.
+ * @param array $options
+ *   The tabs configuration options.
+ *
+ * @return array
+ *   Settings array for template use.
+ */
+function _vvjt_build_template_settings(object $handler, array $options): array {
+  $view_id = $handler->view->dom_id ?? 'unknown';
+
+  return [
+    'view_id' => $view_id,
+    'animation' => $options['animation'] ?? '',
+    'wrap_tabs' => $options['wrap_tabs'] ?? FALSE,
+    'max_width' => $options['max_width'] ?? 0,
+    'max_height' => $options['max_height'] ?? 0,
+    'available_breakpoints' => $options['available_breakpoints'] ?? '',
+    'unique_id' => $options['unique_id'] ?? 0,
+    'tabs_position' => $options['tabs_position'] ?? 'top',
+    'enable_css' => $options['enable_css'] ?? TRUE,
+    'disable_background' => $options['disable_background'] ?? FALSE,
+    'background_buttons' => $options['background_buttons'] ?? '',
+    'background_panes' => $options['background_panes'] ?? '',
+  ];
+}
+
+/**
+ * Customize theme hook suggestions for tabs rows.
+ *
+ * @param array $variables
+ *   Template variables array (passed by reference).
+ */
+function _vvjt_customize_row_theme_suggestions(array &$variables): void {
+  if (empty($variables['rows'])) {
+    return;
+  }
+
+  foreach ($variables['rows'] as $key => $row) {
+    if (!isset($row['#theme']) || !is_array($row['#theme'])) {
+      continue;
+    }
+
+    foreach ($row['#theme'] as $idx => $theme_hook_suggestion) {
+      $variables['rows'][$key]['#theme'][$idx] = str_replace(
+        'views_view_fields',
+        'views_view_vvjt_fields',
+        $theme_hook_suggestion
+      );
+    }
+  }
+}
+
+/**
+ * Prepares variables for views_view_vvjt_fields template.
+ *
+ * @param array $variables
+ *   Template variables array (passed by reference).
+ */
+function template_preprocess_views_view_vvjt_fields(array &$variables): void {
+  \Drupal::moduleHandler()->loadInclude('views', 'inc', 'views.theme');
   template_preprocess_views_view_fields($variables);
 }
 
 /**
  * Implements hook_preprocess_views_view().
  */
-function vvjt_preprocess_views_view(&$variables) {
-  if ($variables['view']->style_plugin instanceof ViewsVanillaJavascriptTabs) {
-    // Add the custom class to the view wrapper.
+function vvjt_preprocess_views_view(array &$variables): void {
+  if (isset($variables['view']->style_plugin) &&
+      $variables['view']->style_plugin instanceof ViewsVanillaJavascriptTabs) {
     $variables['attributes']['class'][] = 'vvj-tabs';
   }
 }
 
 /**
+ * Implements hook_views_data_alter().
+ */
+function vvjt_views_data_alter(array &$data): void {
+  $data['views_style_plugin']['views_vvjt'] = [
+    'type' => 'views_style',
+    'label' => t('Views Vanilla JavaScript Tabs'),
+    'mapping' => [
+      'animation' => [
+        'type' => VvjtConstants::VIEWS_TYPE_STRING,
+        'label' => t('Animation Type'),
+        'description' => t('Type of animation effect used when switching between tabs.'),
+        'constraints' => [
+          'Choice' => ['none', 'a-top', 'a-bottom', 'a-left', 'a-right', 'a-zoom', 'a-opacity'],
+        ],
+      ],
+      'tabs_position' => [
+        'type' => VvjtConstants::VIEWS_TYPE_STRING,
+        'label' => t('Tabs Position'),
+        'description' => t('Position of the tab buttons relative to content.'),
+        'constraints' => [
+          'Choice' => ['top', 'right', 'bottom', 'left'],
+        ],
+      ],
+      'max_height' => [
+        'type' => VvjtConstants::VIEWS_TYPE_INTEGER,
+        'label' => t('Max Height (pixels)'),
+        'description' => t('Maximum height for vertical tabs buttons container.'),
+      ],
+      'max_width' => [
+        'type' => VvjtConstants::VIEWS_TYPE_INTEGER,
+        'label' => t('Max Width (pixels)'),
+        'description' => t('Maximum width for tabs buttons.'),
+      ],
+      'available_breakpoints' => [
+        'type' => VvjtConstants::VIEWS_TYPE_STRING,
+        'label' => t('Responsive Breakpoint'),
+        'description' => t('Breakpoint at which vertical tabs collapse to horizontal.'),
+        'constraints' => [
+          'Choice' => ['576', '768', '992', '1200', '1400'],
+        ],
+      ],
+      'unique_id' => [
+        'type' => VvjtConstants::VIEWS_TYPE_INTEGER,
+        'label' => t('Unique Tabs Identifier'),
+        'description' => t('Unique numeric identifier for this tabs instance (auto-generated).'),
+        'constraints' => [
+          'Range' => [
+            'min' => 10000000,
+            'max' => 99999999,
+          ],
+        ],
+      ],
+      'enable_css' => [
+        'type' => VvjtConstants::VIEWS_TYPE_BOOLEAN,
+        'label' => t('Enable Default CSS Styling'),
+        'description' => t('Include the default CSS library for tabs styling.'),
+      ],
+      'wrap_tabs' => [
+        'type' => VvjtConstants::VIEWS_TYPE_BOOLEAN,
+        'label' => t('Wrap Tab Buttons'),
+        'description' => t('Wrap tab buttons when they exceed available space.'),
+      ],
+      'disable_background' => [
+        'type' => VvjtConstants::VIEWS_TYPE_BOOLEAN,
+        'label' => t('Disable Background Colors'),
+        'description' => t('Disable background colors for buttons and panes.'),
+      ],
+      'background_buttons' => [
+        'type' => VvjtConstants::VIEWS_TYPE_STRING,
+        'label' => t('Buttons Background Color'),
+        'description' => t('Hex color code for tab buttons background.'),
+        'constraints' => [
+          'Regex' => [
+            'pattern' => '/^#[0-9A-Fa-f]{6}$/',
+            'message' => t('Must be a valid 6-digit hex color code (e.g., #ECECEC).'),
+          ],
+        ],
+      ],
+      'background_panes' => [
+        'type' => VvjtConstants::VIEWS_TYPE_STRING,
+        'label' => t('Panes Background Color'),
+        'description' => t('Hex color code for content panes background.'),
+        'constraints' => [
+          'Regex' => [
+            'pattern' => '/^#[0-9A-Fa-f]{6}$/',
+            'message' => t('Must be a valid 6-digit hex color code (e.g., #F7F7F7).'),
+          ],
+        ],
+      ],
+    ],
+  ];
+}
+
+/**
  * Implements hook_token_info().
  */
-function vvjt_token_info() {
+function vvjt_token_info(): array {
   return [
     'tokens' => [
       'view' => [
-        'vvjt' => [
+        VvjtConstants::TOKEN_NAMESPACE => [
           'name' => t('VVJT field output'),
           'description' => t("Use these tokens when you enable 'Use replacement tokens from the first row' in Views text areas such as the header, footer, or empty text. Use [vvjt:field_name] for rendered output, or [vvjt:field_name:plain] to strip HTML and return plain text. These tokens pull values from the first row of the View result."),
         ],
@@ -228,56 +368,120 @@ function vvjt_token_info() {
 /**
  * Implements hook_tokens().
  */
-function vvjt_tokens($type, $tokens, array $data = [], array $options = []) {
+function vvjt_tokens(string $type, array $tokens, array $data = [], array $options = []): array {
   $replacements = [];
 
-  if (in_array($type, ['vvjt', 'global']) && isset($data['view']) && $data['view'] instanceof ViewExecutable) {
-    $view = $data['view'];
+  if (!_vvjt_validate_token_context($type, $data)) {
+    return $replacements;
+  }
 
-    if (!empty($view->result)) {
-      $first_row = $view->result[0];
-      $field_handlers = $view->display_handler->getHandlers('field');
+  $view = $data['view'];
 
-      /** @var \Drupal\Core\Render\RendererInterface $renderer */
-      $renderer = \Drupal::service('renderer');
+  if (empty($view->result)) {
+    return $replacements;
+  }
 
-      foreach ($tokens as $token => $name) {
-        $plain = FALSE;
-        $field_id = $token;
+  if (!($view->style_plugin instanceof ViewsVanillaJavascriptTabs)) {
+    return $replacements;
+  }
 
-        if (str_ends_with($token, ':plain')) {
-          $plain = TRUE;
-          $field_id = substr($token, 0, -6);
-        }
+  try {
+    $first_row = $view->result[0];
+    $field_handlers = $view->display_handler->getHandlers('field');
+    $renderer = \Drupal::service('renderer');
 
-        if (!isset($field_handlers[$field_id])) {
-          continue;
-        }
+    foreach ($tokens as $token => $name) {
+      if (!preg_match(VvjtConstants::TOKEN_PATTERN, $token)) {
+        \Drupal::logger('vvjt')->warning('Invalid token format rejected: @token', [
+          '@token' => $token,
+        ]);
+        continue;
+      }
 
-        try {
-          $handler = $field_handlers[$field_id];
-          $value = $plain && method_exists($handler, 'advancedRenderText')
-            ? $handler->advancedRenderText($first_row)
-            : $handler->advancedRender($first_row);
-
-          if (is_array($value)) {
-            // Render safely using renderPlain to avoid LogicException.
-            $rendered = $renderer->renderPlain($value);
-          }
-          else {
-            $rendered = (string) $value;
-          }
-
-          $replacements["[vvjt:$token]"] = $plain
-            ? Html::decodeEntities(strip_tags($rendered))
-            : Markup::create($rendered);
-        }
-        catch (\Throwable $e) {
-          $replacements["[vvjt:$token]"] = '';
-        }
+      $replacement = _vvjt_process_single_token($token, $first_row, $field_handlers, $renderer);
+      if ($replacement !== NULL) {
+        $replacements["[" . VvjtConstants::TOKEN_NAMESPACE . ":$token]"] = $replacement;
       }
     }
   }
+  catch (\Exception $e) {
+    \Drupal::logger('vvjt')->error('Error processing VVJT tokens: @message', [
+      '@message' => $e->getMessage(),
+    ]);
+  }
 
   return $replacements;
+}
+
+/**
+ * Validate token processing context.
+ *
+ * @param string $type
+ *   Token type.
+ * @param array $data
+ *   Token data array.
+ *
+ * @return bool
+ *   TRUE if context is valid for processing.
+ */
+function _vvjt_validate_token_context(string $type, array $data): bool {
+  return $type === 'view' &&
+         isset($data['view']) &&
+         $data['view'] instanceof ViewExecutable;
+}
+
+/**
+ * Process a single token and return its replacement value.
+ *
+ * @param string $token
+ *   The token to process.
+ * @param object $first_row
+ *   The first row of view results.
+ * @param array $field_handlers
+ *   Array of field handlers.
+ * @param object $renderer
+ *   The renderer service.
+ *
+ * @return \Drupal\Component\Render\MarkupInterface|string|null
+ *   The replacement value or NULL if token cannot be processed.
+ */
+function _vvjt_process_single_token(string $token, object $first_row, array $field_handlers, object $renderer) {
+  $plain = FALSE;
+  $field_id = $token;
+
+  if (str_ends_with($token, VvjtConstants::TOKEN_PLAIN_SUFFIX)) {
+    $plain = TRUE;
+    $field_id = substr($token, 0, -strlen(VvjtConstants::TOKEN_PLAIN_SUFFIX));
+  }
+
+  if (!isset($field_handlers[$field_id])) {
+    return NULL;
+  }
+
+  try {
+    $handler = $field_handlers[$field_id];
+
+    $value = $plain && method_exists($handler, 'advancedRenderText')
+      ? $handler->advancedRenderText($first_row)
+      : $handler->advancedRender($first_row);
+
+    if (is_array($value)) {
+      $rendered = $renderer->renderPlain($value);
+    }
+    else {
+      $rendered = (string) $value;
+    }
+
+    return $plain
+      ? Html::decodeEntities(strip_tags($rendered))
+      : Markup::create($rendered);
+
+  }
+  catch (\Throwable $e) {
+    \Drupal::logger('vvjt')->warning('Token processing failed for field @field: @message', [
+      '@field' => $field_id,
+      '@message' => $e->getMessage(),
+    ]);
+    return '';
+  }
 }

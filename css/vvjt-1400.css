@@ -1,12 +1,12 @@
 /**
  * @file
- * Views Tabs
+ * VVj Tabs - Breakpoint 1400
  *
  * Filename:     vvjt-1400.css
  * Website:      https://www.flashwebcenter.com
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
-@media (min-width:87.5rem) {
+@media (min-width: 87.5rem) {
   .vvjt.br-1400.vertical .vvjt-inner {
     flex-direction: row;
   }
@@ -26,7 +26,6 @@
     flex: 0 0 auto;
   }
 
-
   .vvjt.br-1400.vertical .vvjt-inner .tab-buttons:not(.vvjt.max-w .tab-buttons) {
     width: auto;
   }
@@ -42,13 +41,15 @@
 
 }
 
-@media (max-width:87.49875rem) {
+@media (max-width: 87.49875rem) {
+  /* Images in Vertical-to-Horizontal Transformation */
   .vvjt.br-1400.vertical .vvjt-inner .vvjt-button img {
     height: auto;
     width: auto;
     max-width: none;
   }
 
+  /* Vertical Tabs Become Horizontal Scrolling */
   .vvjt.br-1400.vertical .tab-buttons {
     display: block;
     overflow-x: auto;
@@ -61,12 +62,14 @@
     white-space: nowrap;
   }
 
+  /* Wrap Mode for Vertical-to-Horizontal */
   .vvjt.br-1400.vertical.wrap-tabs .tab-buttons .vvjt-button {
     float: left;
     white-space: normal;
     overflow-x: visible;
   }
 
+  /* Reset Max-Height on Mobile */
   .vvjt.br-1400.vertical.max-h .tab-buttons {
     flex-direction: initial;
     overflow-y: initial;
@@ -74,6 +77,7 @@
     height: auto !important;
   }
 
+  /* Reset Max-Width on Mobile */
   .vvjt.br-1400.vertical.max-w .tab-buttons {
     max-width: initial !important;
     width: initial !important;
@@ -81,6 +85,16 @@
 
   .vvjt.br-1400.vertical.max-h .tab-buttons > * {
     flex: initial;
+  }
+
+  /* Horizontal Tabs - Mobile Optimizations */
+  .vvjt.horizontal .tab-buttons {
+    gap: 0.25rem;
+  }
+
+  .vvjt.horizontal .vvjt-button {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
   }
 
 }

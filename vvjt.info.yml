@@ -1,4 +1,4 @@
-name: 'Views Vanilla Javascript Tabs'
+name: 'Views Vanilla Javascript Tabs - VVJT'
 type: module
 description: 'Provides a Vanilla Javascript Tabs format for Views.'
 core_version_requirement: ^10 || ^11
