@@ -55,6 +55,137 @@ To strip any HTML from the output, you can append `:plain` to the token:
 These tokens pull data from the **first row** of the View result and are
 designed to work seamlessly with the VVJT rendering system.
 
+## Deep Linking
+
+Enable deep linking to create shareable URLs that link directly to specific 
+tabs in your interface.
+
+### Setup
+
+1. Navigate to your view's **Format Settings**
+2. Expand the **Deep Linking Settings** section
+3. Check **Enable Deep Linking**
+4. Enter a **URL Identifier** (e.g., "products", "services", "team")
+   - The identifier will be automatically cleaned: converted to lowercase, 
+     spaces replaced with hyphens, special characters removed
+   - Must start with a letter and contain only lowercase letters, numbers, and 
+     hyphens
+
+### URL Format
+
+When deep linking is enabled, URLs are generated in the following format:
+
+```
+#tabs-identifier-N
+```
+
+**Examples:**
+- `#tabs-products-1` (first tab)
+- `#tabs-services-3` (third tab)
+- `#tabs-team-2` (second tab)
+
+### Features
+
+- **Shareable Links**: Users can copy the URL to share a specific tab
+- **Browser Navigation**: Back/forward buttons work with tab navigation
+- **Initial Load**: Page loads directly to the specified tab when URL hash is 
+  present
+- **Multiple Tab Groups**: Each tab group on a page can have its own unique 
+  identifier
+
+## JavaScript API
+
+Control VVJT tabs programmatically from your own JavaScript code.
+
+### Navigation Methods
+
+```javascript
+// Navigate to a specific tab (1-based index)
+Drupal.vvjt.goToTab('products', 2);
+```
+
+### Information Methods
+
+```javascript
+// Get current active tab number (1-based)
+const current = Drupal.vvjt.getCurrentTab('products');
+// Returns: 2
+
+// Get total number of tabs
+const total = Drupal.vvjt.getTotalTabs('products');
+// Returns: 5
+```
+
+### Instance Access
+
+```javascript
+// Get tab container instance by identifier or selector
+const tabs = Drupal.vvjt.getInstance('products');
+// or
+const tabs = Drupal.vvjt.getInstance('.vvjt-inner');
+```
+
+### Complete Example: Custom Tab Navigation
+
+```html
+<!-- Custom tab selector -->
+<div class="custom-tab-selector">
+  <button onclick="Drupal.vvjt.goToTab('products', 1)">Overview</button>
+  <button onclick="Drupal.vvjt.goToTab('products', 2)">Features</button>
+  <button onclick="Drupal.vvjt.goToTab('products', 3)">Pricing</button>
+</div>
+
+<script>
+(function(Drupal) {
+  'use strict';
+  
+  Drupal.behaviors.customTabControls = {
+    attach: function(context, settings) {
+      // Get current tab on page load
+      const currentTab = Drupal.vvjt.getCurrentTab('products');
+      console.log('Current tab:', currentTab);
+      
+      // Total tabs
+      const totalTabs = Drupal.vvjt.getTotalTabs('products');
+      console.log('Total tabs:', totalTabs);
+      
+      // Custom next button
+      document.querySelector('.next-tab-button').addEventListener('click', function() {
+        const current = Drupal.vvjt.getCurrentTab('products');
+        const total = Drupal.vvjt.getTotalTabs('products');
+        const next = current < total ? current + 1 : 1;
+        Drupal.vvjt.goToTab('products', next);
+      });
+      
+      // Custom previous button  
+      document.querySelector('.prev-tab-button').addEventListener('click', function() {
+        const current = Drupal.vvjt.getCurrentTab('products');
+        const total = Drupal.vvjt.getTotalTabs('products');
+        const prev = current > 1 ? current - 1 : total;
+        Drupal.vvjt.goToTab('products', prev);
+      });
+    }
+  };
+})(Drupal);
+</script>
+```
+
+### Using with Deep Link Identifiers
+
+The API methods accept either:
+- **Deep link identifier**: `'products'`, `'services'`, `'team'`
+- **CSS selector**: `'.vvjt-inner'`, `'#vvjt-inner-12345678'`
+
+When using deep link identifiers, make sure the identifier matches what you 
+configured in the View's Format Settings.
+
+### Return Values
+
+- `goToTab()` returns `true` on success, `false` on failure
+- `getCurrentTab()` returns the tab index (1-based) or `null` if not found
+- `getTotalTabs()` returns the number of tabs or `null` if not found
+- All methods provide helpful console warnings for debugging when errors occur
+
 ## Example Usage
 1. Create a new view or edit an existing view.
 2. Under the "Format" section, select "Views Vanilla JavaScript Tabs" as the 

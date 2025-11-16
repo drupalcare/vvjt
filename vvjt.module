@@ -205,6 +205,8 @@ function _vvjt_build_template_settings(object $handler, array $options): array {
     'disable_background' => $options['disable_background'] ?? FALSE,
     'background_buttons' => $options['background_buttons'] ?? '',
     'background_panes' => $options['background_panes'] ?? '',
+    'enable_deeplink' => $options['enable_deeplink'] ?? FALSE,
+    'deeplink_identifier' => $options['deeplink_identifier'] ?? '',
   ];
 }
 

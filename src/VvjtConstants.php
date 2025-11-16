@@ -60,6 +60,13 @@ final class VvjtConstants {
   ];
 
   /**
+   * Deep linking constants.
+   */
+  public const DEEPLINK_IDENTIFIER_MAX_LENGTH = 20;
+  public const DEEPLINK_IDENTIFIER_PATTERN = '/^[a-z][a-z0-9-]*[a-z0-9]$/';
+  public const DEEPLINK_RESERVED_WORDS = ['tabs', 'tab', 'vvjt', 'vvj'];
+
+  /**
    * Views integration field type constants.
    */
 

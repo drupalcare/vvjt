@@ -65,8 +65,11 @@
       // Disable links within buttons
       this.disableButtonLinks(tabButtons);
 
-      // Show first tab and attach behaviors to it (without moving focus)
-      if (tabPanes[0]) {
+      // Initialize deep linking if enabled - this may activate a tab from URL hash
+      const deepLinkActivated = this.initializeDeepLinking(container, tabButtons, tabPanes, settings);
+
+      // Show first tab only if deep linking didn't activate a tab
+      if (!deepLinkActivated && tabPanes[0]) {
         this.showTab(container, tabButtons[0], tabPanes[0], settings, false);
       }
     },
@@ -112,7 +115,18 @@
       const button = event.target.closest('.vvjt-button');
       if (!button) return;
 
-      event.preventDefault();
+      // Check if deep linking is enabled
+      const deeplinkEnabled = container.getAttribute('data-deeplink-enabled') === 'true';
+      const deeplinkId = container.getAttribute('data-deeplink-id');
+
+      // If deep linking is enabled and button is an anchor, let it update the hash naturally
+      if (deeplinkEnabled && deeplinkId && button.tagName === 'A' && button.href) {
+        // Don't prevent default - let the anchor update the URL hash
+        // The hash change will be handled by the hashchange listener
+      } else {
+        // Prevent default for buttons
+        event.preventDefault();
+      }
 
       // Parse the button ID to get the corresponding pane ID
       // Button ID format: vvjt-button-{unique_id}-{key}
@@ -275,7 +289,203 @@
           });
         });
       });
+    },
+
+    /**
+     * Initialize deep linking functionality.
+     *
+     * @param {HTMLElement} container
+     *   The tab container.
+     * @param {NodeList} buttons
+     *   Tab button elements.
+     * @param {NodeList} panes
+     *   Tab pane elements.
+     * @param {object} settings
+     *   The drupalSettings object.
+     * 
+     * @return {boolean}
+     *   True if a tab was activated from the URL hash, false otherwise.
+     */
+    initializeDeepLinking: function(container, buttons, panes, settings) {
+      const deeplinkEnabled = container.getAttribute('data-deeplink-enabled') === 'true';
+      const deeplinkId = container.getAttribute('data-deeplink-id');
+
+      if (!deeplinkEnabled || !deeplinkId) {
+        return false;
+      }
+
+      // Store for external access
+      container.deeplinkConfig = {
+        enabled: true,
+        identifier: deeplinkId
+      };
+
+      // Check URL hash on page load
+      let tabActivated = false;
+      const hash = window.location.hash;
+      if (hash && hash.startsWith(`#tabs-${deeplinkId}-`)) {
+        const tabNumber = parseInt(hash.split('-').pop(), 10);
+        if (tabNumber >= 1 && tabNumber <= buttons.length) {
+          const button = buttons[tabNumber - 1];
+          const pane = panes[tabNumber - 1];
+          if (button && pane) {
+            this.showTab(container, button, pane, settings, false);
+            tabActivated = true;
+          }
+        }
+      }
+
+      // Listen for hash changes (browser back/forward and anchor clicks)
+      const self = this;
+      const hashChangeHandler = function() {
+        const currentHash = window.location.hash;
+        // Only respond to hash changes for this specific tab group
+        if (currentHash && currentHash.startsWith(`#tabs-${deeplinkId}-`)) {
+          const tabNumber = parseInt(currentHash.split('-').pop(), 10);
+          if (tabNumber >= 1 && tabNumber <= buttons.length) {
+            const button = buttons[tabNumber - 1];
+            const pane = panes[tabNumber - 1];
+            if (button && pane) {
+              self.showTab(container, button, pane, settings, false);
+            }
+          }
+        }
+      };
+
+      // Store the handler on the container so we can remove it later if needed
+      container.vvjtHashChangeHandler = hashChangeHandler;
+      window.addEventListener('hashchange', hashChangeHandler);
+
+      return tabActivated;
     }
+  };
+
+  /**
+   * Global utility functions for external access.
+   */
+  Drupal.vvjt = Drupal.vvjt || {};
+
+  /**
+   * Helper function to get tab container by identifier.
+   */
+  function getContainerByIdentifier(identifier) {
+    let container;
+
+    // Try deep link identifier first (if not a CSS selector)
+    if (!identifier.startsWith('.') && !identifier.startsWith('#')) {
+      container = document.querySelector(`[data-deeplink-id="${identifier}"]`);
+    }
+
+    // Fallback to CSS selector
+    if (!container) {
+      container = document.querySelector(identifier);
+    }
+
+    return container;
+  }
+
+  /**
+   * Get tab container instance.
+   */
+  Drupal.vvjt.getInstance = function(containerOrSelector) {
+    let container;
+
+    if (typeof containerOrSelector === 'string') {
+      container = getContainerByIdentifier(containerOrSelector);
+    } else {
+      container = containerOrSelector;
+    }
+
+    if (!container) {
+      return null;
+    }
+
+    // Find the .vvjt-inner element
+    const inner = container.classList.contains('vvjt-inner')
+      ? container
+      : container.querySelector('.vvjt-inner');
+
+    return inner || null;
+  };
+
+  /**
+   * Navigate to a specific tab.
+   */
+  Drupal.vvjt.goToTab = function(identifier, tabIndex) {
+    const container = getContainerByIdentifier(identifier);
+
+    if (!container) {
+      if (typeof console !== 'undefined' && console.warn) {
+        console.warn(`VVJT: Tabs "${identifier}" not found`);
+      }
+      return false;
+    }
+
+    const buttons = container.querySelectorAll('.vvjt-button');
+    const panes = container.querySelectorAll('.vvjt-pane');
+
+    if (tabIndex < 1 || tabIndex > buttons.length) {
+      if (typeof console !== 'undefined' && console.warn) {
+        console.warn(`VVJT: Invalid tab index ${tabIndex}. Must be between 1 and ${buttons.length}`);
+      }
+      return false;
+    }
+
+    const button = buttons[tabIndex - 1];
+    const pane = panes[tabIndex - 1];
+
+    if (button && pane) {
+      Drupal.behaviors.VVJTabs.showTab(container, button, pane, drupalSettings, true);
+      
+      // Update hash if deep linking is enabled
+      const deeplinkConfig = container.deeplinkConfig;
+      if (deeplinkConfig && deeplinkConfig.enabled) {
+        const newHash = `#tabs-${deeplinkConfig.identifier}-${tabIndex}`;
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, '', newHash);
+        } else {
+          window.location.hash = newHash;
+        }
+      }
+      
+      return true;
+    }
+
+    return false;
+  };
+
+  /**
+   * Get current active tab index.
+   */
+  Drupal.vvjt.getCurrentTab = function(identifier) {
+    const container = getContainerByIdentifier(identifier);
+
+    if (!container) {
+      return null;
+    }
+
+    const buttons = container.querySelectorAll('.vvjt-button');
+    for (let i = 0; i < buttons.length; i++) {
+      if (buttons[i].getAttribute('aria-selected') === 'true') {
+        return i + 1;
+      }
+    }
+
+    return null;
+  };
+
+  /**
+   * Get total number of tabs.
+   */
+  Drupal.vvjt.getTotalTabs = function(identifier) {
+    const container = getContainerByIdentifier(identifier);
+
+    if (!container) {
+      return null;
+    }
+
+    const buttons = container.querySelectorAll('.vvjt-button');
+    return buttons.length;
   };
 
 })(Drupal, drupalSettings, once);

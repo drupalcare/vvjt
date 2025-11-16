@@ -19,6 +19,13 @@
 {% set vvjt_id = 'vvjt-' ~ unique_id %}
 {% set tab_inner_id = 'vvjt-inner-' ~ unique_id %}
 {% set tab_layout = options.tabs_position in ['top', 'bottom'] ? 'horizontal' : 'vertical' %}
+
+{# Deep linking configuration #}
+{% set deeplink_config = {
+  enabled: options.enable_deeplink|default(false),
+  identifier: options.deeplink_identifier|default(''),
+} %}
+
 {% set classes = [
   'vvjt',
   vvjt_id,
@@ -59,7 +66,11 @@
 {% endif %}
 
 <div {{ attributes.addClass(classes).setAttribute('id', vvjt_id) }}>
-  <div id="{{ tab_inner_id }}" class="vvjt-inner">
+  <div id="{{ tab_inner_id }}" class="vvjt-inner"
+    {% if deeplink_config.enabled and deeplink_config.identifier %}
+    data-deeplink-enabled="true"
+    data-deeplink-id="{{ deeplink_config.identifier }}"
+    {% endif %}>
 
     {# Initialize variables to hold the buttons and panes #}
     {% set buttons = '' %}
@@ -79,9 +90,18 @@
 
       {# Render the button #}
       {% set button %}
-      <button id="vvjt-button-{{ unique_id }}-{{ key + 1 }}" class="button vvjt-button" aria-label="{{ button_content|striptags|trim|t }}" aria-selected="{{ key == 0 ? 'true' : 'false' }}" aria-controls="{{ pane_id }}" aria-expanded="{{ key == 0 ? 'true' : 'false' }}" type="button" role="tab" {% if key != 0 %}tabindex="-1"{% endif %}{% if horizontal_width %} style="--horizontal-width: {{ horizontal_width }};"{% endif %}>
-        {{ button_content|safe_html }}
-      </button>
+      {% if deeplink_config.enabled and deeplink_config.identifier %}
+        {# Deep linking enabled - use anchor link #}
+        {% set tab_link = '#tabs-' ~ deeplink_config.identifier ~ '-' ~ (key + 1) %}
+        <a id="vvjt-button-{{ unique_id }}-{{ key + 1 }}" href="{{ tab_link }}" class="button vvjt-button" aria-label="{{ button_content|striptags|trim|t }}" aria-selected="{{ key == 0 ? 'true' : 'false' }}" aria-controls="{{ pane_id }}" aria-expanded="{{ key == 0 ? 'true' : 'false' }}" role="tab" {% if key != 0 %}tabindex="-1"{% endif %}{% if horizontal_width %} style="--horizontal-width: {{ horizontal_width }};"{% endif %}>
+          {{ button_content|safe_html }}
+        </a>
+      {% else %}
+        {# Default button #}
+        <button id="vvjt-button-{{ unique_id }}-{{ key + 1 }}" class="button vvjt-button" aria-label="{{ button_content|striptags|trim|t }}" aria-selected="{{ key == 0 ? 'true' : 'false' }}" aria-controls="{{ pane_id }}" aria-expanded="{{ key == 0 ? 'true' : 'false' }}" type="button" role="tab" {% if key != 0 %}tabindex="-1"{% endif %}{% if horizontal_width %} style="--horizontal-width: {{ horizontal_width }};"{% endif %}>
+          {{ button_content|safe_html }}
+        </button>
+      {% endif %}
       {% endset %}
 
       {# Render the pane #}

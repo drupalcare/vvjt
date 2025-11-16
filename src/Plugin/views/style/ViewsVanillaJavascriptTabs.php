@@ -6,6 +6,7 @@ namespace Drupal\vvjt\Plugin\views\style;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\views\Plugin\views\style\StylePluginBase;
+use Drupal\vvjt\VvjtConstants;
 
 /**
  * Style plugin to render items in Tabs using vanilla JavaScript.
@@ -57,6 +58,8 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
     $options['background_buttons'] = ['default' => '#ECECEC'];
     $options['background_panes'] = ['default' => '#F7F7F7'];
     $options['wrap_tabs'] = ['default' => FALSE];
+    $options['enable_deeplink'] = ['default' => FALSE];
+    $options['deeplink_identifier'] = ['default' => ''];
     return $options;
   }
 
@@ -68,11 +71,13 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
 
     $this->setDefaultElementWeights($form);
     $this->buildLayoutSection($form);
+    $this->buildDeepLinkingSection($form);
     $this->buildAnimationSection($form);
     $this->buildStylingSection($form);
     $this->buildResponsiveSection($form);
     $this->buildAdvancedOptionsSection($form);
     $this->buildTokenDocumentation($form);
+    $this->attachFormAssets($form);
   }
 
   /**
@@ -159,6 +164,118 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
       '#min' => 0,
       '#required' => TRUE,
     ];
+  }
+
+  /**
+   * Build deep linking configuration section.
+   *
+   * @param array $form
+   *   The form array (passed by reference).
+   */
+  protected function buildDeepLinkingSection(array &$form): void {
+    $form['deeplink_section'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Deep Linking Settings'),
+      '#open' => TRUE,
+      '#weight' => -35,
+      '#attributes' => [
+        'data-vvjt-deeplink-section' => 'true',
+      ],
+    ];
+
+    $form['deeplink_section']['enable_deeplink'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Enable Deep Linking'),
+      '#description' => $this->t('Enable deep linking to create shareable URLs for specific tabs. When enabled, tab buttons become clickable anchor links.'),
+      '#default_value' => $this->options['enable_deeplink'],
+      '#attributes' => [
+        'data-vvjt-deeplink-toggle' => 'true',
+      ],
+    ];
+
+    $form['deeplink_section']['deeplink_identifier'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('URL Identifier'),
+      '#description' => $this->t('Short identifier used in tab links. Example: "products" creates links like #tabs-products-1. Will be automatically cleaned: converted to lowercase, spaces become hyphens, special characters removed.'),
+      '#default_value' => $this->options['deeplink_identifier'],
+      '#maxlength' => VvjtConstants::DEEPLINK_IDENTIFIER_MAX_LENGTH,
+      '#size' => 20,
+      '#placeholder' => 'products',
+      '#wrapper_attributes' => [
+        'class' => ['deeplink-identifier-wrapper'],
+        'data-vvjt-deeplink-field' => 'true',
+      ],
+      '#element_validate' => [[$this, 'validateDeeplinkIdentifier']],
+    ];
+  }
+
+  /**
+   * Validates and sanitizes the deep link identifier field.
+   *
+   * @param array $element
+   *   The form element.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   */
+  public function validateDeeplinkIdentifier(array $element, FormStateInterface $form_state): void {
+    // Get deep link values.
+    $deeplink_values = $form_state->getValue(['style_options', 'deeplink_section']) ?? [];
+    $enable_deeplink = !empty($deeplink_values['enable_deeplink']);
+    $identifier = (string) ($deeplink_values['deeplink_identifier'] ?? '');
+
+    // 1. If deep linking is disabled, clear identifier and exit early.
+    if (!$enable_deeplink) {
+      $form_state->setValue(['style_options', 'deeplink_section', 'deeplink_identifier'], '');
+      return;
+    }
+
+    // 2. Deep linking is enabled, so enforce identifier rules.
+
+    // Required when deep linking is enabled.
+    if ($identifier === '') {
+      $form_state->setError($element, $this->t('URL Identifier is required when Deep Linking is enabled.'));
+      return;
+    }
+
+    // Transliterate and clean similar to URL aliases.
+    $transliteration = \Drupal::transliteration();
+    $clean = $transliteration->transliterate($identifier, 'en');
+
+    // Convert to lowercase.
+    $clean = strtolower($clean);
+
+    // Replace spaces and underscores with hyphens.
+    $clean = preg_replace('/[\s_]+/', '-', $clean);
+
+    // Remove all characters except letters, numbers, and hyphens.
+    $clean = preg_replace('/[^a-z0-9-]/', '', $clean);
+
+    // Remove consecutive hyphens.
+    $clean = preg_replace('/-+/', '-', $clean);
+
+    // Remove leading/trailing hyphens.
+    $clean = trim($clean, '-');
+
+    // Ensure it starts with a letter.
+    $clean = preg_replace('/^[0-9-]+/', '', $clean);
+
+    // If empty after cleaning, show error.
+    if ($clean === '') {
+      $form_state->setError($element, $this->t('URL Identifier must contain at least one letter.'));
+      return;
+    }
+
+    // Check reserved words.
+    if (in_array($clean, VvjtConstants::DEEPLINK_RESERVED_WORDS, TRUE)) {
+      $form_state->setError(
+        $element,
+        $this->t('Please choose a more specific identifier. "@identifier" is a reserved word.', ['@identifier' => $clean])
+      );
+      return;
+    }
+
+    // Set the cleaned value back to form state.
+    $form_state->setValue(['style_options', 'deeplink_section', 'deeplink_identifier'], $clean);
   }
 
   /**
@@ -352,6 +469,11 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
       $flattened['max_height'] = $values['layout_section']['max_height'] ?? 0;
     }
 
+    if (isset($values['deeplink_section'])) {
+      $flattened['enable_deeplink'] = $values['deeplink_section']['enable_deeplink'] ?? FALSE;
+      $flattened['deeplink_identifier'] = $values['deeplink_section']['deeplink_identifier'] ?? '';
+    }
+
     if (isset($values['animation_section'])) {
       $flattened['animation'] = $values['animation_section']['animation'] ?? 'a-bottom';
     }
@@ -373,6 +495,17 @@ class ViewsVanillaJavascriptTabs extends StylePluginBase {
     $flattened['unique_id'] = $this->options['unique_id'] ?? $this->generateUniqueId();
 
     return $flattened;
+  }
+
+  /**
+   * Attach form assets.
+   *
+   * @param array $form
+   *   The form array (passed by reference).
+   */
+  protected function attachFormAssets(array &$form): void {
+    $form['#attached']['library'][] = 'core/drupal.ajax';
+    $form['#attached']['library'][] = 'vvjt/vvjt-admin';
   }
 
   /**

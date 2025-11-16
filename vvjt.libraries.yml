@@ -10,6 +10,19 @@ vvjt:
     - core/drupalSettings
     - core/once
 
+vvjt-admin:
+  css:
+    theme:
+      css/vvjt-admin.css: {}
+  js:
+    js/vvjt-admin.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupal.ajax
+    - core/drupalSettings
+    - core/once
+
+
 vvjt-horizontal:
   css:
     theme:
