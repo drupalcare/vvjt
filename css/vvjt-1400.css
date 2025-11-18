@@ -64,7 +64,7 @@
 
   /* Wrap Mode for Vertical-to-Horizontal */
   .vvjt.br-1400.vertical.wrap-tabs .tab-buttons .vvjt-button {
-    float: left;
+    float: inline-start;
     white-space: normal;
     overflow-x: visible;
   }
