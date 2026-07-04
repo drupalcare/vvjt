@@ -5,93 +5,55 @@ declare(strict_types=1);
 namespace Drupal\vvjt;
 
 /**
- * Defines constants for the VVJT module.
+ * Vvjt-specific constants — tabs's pattern-only values.
  *
- * This class contains constants used across the module for
- * token processing and data attribute mapping.
+ * Cross-cutting constants live in vvj_core's `ValidationBounds`.
+ *
+ * @internal Final, non-instantiable.
  */
 final class VvjtConstants {
 
   /**
-   * Token namespace for VVJT tokens.
+   * Tab position values.
    */
-  public const TOKEN_NAMESPACE = 'vvjt';
+  public const string POSITION_TOP = 'top';
+  public const string POSITION_RIGHT = 'right';
+  public const string POSITION_BOTTOM = 'bottom';
+  public const string POSITION_LEFT = 'left';
+  public const string DEFAULT_POSITION = self::POSITION_TOP;
 
   /**
-   * Plain text token suffix.
+   * Animation defaults (tabs include `a-opacity` not in the shared set).
    */
-  public const TOKEN_PLAIN_SUFFIX = ':plain';
+  public const string DEFAULT_ANIMATION = 'a-bottom';
 
   /**
-   * Token pattern for validation.
+   * Layout defaults.
+   */
+  public const int DEFAULT_MAX_WIDTH = 300;
+  public const int DEFAULT_MAX_HEIGHT = 0;
+  public const string DEFAULT_BREAKPOINT = '992';
+
+  /**
+   * Background defaults.
+   */
+  public const string DEFAULT_BG_BUTTONS = '#ECECEC';
+  public const string DEFAULT_BG_PANES = '#F7F7F7';
+
+  /**
+   * Deep-link identifier reserved words.
    *
-   * Validates token format: alphanumeric, underscores, optional :plain suffix.
-   */
-  public const TOKEN_PATTERN = '/^[a-zA-Z0-9_]+(:plain)?$/';
-
-  /**
-   * Data attribute prefix for HTML attributes.
-   */
-  public const DATA_ATTRIBUTE_PREFIX = 'data-';
-
-  /**
-   * Data attribute mapping for tabs options.
+   * Tabs write `#tabs-<id>-<n>` fragments, so `tabs`/`tab` must be reserved
+   * to avoid identifier/fragment collisions (matches v1).
    *
-   * Maps internal option keys to HTML data attribute names.
+   * @var list<string>
    */
-  public const DATA_ATTRIBUTE_MAP = [
-    'animation' => 'animation',
-    'tabs_position' => 'tabs-position',
-    'unique_id' => 'unique-id',
-    'available_breakpoints' => 'available-breakpoints',
-    'max_width' => 'max-width',
-    'max_height' => 'max-height',
-  ];
+  public const array DEEPLINK_RESERVED_WORDS = ['tabs', 'tab', 'vvjt', 'vvj'];
 
   /**
-   * Boolean option mapping for tabs controls.
-   *
-   * Maps internal boolean option keys to HTML data attribute names.
-   */
-  public const BOOLEAN_ATTRIBUTE_MAP = [
-    'enable_css' => 'enable-css',
-    'disable_background' => 'disable-background',
-    'wrap_tabs' => 'wrap-tabs',
-  ];
-
-  /**
-   * Deep linking constants.
-   */
-  public const DEEPLINK_IDENTIFIER_MAX_LENGTH = 20;
-  public const DEEPLINK_IDENTIFIER_PATTERN = '/^[a-z][a-z0-9-]*[a-z0-9]$/';
-  public const DEEPLINK_RESERVED_WORDS = ['tabs', 'tab', 'vvjt', 'vvj'];
-
-  /**
-   * Views integration field type constants.
-   */
-
-  /**
-   * Integer field type for Views mapping.
-   */
-  public const VIEWS_TYPE_INTEGER = 'integer';
-
-  /**
-   * String field type for Views mapping.
-   */
-  public const VIEWS_TYPE_STRING = 'string';
-
-  /**
-   * Boolean field type for Views mapping.
-   */
-  public const VIEWS_TYPE_BOOLEAN = 'boolean';
-
-  /**
-   * Private constructor to prevent instantiation.
-   *
-   * This class should only be used for its constants.
+   * Prevent instantiation.
    */
   private function __construct() {
-    // Prevent instantiation.
   }
 
 }

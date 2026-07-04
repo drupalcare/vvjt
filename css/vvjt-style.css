@@ -33,10 +33,10 @@
   content: '';
   position: absolute;
   bottom: 0;
-  left: 0;
-  right: 0;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
   height: 2px;
-  background: currentColor;
+  background: currentcolor;
   opacity: 0.6;
 }
 
@@ -44,15 +44,15 @@
 .vvjt.vertical .vvjt-inner .tab-buttons .vvjt-button.active::after {
   top: 0;
   bottom: 0;
-  left: 0;
-  right: auto;
+  inset-inline-start: 0;
+  inset-inline-end: auto;
   width: 3px;
   height: auto;
 }
 
 .vvjt.vertical.right .vvjt-inner .tab-buttons .vvjt-button.active::after {
-  left: auto;
-  right: 0;
+  inset-inline-start: auto;
+  inset-inline-end: 0;
 }
 
 .vvj-tabs {

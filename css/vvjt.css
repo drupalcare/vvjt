@@ -120,7 +120,7 @@
 }
 
 .vvjt .vvjt-inner .tab-buttons .vvjt-button:focus-visible {
-  outline: 2px solid currentColor;
+  outline: 2px solid currentcolor;
   outline-offset: 2px;
   z-index: 1;
 }
@@ -182,9 +182,11 @@
   0% {
     opacity: 0;
   }
+
   50% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
   }
@@ -199,6 +201,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -215,6 +218,7 @@
     top: -100px;
     opacity: 0;
   }
+
   to {
     top: 0;
     opacity: 1;
@@ -229,11 +233,12 @@
 
 @keyframes animateleft {
   from {
-    left: -100px;
+    inset-inline-start: -100px;
     opacity: 0;
   }
+
   to {
-    left: 0;
+    inset-inline-start: 0;
     opacity: 1;
   }
 }
@@ -246,11 +251,12 @@
 
 @keyframes animateright {
   from {
-    right: -100px;
+    inset-inline-end: -100px;
     opacity: 0;
   }
+
   to {
-    right: 0;
+    inset-inline-end: 0;
     opacity: 1;
   }
 }
@@ -266,6 +272,7 @@
     bottom: -100px;
     opacity: 0;
   }
+
   to {
     bottom: 0;
     opacity: 1;
@@ -281,6 +288,7 @@
   from {
     transform: scale(0);
   }
+
   to {
     transform: scale(1.05);
   }

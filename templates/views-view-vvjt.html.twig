@@ -31,8 +31,8 @@
   vvjt_id,
   tab_layout,
   options.tabs_position,
-  options.max_width != 0 ? 'max-w': '',
-  options.max_height != 0 ? 'max-h': '',
+  options.max_width != 0 ? 'max-w' : '',
+  options.max_height != 0 ? 'max-h' : '',
   options.tabs_position in ['left', 'right'] ? 'br-' ~ options.available_breakpoints : '',
   options.animation != 'none' ? options.animation : '',
   options.wrap_tabs ? 'wrap-tabs' : '',
@@ -65,10 +65,10 @@
   {% endif %}
 {% endif %}
 
-<div {{ attributes.addClass(classes).setAttribute('id', vvjt_id) }}>
+<vvjt-tabs {{ attributes.addClass(classes).setAttribute('id', vvjt_id) }}>
   <div id="{{ tab_inner_id }}" class="vvjt-inner"
+    data-deeplink-enabled="{{ deeplink_config.enabled and deeplink_config.identifier ? 'true' : 'false' }}"
     {% if deeplink_config.enabled and deeplink_config.identifier %}
-    data-deeplink-enabled="true"
     data-deeplink-id="{{ deeplink_config.identifier }}"
     {% endif %}>
 
@@ -131,4 +131,4 @@
     </div>
 
   </div> {# End of vvjt-inner #}
-</div> {# End of main wrapper #}
+</vvjt-tabs>

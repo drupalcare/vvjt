@@ -3,12 +3,19 @@ vvjt:
     theme:
       css/vvjt.css: { }
   js:
+    js/vvjt-tabs-element.js: {}
     js/vvjt.js: {}
   dependencies:
     - core/drupal
     - core/drupal.ajax
     - core/drupalSettings
     - core/once
+    - vvj_core/tokens
+    - vvj_core/base
+    - vvj_core/a11y
+    - vvj_core/element-base
+    - vvj_core/keyboard-nav
+    - vvj_core/deeplink-bridge
 
 vvjt-admin:
   css:
@@ -21,7 +28,6 @@ vvjt-admin:
     - core/drupal.ajax
     - core/drupalSettings
     - core/once
-
 
 vvjt-horizontal:
   css:
