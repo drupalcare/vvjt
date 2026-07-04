@@ -30,6 +30,20 @@ Behavior runs in a `<vvjt-tabs>` custom element extending `VvjElementBase`.
   field-group tabs working
 - **Drupal admin help** — `/admin/help/vvjt`
 
+## Token Support in Views Text Areas
+
+In Views headers, footers, or empty text with *Use replacement tokens from the
+first row*, default Twig tokens (`{{ title }}`) do not work. Use VVJT tokens
+instead:
+
+- `{{ title }}` → `[vvjt:title]`
+- `{{ field_image }}` → `[vvjt:field_image]`
+- Append `:plain` for plain text: `[vvjt:title:plain]`
+
+v2 resolves tokens through the shared `vvj_core.token_resolver` service; syntax
+is unchanged from v1. Tokens read from the **first row** of rendered View
+fields. Complex field rewrites are not supported.
+
 ## Installation
 
 ```bash
@@ -49,6 +63,19 @@ drush en vvjt
 
 **Sample view:** Optional config `views.view.vvjt_example` (`config/optional/`)
 installs when there is no ID conflict.
+
+## Public API
+
+External code can drive tab groups via `Drupal.vvjt.*`. Pass the deep link
+identifier, a CSS selector, or an element reference:
+
+```js
+Drupal.vvjt.goToTab('features', 3);
+Drupal.vvjt.getCurrentTab('features');
+Drupal.vvjt.getTotalTabs('features');
+Drupal.vvjt.getInstance('#vvjt-12345');        // → <vvjt-tabs> element
+Drupal.vvjt.getAllInstances();
+```
 
 ## Drop-in upgrade from 1.x
 
