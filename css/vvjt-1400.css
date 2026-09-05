@@ -22,8 +22,8 @@
 
   .vvjt.br-1400.vertical .vvjt-inner .tab-buttons {
     display: flex;
-    flex-direction: column;
     flex: 0 0 auto;
+    flex-direction: column;
   }
 
   .vvjt.br-1400.vertical .vvjt-inner .tab-buttons:not(.vvjt.max-w .tab-buttons) {
@@ -31,22 +31,21 @@
   }
 
   .vvjt.br-1400.vertical.max-h .tab-buttons {
-    overflow-y: auto;
     overflow-x: hidden;
+    overflow-y: auto;
   }
 
   .vvjt.br-1400.vertical.max-h .tab-buttons > * {
     flex: 0 0 auto;
   }
-
 }
 
 @media (max-width: 87.49875rem) {
   /* Images in Vertical-to-Horizontal Transformation */
   .vvjt.br-1400.vertical .vvjt-inner .vvjt-button img {
-    height: auto;
     width: auto;
     max-width: none;
+    height: auto;
   }
 
   /* Vertical Tabs Become Horizontal Scrolling */
@@ -70,22 +69,22 @@
   }
 
   .vvjt.br-1400.vertical.wrap-tabs .tab-buttons .vvjt-button {
-    white-space: normal;
     overflow-x: visible;
+    white-space: normal;
   }
 
   /* Reset Max-Height on Mobile */
   .vvjt.br-1400.vertical.max-h .tab-buttons {
-    flex-direction: initial;
     overflow-y: initial;
-    max-height: initial !important;
+    flex-direction: initial;
     height: auto !important;
+    max-height: initial !important;
   }
 
   /* Reset Max-Width on Mobile */
   .vvjt.br-1400.vertical.max-w .tab-buttons {
-    max-width: initial !important;
     width: initial !important;
+    max-width: initial !important;
   }
 
   .vvjt.br-1400.vertical.max-h .tab-buttons > * {
@@ -98,8 +97,7 @@
   }
 
   .vvjt.horizontal .vvjt-button {
-    font-size: 0.875rem;
     padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
   }
-
 }

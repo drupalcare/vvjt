@@ -44,14 +44,14 @@
 
 .vvjt.horizontal .tab-buttons {
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  gap: 0.5rem;
-  width: 100%;
 
   /* Scrolling Behavior */
   overflow-x: auto;
   overflow-y: hidden;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 100%;
+  gap: 0.5rem;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
 
@@ -69,12 +69,12 @@
 }
 
 .vvjt.horizontal .tab-buttons::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
   border-radius: 3px;
+  background: rgb(0, 0, 0, 0.2);
 }
 
 .vvjt.horizontal .tab-buttons::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgb(0, 0, 0, 0.4);
 }
 
 /* ============================================
@@ -82,19 +82,19 @@
    ============================================ */
 
 .vvjt.horizontal .vvjt-button {
+  overflow: hidden;
+  flex-grow: 0;
   /* Prevent Shrinking */
   flex-shrink: 0;
-  flex-grow: 0;
-
-  /* Text Handling */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  width: auto;
 
   /* Sizing */
   min-width: max-content;
   max-width: initial;
-  width: auto;
+
+  /* Text Handling */
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 /* ============================================
@@ -102,9 +102,9 @@
    ============================================ */
 
 .vvjt.horizontal.wrap-tabs .tab-buttons {
-  flex-wrap: wrap;
   overflow-x: visible;
   overflow-y: visible;
+  flex-wrap: wrap;
 }
 
 .vvjt.horizontal.wrap-tabs .vvjt-button {
@@ -117,11 +117,11 @@
    ============================================ */
 
 .vvjt.horizontal.max-w .vvjt-inner .tab-buttons .vvjt-button {
-  max-width: calc(var(--horizontal-width) * 1px);
-  width: 100%;
   overflow: hidden;
-  text-overflow: ellipsis;
+  width: 100%;
+  max-width: calc(var(--horizontal-width) * 1px);
   white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 /* ============================================
@@ -130,7 +130,7 @@
 
 @media print {
   .vvjt.horizontal .tab-buttons {
-    flex-wrap: wrap;
     overflow: visible;
+    flex-wrap: wrap;
   }
 }

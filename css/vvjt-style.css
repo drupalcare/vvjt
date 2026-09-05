@@ -7,37 +7,39 @@
  * Developer:    Alaa Haddad https://www.alaahaddad.com.
  */
 .vvjt .tab-buttons .vvjt-button {
-  padding: 12px;
   display: inline-block;
+  margin: 0;
+  padding: 12px;
+  cursor: pointer;
+  transition:
+    padding 0.3s ease,
+    background-color 0.3s ease;
+  text-overflow: ellipsis;
+  border: none;
+  background-color: transparent;
   font-weight: normal;
   line-height: normal;
-  border: none;
-  margin: 0;
-  text-overflow: ellipsis;
-  cursor: pointer;
-  background-color: transparent;
-  transition: padding 0.3s ease, background-color 0.3s ease;
 }
 
 .vvjt .vvjt-inner .tab-buttons .vvjt-button:hover,
 .vvjt .vvjt-inner .tab-buttons .vvjt-button:focus {
-  border: none;
-  font-weight: normal;
-  outline: none;
   opacity: 0.8;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border: none;
+  outline: none;
+  box-shadow: 0 2px 6px rgb(0, 0, 0, 0.1);
+  font-weight: normal;
 }
 
 /* Active Indicator Bar */
 .vvjt .vvjt-inner .tab-buttons .vvjt-button.active::after {
-  content: '';
   position: absolute;
   bottom: 0;
+  height: 2px;
+  content: "";
+  opacity: 0.6;
+  background: currentColor;
   inset-inline-start: 0;
   inset-inline-end: 0;
-  height: 2px;
-  background: currentcolor;
-  opacity: 0.6;
 }
 
 /* Vertical Tabs - Side Indicator */

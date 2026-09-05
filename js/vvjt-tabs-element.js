@@ -17,22 +17,20 @@
 // phpcs:disable Generic.PHP.UpperCaseConstant
 // phpcs:disable Squiz.WhiteSpace.OperatorSpacing
 
-/* global drupalSettings */
-
 ((Drupal) => {
-  'use strict';
-
-  const { ElementBase, handleArrowKeyNav, wireDeeplink, writeDeeplinkHash } = Drupal.Vvj;
+  const { ElementBase, handleArrowKeyNav, wireDeeplink, writeDeeplinkHash } =
+    Drupal.Vvj;
 
   class VvjtTabsElement extends ElementBase {
-
     static get patternSlug() {
- return 'vvjt'; }
+      return 'vvjt';
+    }
 
     onHydrate() {
       /** @type {HTMLElement | null} */
       this._inner = this.querySelector(':scope > .vvjt-inner');
-      if (!this._inner) { return;
+      if (!this._inner) {
+        return;
       }
 
       /** @type {NodeListOf<HTMLElement>} */
@@ -81,11 +79,18 @@
       this._buttons.forEach((button) => {
         const links = button.querySelectorAll('a:not(.vvjt-button)');
         links.forEach((link) => {
-          link.setAttribute('data-original-href', link.getAttribute('href') ?? '');
+          link.setAttribute(
+            'data-original-href',
+            link.getAttribute('href') ?? '',
+          );
           link.removeAttribute('href');
-          link.addEventListener('click', (event) => {
-            event.preventDefault();
-          }, { signal: this.signal });
+          link.addEventListener(
+            'click',
+            (event) => {
+              event.preventDefault();
+            },
+            { signal: this.signal },
+          );
         });
       });
     }
@@ -100,47 +105,68 @@
 
     _wireKeyboard() {
       this._buttons.forEach((button, index) => {
-        button.addEventListener('keydown', (event) => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            button.click();
-            return;
-          }
-          // Only arrow/Home/End navigate; any other key (Tab, letters, …)
-          // must be a no-op as in v1. Without this guard the block below
-          // re-activates the current tab on every keystroke (focus never
-          // moved, so activeElement is still the current button).
-          if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) {
-            return;
-          }
-          // Tabs are horizontally-navigable per ARIA APG (Left/Right
-          // arrows even when displayed vertically — this matches v1).
-          handleArrowKeyNav(event, this._buttons, index, { horizontal: true });
-          // After arrow nav, also activate the new button (showTab on
-          // focus), per ARIA APG "automatic activation" pattern.
-          const focused = document.activeElement;
-          if (focused instanceof HTMLElement && Array.from(this._buttons).includes(focused)) {
-            focused.click();
-          }
-        }, { signal: this.signal });
+        button.addEventListener(
+          'keydown',
+          (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              button.click();
+              return;
+            }
+            // Only arrow/Home/End navigate; any other key (Tab, letters, …)
+            // must be a no-op as in v1. Without this guard the block below
+            // re-activates the current tab on every keystroke (focus never
+            // moved, so activeElement is still the current button).
+            if (
+              !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)
+            ) {
+              return;
+            }
+            // Tabs are horizontally-navigable per ARIA APG (Left/Right
+            // arrows even when displayed vertically — this matches v1).
+            handleArrowKeyNav(event, this._buttons, index, {
+              horizontal: true,
+            });
+            // After arrow nav, also activate the new button (showTab on
+            // focus), per ARIA APG "automatic activation" pattern.
+            const focused = document.activeElement;
+            if (
+              focused instanceof HTMLElement &&
+              Array.from(this._buttons).includes(focused)
+            ) {
+              focused.click();
+            }
+          },
+          { signal: this.signal },
+        );
       });
     }
 
     _onClick = (event) => {
       /** @type {HTMLElement | null} */
-      const button = /** @type {HTMLElement} */ (event.target).closest('.vvjt-button');
-      if (!button || !this._inner) { return;
+      const button = /** @type {HTMLElement} */ (event.target).closest(
+        '.vvjt-button',
+      );
+      if (!button || !this._inner) {
+        return;
       }
 
       // Anchor (deeplink) buttons let the hashchange listener handle
       // activation; click is informational. Otherwise prevent default.
       const deeplinkEnabled = this._inner.dataset.deeplinkEnabled === 'true';
-      if (!(deeplinkEnabled && button.tagName === 'A' && /** @type {HTMLAnchorElement} */ (button).href)) {
+      if (
+        !(
+          deeplinkEnabled &&
+          button.tagName === 'A' &&
+          /** @type {HTMLAnchorElement} */ (button).href
+        )
+      ) {
         event.preventDefault();
       }
 
       const pane = this._paneForButton(button);
-      if (!pane) { return;
+      if (!pane) {
+        return;
       }
       this.withTransition(() => this._showTab(button, pane, true));
 
@@ -188,13 +214,15 @@
      * `vvjt-button-{uid}-{n}` ↔ `vvjt-pane-{uid}-{n}`.
      *
      * @param {HTMLElement} button
-     * @returns {HTMLElement | null}
+     * @return {HTMLElement | null}
      */
     _paneForButton(button) {
-      if (!this._inner) { return null;
+      if (!this._inner) {
+        return null;
       }
       const idParts = button.id.split('-');
-      if (idParts.length < 4) { return null;
+      if (idParts.length < 4) {
+        return null;
       }
       // Drop 'vvjt-button-' prefix; rest is `{uid}-{n}`.
       const rawId = idParts.slice(2).join('-');
@@ -206,11 +234,13 @@
     // -----------------------------------------------------------------
 
     _wireDeeplink() {
-      if (!this._inner) { return;
+      if (!this._inner) {
+        return;
       }
       const enabled = this._inner.dataset.deeplinkEnabled === 'true';
       const id = this._inner.dataset.deeplinkId;
-      if (!enabled || !id) { return;
+      if (!enabled || !id) {
+        return;
       }
       wireDeeplink(this, 'tabs', id, this.signal, (panelIndex) => {
         const button = this._buttons[panelIndex - 1];
@@ -229,24 +259,27 @@
      * Activate a tab by its 1-based index.
      *
      * @param {number} tabIndex
-     * @returns {boolean} True if the tab was activated.
+     * @return {boolean} True if the tab was activated.
      */
     goToTab(tabIndex) {
       const button = this._buttons[tabIndex - 1];
       const pane = button ? this._paneForButton(button) : null;
-      if (!button || !pane) { return false;
+      if (!button || !pane) {
+        return false;
       }
       this.withTransition(() => this._showTab(button, pane, false));
-      if (this._inner
-        && this._inner.dataset.deeplinkEnabled === 'true'
-        && this._inner.dataset.deeplinkId) {
+      if (
+        this._inner &&
+        this._inner.dataset.deeplinkEnabled === 'true' &&
+        this._inner.dataset.deeplinkId
+      ) {
         writeDeeplinkHash('tabs', this._inner.dataset.deeplinkId, tabIndex);
       }
       return true;
     }
 
     /**
-     * @returns {number|null} 1-based index of the active tab, or null.
+     * @return {number|null} 1-based index of the active tab, or null.
      */
     getCurrentTab() {
       for (let i = 0; i < this._buttons.length; i += 1) {
@@ -258,16 +291,14 @@
     }
 
     /**
-     * @returns {number} Total number of tabs.
+     * @return {number} Total number of tabs.
      */
     getTotalTabs() {
       return this._buttons.length;
     }
-
   }
 
   if (!customElements.get('vvjt-tabs')) {
     customElements.define('vvjt-tabs', VvjtTabsElement);
   }
-
 })(Drupal);

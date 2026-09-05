@@ -17,14 +17,14 @@
 
 .vvj-tabs .visually-hidden {
   position: absolute;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
   width: 1px;
   height: 1px;
   margin: -1px;
   padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
   white-space: nowrap;
+  border: 0;
 }
 
 /* ============================================
@@ -38,9 +38,9 @@
 
 .vvj-tabs,
 .vvj-tabs .view-content {
+  display: block !important;
   width: 100%;
   min-width: 100%;
-  display: block !important;
 }
 
 /* ============================================
@@ -48,14 +48,14 @@
    ============================================ */
 
 .vvjt {
-  box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr;
+  box-sizing: border-box;
 }
 
 .vvjt .vvjt-inner {
-  width: 100%;
   overflow-x: hidden;
+  width: 100%;
 }
 
 /* ============================================
@@ -64,16 +64,16 @@
 
 .vvjt .vvjt-inner .tab-panes {
   display: grid;
+  overflow: hidden;
   grid-template-columns: 1fr;
   width: 100%;
-  overflow: hidden;
-  background-color: var(--bg-panes);
   transition: width 0.3s ease;
+  background-color: var(--bg-panes);
 }
 
 .vvjt .vvjt-inner .tab-panes > * {
-  width: 100%;
   box-sizing: border-box;
+  width: 100%;
 }
 
 .vvjt .tab-panes .vvjt-pane {
@@ -95,34 +95,36 @@
 }
 
 .vvjt .tab-buttons .vvjt-button {
-  padding: 12px;
+  position: relative;
   display: inline-block;
+  height: auto;
+  margin: 0;
+  padding: 12px;
+  cursor: pointer;
+  transition:
+    padding 0.3s ease,
+    background-color 0.3s ease;
+  text-align: start;
+  white-space: normal;
+  text-overflow: ellipsis;
+  border: none;
+  background-color: transparent;
   font-weight: normal;
   line-height: normal;
-  border: none;
-  margin: 0;
-  text-overflow: ellipsis;
-  cursor: pointer;
-  background-color: transparent;
-  white-space: normal;
-  height: auto;
-  text-align: start;
-  position: relative;
-  transition: padding 0.3s ease, background-color 0.3s ease;
 }
 
 .vvjt .vvjt-inner .tab-buttons .vvjt-button:hover,
 .vvjt .vvjt-inner .tab-buttons .vvjt-button:focus {
-  border: none;
-  font-weight: normal;
-  outline: none;
   opacity: 0.8;
+  border: none;
+  outline: none;
+  font-weight: normal;
 }
 
 .vvjt .vvjt-inner .tab-buttons .vvjt-button:focus-visible {
-  outline: 2px solid currentcolor;
-  outline-offset: 2px;
   z-index: 1;
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 
 /* ============================================

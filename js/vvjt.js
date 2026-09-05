@@ -10,8 +10,6 @@
 // phpcs:disable Squiz.WhiteSpace.OperatorSpacing
 
 ((Drupal, once) => {
-  'use strict';
-
   Drupal.behaviors.VVJTabs = {
     attach(context) {
       once('vvjt-tabs-marker', 'vvjt-tabs', context);
@@ -25,27 +23,33 @@
    *
    * @param {string|Element} identifier
    *   A deeplink-id (e.g. `'features'`), a CSS selector, or an element.
-   * @returns {Element|null}
+   * @return {Element|null}
    *   The matched `<vvjt-tabs>` element, or null.
    */
   function getElement(identifier) {
     if (identifier instanceof Element) {
       return identifier.closest('vvjt-tabs');
     }
-    if (typeof identifier !== 'string') { return null;
+    if (typeof identifier !== 'string') {
+      return null;
     }
-    let el = document.querySelector(`vvjt-tabs .vvjt-inner[data-deeplink-id="${identifier}"]`);
-    if (el) { return el.closest('vvjt-tabs');
+    let el = document.querySelector(
+      `vvjt-tabs .vvjt-inner[data-deeplink-id="${identifier}"]`,
+    );
+    if (el) {
+      return el.closest('vvjt-tabs');
     }
     el = document.querySelector(identifier);
-    if (el) { return el.closest('vvjt-tabs') || el;
+    if (el) {
+      return el.closest('vvjt-tabs') || el;
     }
     return null;
   }
 
   Drupal.vvjt = Drupal.vvjt || {};
 
-  Drupal.vvjt.getInstance = (containerOrSelector) => getElement(containerOrSelector);
+  Drupal.vvjt.getInstance = (containerOrSelector) =>
+    getElement(containerOrSelector);
 
   Drupal.vvjt.getAllInstances = () =>
     Array.from(document.querySelectorAll('vvjt-tabs'));
@@ -61,14 +65,16 @@
 
   Drupal.vvjt.getCurrentTab = (identifier) => {
     const el = getElement(identifier);
-    if (!el || typeof el.getCurrentTab !== 'function') { return null;
+    if (!el || typeof el.getCurrentTab !== 'function') {
+      return null;
     }
     return el.getCurrentTab();
   };
 
   Drupal.vvjt.getTotalTabs = (identifier) => {
     const el = getElement(identifier);
-    if (!el || typeof el.getTotalTabs !== 'function') { return null;
+    if (!el || typeof el.getTotalTabs !== 'function') {
+      return null;
     }
     return el.getTotalTabs();
   };

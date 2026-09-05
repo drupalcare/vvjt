@@ -34,8 +34,8 @@
    ============================================ */
 
 .vvjt.vertical.max-w .vvjt-inner .tab-buttons {
-  max-width: calc(var(--vertical-width, 300) * 1px);
   width: 100%;
+  max-width: calc(var(--vertical-width, 300) * 1px);
 }
 
 /* ============================================
