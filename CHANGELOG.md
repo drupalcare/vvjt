@@ -27,6 +27,8 @@ key from 1.x.
 
 ### Fixed
 
+- Update 10002 converts v1 views to the v2 option shape (value types:
+  strings and integers stored where v2 declares integer, boolean and float).
 - Non-navigation keys (Tab, Shift+Tab, letters) on a focused tab button are no-
   ops again (v1 behavior). A missing guard in the custom element re-activated
   the current tab on every keystroke — causing a transition flash, focus
