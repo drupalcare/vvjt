@@ -1,7 +1,7 @@
 # Views Vanilla JavaScript Tabs (VVJT)
 
 A vanilla-JavaScript tab group **Views format** for Drupal 11.3+ / 12. Renders
-Views rows as a tabbed interface — top, bottom, left, or right placement — with
+Views rows as a tabbed interface: top, bottom, left, or right placement, with
 W3C ARIA APG keyboard navigation, animation presets, configurable backgrounds,
 deep-linking, and responsive vertical-to-horizontal collapse.
 
@@ -19,16 +19,16 @@ Behavior runs in a `<vvjt-tabs>` custom element extending `VvjElementBase`.
 - Optional CSS library
 - W3C ARIA APG tab pattern: ArrowLeft/ArrowRight, Home, End, Enter/Space —
   automatic activation on arrow key
-- Deep linking — shareable URL fragments per tab (`#tabs-products-3`)
+- Deep linking: shareable URL fragments per tab (`#tabs-products-3`)
 - `[vvjt:field]` and `[vvjt:field:plain]` Views tokens for the **first row** in
   header/footer/empty text when *Use replacement tokens from the first row* is
   enabled
 - Lazy IntersectionObserver hydration
 - AbortController-tracked listeners
 - View Transitions wrapping tab swaps (graceful fallback)
-- Re-attaches Drupal.behaviors on newly-visible pane — keeps nested views /
+- Re-attaches Drupal.behaviors on newly-visible pane. Keeps nested views /
   field-group tabs working
-- **Drupal admin help** — `/admin/help/vvjt`
+- **Drupal admin help**: `/admin/help/vvjt`
 
 ## Token Support in Views Text Areas
 
@@ -110,10 +110,10 @@ export SIMPLETEST_DB="mysql://user:pass@localhost/dbname"
 ../vendor/bin/phpunit -c core modules/contrib/vvjt/tests/src/Kernel
 ```
 
-The **Functional** and **FunctionalJavascript** suites additionally need
+The **Functional** and **FunctionalJavascript** suites also need
 `SIMPLETEST_BASE_URL` pointing at a running web server, and the JavaScript ones
 need chromedriver. Without those they error rather than fail, and the errors
-name missing infrastructure rather than anything about this module — so don't
+name missing infrastructure rather than anything about this module, so don't
 read them as test failures. The drupal.org pipeline provides both.
 
 ## License
