@@ -5,7 +5,7 @@
 /* Structure first, so every rule below (breakpoints included) can change it:
    vvjt's own CSS makes the inner a grid and pads the panes. */
 .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-inner { display: flex; flex-direction: column; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-contents .tab-panes { padding: 0; }
+.vvj-pattern--vvjt-contents .tab-panes { padding: 0; }
 /* Pattern Contents: numbered contents list + chapter. */
 .vvj-pattern.vvjt.vvj-pattern--vvjt-contents { max-width: 1320px; margin: 0 auto; padding: clamp(32px, 6vw, 80px) clamp(16px, 4vw, 48px); counter-reset: vvjt-ch; }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-inner { gap: 28px; }
@@ -32,14 +32,14 @@
 .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-pane-inner { display: grid; gap: 24px; }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvj-media { overflow: hidden; border-radius: var(--vvj-radius); aspect-ratio: 16 / 10; }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvj-media img { width: 100%; height: 100%; object-fit: cover; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-pane[aria-hidden="false"] .vvj-media { animation: vvjt-contents-wipe .9s var(--vvj-ease-io) both; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-pane[aria-hidden="false"] .vvj-media img { animation: vvjt-contents-drift 1.4s var(--vvj-ease-out) both; }
+.vvj-pattern--vvjt-contents :where(.vvjt-pane[aria-hidden="false"]) .vvj-media { animation: vvjt-contents-wipe .9s var(--vvj-ease-io) both; }
+.vvj-pattern--vvjt-contents :where(.vvjt-pane[aria-hidden="false"]) :where(.vvj-media) img { animation: vvjt-contents-drift 1.4s var(--vvj-ease-out) both; }
 @keyframes vvjt-contents-wipe { from { clip-path: inset(0 100% 0 0 round var(--vvj-radius)); } to { clip-path: inset(0 0 0 0 round var(--vvj-radius)); } }
 @keyframes vvjt-contents-drift { from { transform: scale(1.06) translateX(-2%); } }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvj-kicker { margin: 0 0 8px; color: var(--vvj-ink); font-weight: 700; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvj-title { margin: 0 0 12px; font-family: var(--vvj-font-display); font-weight: 500; font-size: clamp(28px, 3.4vw, 46px); line-height: 1.08; text-wrap: balance; }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvj-summary { margin: 0 0 12px; color: var(--vvj-muted); font-size: 17px; line-height: 1.6; max-width: 60ch; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvj-link { color: var(--vvj-ink); text-decoration: underline; text-decoration-color: var(--vvj-ink); text-underline-offset: 6px; text-decoration-thickness: 2px; }
+.vvj-pattern--vvjt-contents .vvj-link { color: var(--vvj-ink); text-decoration: underline; text-decoration-color: var(--vvj-ink); text-underline-offset: 6px; text-decoration-thickness: 2px; }
 
 /* At 992 px and up: the contents column (br-992). */
 @media (min-width: 992px) {
@@ -66,13 +66,13 @@
     font-family: var(--vvj-font-ui); font-size: 14px; font-weight: 700; color: transparent;
     -webkit-text-stroke: 1px var(--vvj-muted); font-size: 22px;
   }
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-button .vvj-nav-label { transition: transform .5s var(--vvj-ease-out); }
+  .vvj-pattern--vvjt-contents :where(.vvjt-button) .vvj-nav-label { transition: transform .5s var(--vvj-ease-out); }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-button:hover { color: var(--vvj-ink); }
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-button:hover .vvj-nav-label { transform: translateX(6px); }
+  .vvj-pattern--vvjt-contents :where(.vvjt-button:hover) .vvj-nav-label { transform: translateX(6px); }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-button.active { background: none; color: var(--vvj-ink); }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-button.active::before { color: var(--vvj-ink); -webkit-text-stroke: 0; }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .tab-panes { flex: 1; min-width: 0; }
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-pane-inner { grid-template-columns: 1fr; }
+  .vvj-pattern--vvjt-contents .vvjt-pane-inner { grid-template-columns: 1fr; }
 }
 @media (min-width: 1200px) {
   .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-pane-inner { grid-template-columns: 1.15fr 1fr; align-items: end; gap: 40px; }
@@ -82,7 +82,7 @@
    is written .vvj-pattern.vvjt.vvj-pattern--vvjt-<p> so these rules outrank
    vvjt's own structural CSS (three classes) and a theme's h1-h6 and a rules,
    without !important. */
-.vvj-pattern.vvjt.vvj-pattern--vvjt-contents { background: var(--vvj-surface); color: var(--vvj-ink); }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvj-title { color: var(--vvj-ink); }
+.vvj-pattern--vvjt-contents { background: var(--vvj-surface); color: var(--vvj-ink); }
+.vvj-pattern--vvjt-contents .vvj-title { color: var(--vvj-ink); }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvj-link a { color: var(--vvj-ink); text-decoration: underline; text-decoration-color: var(--vvj-ink); text-underline-offset: 6px; text-decoration-thickness: 2px; }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvj-link a:hover { text-decoration-thickness: 3px; }

@@ -32,12 +32,12 @@
    ============================================ */
 
 .vvj-tabs,
-.vvj-tabs * {
+:where(.vvj-tabs) * {
   box-sizing: border-box;
 }
 
 .vvj-tabs,
-.vvj-tabs .view-content {
+:where(.vvj-tabs) .view-content {
   display: block !important;
   width: 100%;
   min-width: 100%;
@@ -53,7 +53,7 @@
   box-sizing: border-box;
 }
 
-.vvjt .vvjt-inner {
+:where(.vvjt) .vvjt-inner {
   overflow-x: hidden;
   width: 100%;
 }
@@ -71,7 +71,7 @@
   background-color: var(--bg-panes);
 }
 
-.vvjt .vvjt-inner .tab-panes > * {
+.vvjt :where(.vvjt-inner) :where(.tab-panes) > * {
   box-sizing: border-box;
   width: 100%;
 }
@@ -89,7 +89,7 @@
    TAB BUTTONS STRUCTURE
    ============================================ */
 
-.vvjt .vvjt-inner .tab-buttons {
+.vvjt :where(.vvjt-inner) .tab-buttons {
   transition: width 0.3s ease;
   background-color: var(--bg-buttons);
 }
@@ -139,7 +139,7 @@
    VERTICAL TABS - Spacing
    ============================================ */
 
-.vvjt.vertical .vvjt-inner {
+:where(.vvjt.vertical) .vvjt-inner {
   gap: 12px;
 }
 
@@ -167,7 +167,7 @@
   transition: transform 0.3s ease;
 }
 
-.vvjt .tab-buttons .vvjt-button:hover img {
+.vvjt :where(.tab-buttons) :where(.vvjt-button:hover) img {
   transform: scale(1.1);
 }
 
@@ -176,7 +176,7 @@
    ============================================ */
 
 /* Continuous Fading (Slideshow Mode) */
-.vvjt.vvjt__animate-fading .vvjt-pane {
+:where(.vvjt.vvjt__animate-fading) .vvjt-pane {
   animation: fading 5s ease-in-out infinite;
 }
 
@@ -195,7 +195,7 @@
 }
 
 /* Opacity Fade In */
-.vvjt.a-opacity .vvjt-pane {
+:where(.vvjt.a-opacity) .vvjt-pane {
   animation: opac 0.8s ease-out;
 }
 
@@ -210,7 +210,7 @@
 }
 
 /* Slide From Top */
-.vvjt.a-top .vvjt-pane {
+:where(.vvjt.a-top) .vvjt-pane {
   position: relative;
   animation: animatetop 0.6s ease-out;
 }
@@ -228,7 +228,7 @@
 }
 
 /* Slide From Left */
-.vvjt.a-left .vvjt-pane {
+:where(.vvjt.a-left) .vvjt-pane {
   position: relative;
   animation: animateleft 0.6s ease-out;
 }
@@ -246,7 +246,7 @@
 }
 
 /* Slide From Right */
-.vvjt.a-right .vvjt-pane {
+:where(.vvjt.a-right) .vvjt-pane {
   position: relative;
   animation: animateright 0.6s ease-out;
 }
@@ -264,7 +264,7 @@
 }
 
 /* Slide From Bottom */
-.vvjt.a-bottom .vvjt-pane {
+:where(.vvjt.a-bottom) .vvjt-pane {
   position: relative;
   animation: animatebottom 0.6s ease-out;
 }
@@ -282,7 +282,7 @@
 }
 
 /* Zoom/Scale In */
-.vvjt.a-zoom .vvjt-pane {
+:where(.vvjt.a-zoom) .vvjt-pane {
   animation: animatezoom 0.6s ease-out;
 }
 

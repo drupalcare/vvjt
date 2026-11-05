@@ -5,15 +5,15 @@
 /* Structure first, so every rule below (breakpoints included) can change it:
    vvjt's own CSS makes the inner a grid and pads the panes. */
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-inner { display: flex; flex-direction: column; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .tab-panes { padding: 0; }
+.vvj-pattern--vvjt-glossary .tab-panes { padding: 0; }
 /* Pattern Glossary: scrolling term strip with counter and scroll buttons, cinema pane. */
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary { max-width: 1440px; margin: 0 auto; padding: clamp(24px, 4vw, 56px) clamp(12px, 3vw, 40px); }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-inner { gap: 18px; }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .tab-nav { display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 8px; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-scroll-prev { grid-column: 1; grid-row: 1; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .tab-buttons { grid-column: 2; grid-row: 1; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-scroll-next { grid-column: 3; grid-row: 1; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-count { grid-column: 4; grid-row: 1; }
+.vvj-pattern--vvjt-glossary .vvjt-scroll-prev { grid-column: 1; grid-row: 1; }
+.vvj-pattern--vvjt-glossary .tab-buttons { grid-column: 2; grid-row: 1; }
+.vvj-pattern--vvjt-glossary .vvjt-scroll-next { grid-column: 3; grid-row: 1; }
+.vvj-pattern--vvjt-glossary .vvjt-count { grid-column: 4; grid-row: 1; }
 
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .tab-buttons {
   gap: 4px; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x proximity; scrollbar-width: none; min-width: 0;
@@ -44,19 +44,19 @@
 }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-scroll:hover { background: var(--vvj-ink); color: var(--vvj-surface); }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-scroll:active { transform: scale(.92); }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-scroll[aria-disabled="true"] { opacity: .4; pointer-events: none; }
+:where(.vvj-pattern--vvjt-glossary) .vvjt-scroll[aria-disabled="true"] { opacity: .4; pointer-events: none; }
 /* Without JS (or with nothing to scroll) the buttons would do nothing: hide them. */
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary:not(.vvj-strip--ready) .vvjt-scroll,
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary.vvj-strip--static .vvjt-scroll { display: none; }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-count { margin: 0 0 0 8px; font-variant-numeric: tabular-nums; font-size: 15px; color: var(--vvj-muted); white-space: nowrap; }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-count-now { color: var(--vvj-ink); font-weight: 700; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-count-sep { margin: 0 4px; }
+.vvj-pattern--vvjt-glossary .vvjt-count-sep { margin: 0 4px; }
 
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-pane-inner { display: grid; overflow: hidden; border-radius: var(--vvj-radius); background: var(--vvj-stage-bg); color: var(--vvj-stage-color); }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvj-media { overflow: hidden; aspect-ratio: 21 / 9; }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvj-media img { width: 100%; height: 112%; object-fit: cover; }
 @supports (animation-timeline: view()) {
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvj-media img { animation: vvjt-glossary-drift linear both; animation-timeline: view(); }
+  .vvj-pattern--vvjt-glossary :where(.vvj-media) img { animation: vvjt-glossary-drift linear both; animation-timeline: view(); }
   @keyframes vvjt-glossary-drift { from { transform: translateY(-10%); } to { transform: translateY(0); } }
 }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvj-text { display: grid; grid-template-columns: auto 1fr; gap: 4px 28px; align-items: baseline; padding: 22px clamp(18px, 3vw, 36px) 26px; }
@@ -66,10 +66,10 @@
 
 @media (max-width: 600px) {
   .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .tab-nav { grid-template-columns: 1fr auto auto auto; }
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .tab-buttons { grid-column: 1 / -1; grid-row: 2; }
+  .vvj-pattern--vvjt-glossary .tab-buttons { grid-column: 1 / -1; grid-row: 2; }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-count { grid-column: 1; margin: 0; }
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-scroll-prev { grid-column: 3; }
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-scroll-next { grid-column: 4; }
+  .vvj-pattern--vvjt-glossary .vvjt-scroll-prev { grid-column: 3; }
+  .vvj-pattern--vvjt-glossary .vvjt-scroll-next { grid-column: 4; }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvj-media { aspect-ratio: 16 / 10; }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvj-text { grid-template-columns: 1fr; }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvj-summary { grid-column: 1; grid-row: auto; margin-top: 8px; }
@@ -79,8 +79,8 @@
    is written .vvj-pattern.vvjt.vvj-pattern--vvjt-<p> so these rules outrank
    vvjt's own structural CSS (three classes) and a theme's h1-h6 and a rules,
    without !important. */
-.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary { background: var(--vvj-surface); color: var(--vvj-ink); }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvj-title { color: var(--vvj-stage-color); }
+.vvj-pattern--vvjt-glossary { background: var(--vvj-surface); color: var(--vvj-ink); }
+.vvj-pattern--vvjt-glossary .vvj-title { color: var(--vvj-stage-color); }
 /* Title and summary share the band; the summary column can never collapse
    to one word per line however long the title is. */
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvj-text { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }

@@ -35,7 +35,7 @@
     overflow-y: auto;
   }
 
-  .vvjt.br-1200.vertical.max-h .tab-buttons > * {
+  :where(.vvjt.br-1200.vertical.max-h) :where(.tab-buttons) > * {
     flex: 0 0 auto;
   }
 }
@@ -82,12 +82,12 @@
   }
 
   /* Reset Max-Width on Mobile */
-  .vvjt.br-1400.vertical.max-w .tab-buttons {
+  :where(.vvjt.br-1400.vertical.max-w) .tab-buttons {
     width: initial !important;
     max-width: initial !important;
   }
 
-  .vvjt.br-1400.vertical.max-h .tab-buttons > * {
+  :where(.vvjt.br-1400.vertical.max-h) :where(.tab-buttons) > * {
     flex: initial;
   }
 

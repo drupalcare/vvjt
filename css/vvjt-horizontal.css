@@ -20,7 +20,7 @@
   grid-template-columns: 1fr;
 }
 
-.vvjt.horizontal .vvjt-inner > * {
+.vvjt.horizontal :where(.vvjt-inner) > * {
   min-width: 0;
   min-height: 0;
 }
@@ -30,11 +30,11 @@
    ============================================ */
 
 /* Bottom Position - Tabs Below Content */
-.vvjt.horizontal.bottom .tab-buttons {
+:where(.vvjt.horizontal.bottom) .tab-buttons {
   order: 2;
 }
 
-.vvjt.horizontal.bottom .tab-panes {
+:where(.vvjt.horizontal.bottom) .tab-panes {
   order: 1;
 }
 

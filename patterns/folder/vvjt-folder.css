@@ -5,7 +5,7 @@
 /* Structure first, so every rule below (breakpoints included) can change it:
    vvjt's own CSS makes the inner a grid and pads the panes. */
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-inner { display: flex; flex-direction: column; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .tab-panes { padding: 0; }
+.vvj-pattern--vvjt-folder .tab-panes { padding: 0; }
 /* Pattern Folder: tabs joined to the card with inverted corners. */
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder { --vvj-card-bg: var(--vvj-raised); --vvj-folder-radius: 14px; max-width: 1200px; margin: 0 auto; padding: clamp(28px, 5vw, 72px) clamp(12px, 4vw, 48px); }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .tab-buttons { flex-wrap: wrap; gap: 0 2px; padding: 0 calc(var(--vvj-folder-radius) + 2px); }
@@ -24,21 +24,21 @@
 }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active::before { inset: auto auto 0 calc(var(--vvj-folder-radius) * -1); background: radial-gradient(circle at 0 0, transparent var(--vvj-folder-radius), var(--vvj-card-bg) calc(var(--vvj-folder-radius) + .5px)); }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active::after { inset: auto calc(var(--vvj-folder-radius) * -1) 0 auto; background: radial-gradient(circle at 100% 0, transparent var(--vvj-folder-radius), var(--vvj-card-bg) calc(var(--vvj-folder-radius) + .5px)); }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active .vvj-nav-label { box-shadow: inset 0 -2px 0 var(--vvj-ink); padding: 0 0 2px; }
+.vvj-pattern--vvjt-folder :where(.vvjt-button.active) .vvj-nav-label { box-shadow: inset 0 -2px 0 var(--vvj-ink); padding: 0 0 2px; }
 
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .tab-panes { background: var(--vvj-card-bg); border-radius: calc(var(--vvj-folder-radius) * 1.5); padding: clamp(16px, 3vw, 32px); }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-pane-inner { display: grid; gap: clamp(18px, 3vw, 40px); align-items: center; }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-media { overflow: hidden; border-radius: var(--vvj-folder-radius); aspect-ratio: 1; max-height: 460px; }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-media img { width: 100%; height: 100%; object-fit: cover; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-pane[aria-hidden="false"] .vvj-media img { animation: vvjt-folder-zoom 1.8s var(--vvj-ease-out) both; }
+.vvj-pattern--vvjt-folder :where(.vvjt-pane[aria-hidden="false"]) :where(.vvj-media) img { animation: vvjt-folder-zoom 1.8s var(--vvj-ease-out) both; }
 @keyframes vvjt-folder-zoom { from { transform: scale(1.18); } }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-kicker { margin: 0 0 6px; font-size: 13px; font-weight: 700; color: var(--vvj-muted); letter-spacing: .1em; text-transform: uppercase; }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-title { margin: 0 0 10px; font-family: var(--vvj-font-display); font-weight: 500; font-size: clamp(32px, 4.4vw, 60px); line-height: 1; }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-summary { margin: 0 0 12px; color: var(--vvj-muted); font-size: 17px; line-height: 1.6; max-width: 46ch; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-link { color: var(--vvj-ink); }
+.vvj-pattern--vvjt-folder .vvj-link { color: var(--vvj-ink); }
 
 @media (min-width: 720px) {
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-pane-inner { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+  .vvj-pattern--vvjt-folder .vvjt-pane-inner { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
 }
 @media (max-width: 480px) {
   .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .tab-buttons { padding: 0 4px; gap: 4px 2px; }
@@ -51,7 +51,7 @@
    is written .vvj-pattern.vvjt.vvj-pattern--vvjt-<p> so these rules outrank
    vvjt's own structural CSS (three classes) and a theme's h1-h6 and a rules,
    without !important. */
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder { background: var(--vvj-surface); color: var(--vvj-ink); }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-title { color: var(--vvj-ink); }
+.vvj-pattern--vvjt-folder { background: var(--vvj-surface); color: var(--vvj-ink); }
+.vvj-pattern--vvjt-folder .vvj-title { color: var(--vvj-ink); }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-link a { color: var(--vvj-ink); text-underline-offset: 4px; }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-link a:hover { text-decoration-thickness: 2px; }
