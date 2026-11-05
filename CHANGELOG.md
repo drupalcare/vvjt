@@ -11,6 +11,7 @@ key from 1.x.
 
 ### Added
 
+- Patterns: 5 ready-made designs (Dock, Contents, Swatch, Folder, Glossary) chosen in the format settings. They need the `vvj_patterns` sub-module of `drupal/vvj_core`.
 - `drupal/vvj_core` dependency.
 - `<vvjt-tabs>` custom element. Lazy IntersectionObserver hydration;
   AbortController-tracked listeners; ARIA APG tab pattern conformance;
