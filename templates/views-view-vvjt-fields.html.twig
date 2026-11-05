@@ -35,12 +35,17 @@
 {# Split the fields into first_field and remaining_fields #}
 {% set first_field = fields|first %}
 {% set remaining_fields = fields|slice(1) %}
+{# A Pattern wraps the pane: the first pane field is the picture, the rest the words. #}
+{% set vvj_pattern = view.style_plugin.options.vvj_pattern_active|default('') %}
 
 {# Render the first field content for the button #}
 {{ first_field.content }}
 <div class="vvjt-separator"></div>
+{% if vvj_pattern %}<div class="vvjt-pane-inner">{% endif %}
 {# Render the remaining fields content for the pane #}
 {% for field in remaining_fields %}
+  {%- if vvj_pattern and loop.first %}<div class="vvj-media">{% endif -%}
+  {%- if vvj_pattern and loop.index == 2 %}<div class="vvj-text vvj-stagger">{% endif -%}
   {{ field.separator }}
   {%- if field.wrapper_element -%}
     <{{ field.wrapper_element }}{{ field.wrapper_attributes }}>
@@ -60,4 +65,7 @@
   {%- if field.wrapper_element -%}
     </{{ field.wrapper_element }}>
   {%- endif %}
+  {%- if vvj_pattern and loop.first %}</div>{% endif -%}
+  {%- if vvj_pattern and loop.last and loop.index > 1 %}</div>{% endif -%}
 {% endfor %}
+{% if vvj_pattern %}</div>{% endif %}

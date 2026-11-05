@@ -68,3 +68,51 @@ vvjt__1400:
   css:
     theme:
       css/vvjt-1400.css: { }
+
+vvjt-pattern-base:
+  css:
+    theme:
+      patterns/vvjt-pattern-base.css: {}
+  dependencies:
+    - vvj_patterns/base
+
+pattern.dock:
+  css:
+    theme:
+      patterns/dock/vvjt-dock.css: {}
+  dependencies:
+    - vvjt/vvjt-pattern-base
+
+pattern.contents:
+  css:
+    theme:
+      patterns/contents/vvjt-contents.css: {}
+  dependencies:
+    - vvjt/vvjt-pattern-base
+
+pattern.swatch:
+  css:
+    theme:
+      patterns/swatch/vvjt-swatch.css: {}
+  dependencies:
+    - vvjt/vvjt-pattern-base
+
+pattern.folder:
+  css:
+    theme:
+      patterns/folder/vvjt-folder.css: {}
+  dependencies:
+    - vvjt/vvjt-pattern-base
+
+pattern.glossary:
+  css:
+    theme:
+      patterns/glossary/vvjt-glossary.css: {}
+  js:
+    patterns/glossary/vvjt-glossary.js: {}
+  dependencies:
+    - vvjt/vvjt-pattern-base
+    - core/drupal
+    - core/once
+    - vvj_patterns/state
+    - vvj_patterns/scroll-strip

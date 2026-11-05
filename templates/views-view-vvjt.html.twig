@@ -19,6 +19,9 @@
 {% set vvjt_id = 'vvjt-' ~ unique_id %}
 {% set tab_inner_id = 'vvjt-inner-' ~ unique_id %}
 {% set tab_layout = options.tabs_position in ['top', 'bottom'] ? 'horizontal' : 'vertical' %}
+{# A Pattern chosen in the style settings (vvj_patterns enabled). #}
+{% set vvj_pattern = options.vvj_pattern_active|default('') %}
+{% set vvj_features = options.vvj_pattern_features|default([]) %}
 
 {# Deep linking configuration #}
 {% set deeplink_config = {
@@ -36,6 +39,8 @@
   options.tabs_position in ['left', 'right'] ? 'br-' ~ options.available_breakpoints : '',
   options.animation != 'none' ? options.animation : '',
   options.wrap_tabs ? 'wrap-tabs' : '',
+  vvj_pattern ? 'vvj-pattern' : '',
+  vvj_pattern,
 ] %}
 
 {# Set CSS variables for specific elements #}
@@ -93,12 +98,12 @@
       {% if deeplink_config.enabled and deeplink_config.identifier %}
         {# Deep linking enabled - use anchor link #}
         {% set tab_link = '#tabs-' ~ deeplink_config.identifier ~ '-' ~ (key + 1) %}
-        <a id="vvjt-button-{{ unique_id }}-{{ key + 1 }}" href="{{ tab_link }}" class="button vvjt-button" aria-label="{{ button_content|striptags|trim|t }}" aria-selected="{{ key == 0 ? 'true' : 'false' }}" aria-controls="{{ pane_id }}" aria-expanded="{{ key == 0 ? 'true' : 'false' }}" role="tab" {% if key != 0 %}tabindex="-1"{% endif %}{% if horizontal_width %} style="--horizontal-width: {{ horizontal_width }};"{% endif %}>
+        <a id="vvjt-button-{{ unique_id }}-{{ key + 1 }}" href="{{ tab_link }}" class="button vvjt-button" aria-label="{{ button_content|striptags|trim|t }}" aria-selected="{{ key == 0 ? 'true' : 'false' }}" aria-controls="{{ pane_id }}" {% if not vvj_pattern %}aria-expanded="{{ key == 0 ? 'true' : 'false' }}" {% endif %}role="tab" {% if key != 0 %}tabindex="-1"{% endif %}{% if horizontal_width %} style="--horizontal-width: {{ horizontal_width }};"{% endif %}>
           {{ button_content|safe_html }}
         </a>
       {% else %}
         {# Default button #}
-        <button id="vvjt-button-{{ unique_id }}-{{ key + 1 }}" class="button vvjt-button" aria-label="{{ button_content|striptags|trim|t }}" aria-selected="{{ key == 0 ? 'true' : 'false' }}" aria-controls="{{ pane_id }}" aria-expanded="{{ key == 0 ? 'true' : 'false' }}" type="button" role="tab" {% if key != 0 %}tabindex="-1"{% endif %}{% if horizontal_width %} style="--horizontal-width: {{ horizontal_width }};"{% endif %}>
+        <button id="vvjt-button-{{ unique_id }}-{{ key + 1 }}" class="button vvjt-button" aria-label="{{ button_content|striptags|trim|t }}" aria-selected="{{ key == 0 ? 'true' : 'false' }}" aria-controls="{{ pane_id }}" {% if not vvj_pattern %}aria-expanded="{{ key == 0 ? 'true' : 'false' }}" {% endif %}type="button" role="tab" {% if key != 0 %}tabindex="-1"{% endif %}{% if horizontal_width %} style="--horizontal-width: {{ horizontal_width }};"{% endif %}>
           {{ button_content|safe_html }}
         </button>
       {% endif %}
@@ -106,7 +111,7 @@
 
       {# Render the pane #}
       {% set pane %}
-      <div id="{{ pane_id }}" role="tabpanel" data-index="{{ key + 1 }}" aria-hidden="{{ key == 0 ? 'false' : 'true' }}" aria-labelledby="vvjt-button-{{ unique_id }}-{{ key + 1 }}" class="vvjt-pane" {% if key == 0 %} aria-live="polite"{% endif %}>
+      <div id="{{ pane_id }}" role="tabpanel" data-index="{{ key + 1 }}" aria-hidden="{{ key == 0 ? 'false' : 'true' }}" aria-labelledby="vvjt-button-{{ unique_id }}-{{ key + 1 }}" class="vvjt-pane"{% if vvj_pattern %} tabindex="0"{% endif %} {% if key == 0 %} aria-live="polite"{% endif %}>
         {{ pane_content|safe_html }}
       </div>
       {% endset %}
@@ -117,10 +122,31 @@
     {% endfor %}
 
     {# Render the tab buttons with specific styles. #}
-    <div class="tab-buttons" role="tablist" aria-label="{{ 'Tab List'|t }}"{% if background_buttons or max_height or vertical_width %} style="{% if background_buttons %} --bg-buttons: {{ background_buttons }};{% endif %}{% if max_height %} --vertical-height: {{ max_height }};{% endif %}{% if vertical_width %} --vertical-width: {{ vertical_width }};{% endif %}"{% endif %}>
-      <span class="visually-hidden">{{ 'Use the arrow keys to navigate between tabs'|t }}</span>
-      {{ buttons|safe_html }}
-    </div>
+    {% if vvj_pattern %}
+      {# Pattern markup: the hint sits outside the tab list and describes it. #}
+      {% set scroll_buttons = 'scroll_buttons' in vvj_features %}
+      {% set nav_wrap = scroll_buttons or 'counter' in vvj_features %}
+      <p id="vvjt-hint-{{ unique_id }}" class="visually-hidden">{{ 'Use the arrow keys to navigate between tabs'|t }}</p>
+      {% if nav_wrap %}<div class="tab-nav">{% endif %}
+      {% if scroll_buttons %}
+        <button type="button" class="vvjt-scroll vvjt-scroll-prev" aria-label="{{ 'Scroll the tabs back'|t }}" aria-controls="vvjt-tablist-{{ unique_id }}"><svg class="vvj-icon" viewBox="9 6 7.4 12" width="10" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M15 18l-6-6 6-6 1.4 1.4-4.6 4.6 4.6 4.6z"/></svg></button>
+      {% endif %}
+      <div id="vvjt-tablist-{{ unique_id }}" class="tab-buttons" role="tablist" aria-label="{{ options.vvj_pattern_label ?: 'Tab List'|t }}" aria-describedby="vvjt-hint-{{ unique_id }}" aria-orientation="{{ tab_layout }}"{% if background_buttons or max_height or vertical_width %} style="{% if background_buttons %} --bg-buttons: {{ background_buttons }};{% endif %}{% if max_height %} --vertical-height: {{ max_height }};{% endif %}{% if vertical_width %} --vertical-width: {{ vertical_width }};{% endif %}"{% endif %}>
+        {{ buttons|safe_html }}
+      </div>
+      {% if scroll_buttons %}
+        <button type="button" class="vvjt-scroll vvjt-scroll-next" aria-label="{{ 'Scroll the tabs forward'|t }}" aria-controls="vvjt-tablist-{{ unique_id }}"><svg class="vvj-icon" viewBox="8 6 7.4 12" width="10" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9.4 18 8 16.6l4.6-4.6L8 7.4 9.4 6l6 6z"/></svg></button>
+      {% endif %}
+      {% if 'counter' in vvj_features %}
+        <p class="vvjt-count" aria-hidden="true"><span class="vvjt-count-now">01</span><span class="vvjt-count-sep">/</span><span class="vvjt-count-total">{{ '%02d'|format(rows|length) }}</span></p>
+      {% endif %}
+      {% if nav_wrap %}</div>{% endif %}
+    {% else %}
+      <div class="tab-buttons" role="tablist" aria-label="{{ 'Tab List'|t }}"{% if background_buttons or max_height or vertical_width %} style="{% if background_buttons %} --bg-buttons: {{ background_buttons }};{% endif %}{% if max_height %} --vertical-height: {{ max_height }};{% endif %}{% if vertical_width %} --vertical-width: {{ vertical_width }};{% endif %}"{% endif %}>
+        <span class="visually-hidden">{{ 'Use the arrow keys to navigate between tabs'|t }}</span>
+        {{ buttons|safe_html }}
+      </div>
+    {% endif %}
 
     {# Render the tab content with specific styles. #}
     <div class="tab-panes"

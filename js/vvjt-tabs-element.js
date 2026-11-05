@@ -33,6 +33,9 @@
         return;
       }
 
+      // Pattern instances get the corrected ARIA; writeState() is gated on
+      // the same class in ElementBase.
+      this._pattern = this.classList.contains('vvj-pattern');
       /** @type {NodeListOf<HTMLElement>} */
       this._buttons = this._inner.querySelectorAll('.vvjt-button');
       /** @type {NodeListOf<HTMLElement>} */
@@ -54,7 +57,9 @@
       this._buttons.forEach((button, index) => {
         const isFirst = index === 0;
         button.setAttribute('aria-selected', isFirst ? 'true' : 'false');
-        button.setAttribute('aria-expanded', isFirst ? 'true' : 'false');
+        if (!this._pattern) {
+          button.setAttribute('aria-expanded', isFirst ? 'true' : 'false');
+        }
         button.setAttribute('tabindex', isFirst ? '0' : '-1');
         if (isFirst) {
           button.classList.add('active');
@@ -65,12 +70,26 @@
         pane.style.display = isFirst ? 'block' : 'none';
         pane.setAttribute('aria-hidden', isFirst ? 'false' : 'true');
       });
+      this._writeState(0);
+    }
+
+    /**
+     * Writes the active tab (0-based) through the shared state contract.
+     *
+     * @param {number} index
+     */
+    _writeState(index) {
+      this.writeState({
+        index,
+        total: this._buttons.length,
+        items: this._buttons,
+      });
     }
 
     _updateAriaLabels() {
       this._buttons.forEach((button) => {
         const img = button.querySelector('img');
-        const label = img?.alt || button.textContent?.trim() || 'Tab';
+        const label = img?.alt || button.textContent?.trim() || Drupal.t('Tab');
         button.setAttribute('aria-label', label);
       });
     }
@@ -111,6 +130,22 @@
             if (event.key === 'Enter' || event.key === ' ') {
               event.preventDefault();
               button.click();
+              return;
+            }
+            // Pattern instances with vertical tabs also take Up/Down.
+            if (
+              this._pattern &&
+              (event.key === 'ArrowUp' || event.key === 'ArrowDown') &&
+              this._inner?.querySelector(
+                '.tab-buttons[aria-orientation="vertical"]',
+              )
+            ) {
+              event.preventDefault();
+              const count = this._buttons.length;
+              const step = event.key === 'ArrowDown' ? 1 : count - 1;
+              const target = this._buttons[(index + step) % count];
+              target.focus();
+              target.click();
               return;
             }
             // Only arrow/Home/End navigate; any other key (Tab, letters, …)
@@ -190,14 +225,19 @@
         button.classList.remove('active');
         button.setAttribute('tabindex', '-1');
         button.setAttribute('aria-selected', 'false');
-        button.setAttribute('aria-expanded', 'false');
+        if (!this._pattern) {
+          button.setAttribute('aria-expanded', 'false');
+        }
       });
       activePane.style.display = 'block';
       activePane.setAttribute('aria-hidden', 'false');
       activeButton.classList.add('active');
       activeButton.setAttribute('tabindex', '0');
       activeButton.setAttribute('aria-selected', 'true');
-      activeButton.setAttribute('aria-expanded', 'true');
+      if (!this._pattern) {
+        activeButton.setAttribute('aria-expanded', 'true');
+      }
+      this._writeState(Array.from(this._buttons).indexOf(activeButton));
       if (moveFocus) {
         activeButton.focus();
       }

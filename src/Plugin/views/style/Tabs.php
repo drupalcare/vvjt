@@ -26,6 +26,15 @@ class Tabs extends VvjStylePluginBase {
 
   /**
    * {@inheritdoc}
+   *
+   * The Patterns select appears only while vvj_patterns is enabled.
+   */
+  protected function supportsPatterns(): bool {
+    return TRUE;
+  }
+
+  /**
+   * {@inheritdoc}
    */
   public function getModuleSlug(): string {
     return 'vvjt';
@@ -375,6 +384,9 @@ class Tabs extends VvjStylePluginBase {
     }
 
     $flattened['unique_id'] = $this->options['unique_id'] ?? $this->generateUniqueId();
+
+    // Patterns: the shared logic lives in vvj_patterns.
+    $this->flattenPatternChoice($values, $flattened);
 
     return $flattened;
   }

@@ -1,0 +1,23 @@
+label: 'Glossary'
+description: 'A scrolling strip of terms with scroll buttons and a counter over a wide cinema picture.'
+weight: 4
+options:
+  tabs_position: top
+  wrap_tabs: false
+  max_width: 180
+  max_height: 0
+  available_breakpoints: '992'
+  animation: a-top
+  disable_background: true
+  background_buttons: ''
+  background_panes: ''
+  enable_css: false
+  enable_deeplink: false
+features:
+  - active_index
+  - scroll_buttons
+  - counter
+needs:
+  - 'Fields in this order: the tab label first (vvj_nav_label, plain text), then the image (vvj_image), kicker (vvj_kicker), title and summary (vvj_summary, trimmed to 160 characters).'
+  - 'Show the image with the responsive image style vvj_cinema (21:9).'
+  - 'Give the field elements the classes vvj-kicker, vvj-title and vvj-summary.'

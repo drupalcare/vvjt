@@ -1,0 +1,21 @@
+label: 'Dock'
+description: 'Full-width photo stage with the words bottom-left and the tabs in a floating dock at the bottom.'
+weight: 0
+options:
+  tabs_position: bottom
+  wrap_tabs: false
+  max_width: 0
+  max_height: 0
+  available_breakpoints: '992'
+  animation: a-bottom
+  disable_background: true
+  background_buttons: ''
+  background_panes: ''
+  enable_css: false
+  enable_deeplink: false
+features: []
+needs:
+  - 'Fields in this order: the tab label first (vvj_nav_label, plain text), then the image (vvj_image), kicker (vvj_kicker), title, summary (vvj_summary, trimmed to 180 characters) and link (vvj_link).'
+  - 'Show the image with the responsive image style vvj_wide (16:9, at least 1280 pixels wide).'
+  - 'Give the field elements the classes vvj-kicker, vvj-title, vvj-summary and vvj-link (Rewrite results or Style settings in each field).'
+  - 'Place the view in a full-width region; the stage is at least 520 pixels tall.'

@@ -1,0 +1,20 @@
+label: 'Swatch'
+description: 'Photo thumbnails as tabs in a rail on the right; the picture opens as a circle with a words card over it.'
+weight: 2
+options:
+  tabs_position: right
+  wrap_tabs: false
+  max_width: 132
+  max_height: 560
+  available_breakpoints: '768'
+  animation: a-right
+  disable_background: true
+  background_buttons: ''
+  background_panes: ''
+  enable_css: false
+  enable_deeplink: false
+features: []
+needs:
+  - 'First field: the image (vvj_image) with the image style vvj_thumb_240; its alt text names the tab. Rewrite it to print the tab label (vvj_nav_label) under the thumbnail.'
+  - 'Then add the image again with the responsive image style vvj_landscape, then kicker (vvj_kicker), title and summary (vvj_summary, trimmed to 180 characters).'
+  - 'Give the field elements the classes vvj-kicker, vvj-title and vvj-summary.'

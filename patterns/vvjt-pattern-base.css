@@ -1,0 +1,119 @@
+/**
+ * @file
+ * Shared by every vvjt Pattern: resets the tab buttons the Pattern restyles.
+ *
+ * Defensive: every element a Pattern styles is reset here with full
+ * shorthands, so a theme rule on buttons, links, lists, headings or images
+ * cannot reach into a Pattern. Each Pattern then sets only its own values.
+ */
+
+.vvj-pattern.vvjt {
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+.vvj-pattern.vvjt,
+.vvj-pattern.vvjt *,
+.vvj-pattern.vvjt *::before,
+.vvj-pattern.vvjt *::after { box-sizing: border-box; }
+
+.vvj-pattern.vvjt .vvjt-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+.vvj-pattern.vvjt .tab-buttons {
+  position: relative;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The tab buttons and the glossary scroll buttons: full control reset. */
+.vvj-pattern.vvjt :is(.vvjt-button, .vvjt-scroll) {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-transform: none;
+  text-decoration: none;
+  text-align: center;
+  width: auto;
+  height: auto;
+  min-width: 0;
+  min-height: 0;
+  vertical-align: middle;
+  outline: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.vvj-pattern.vvjt :is(.vvjt-button, .vvjt-scroll):focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+
+/* Headings, paragraphs, lists, images and links a pane holds. */
+.vvj-pattern.vvjt :is(h1, h2, h3, h4, h5, h6, p) {
+  margin: 0;
+  padding: 0;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  hyphens: manual;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+.vvj-pattern.vvjt :is(ul, ol, li) { list-style: none; margin: 0; padding: 0; }
+.vvj-pattern.vvjt :is(img, svg) { display: block; max-width: 100%; height: auto; }
+.vvj-pattern.vvjt .vvj-link { margin: 0; padding: 0; }
+.vvj-pattern.vvjt .vvj-link a {
+  /* A standalone link is a control: at least 24px tall (WCAG 2.5.8). */
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  font: inherit;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-transform: none;
+  text-align: start;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.vvj-pattern.vvjt .vvj-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Pane entrances move with transform only. vvjt.css slides a pane in by
+   animating its top/left/right/bottom offset, which the browser counts as
+   layout shift on every tab click; a transform moves the same distance and
+   shifts nothing. Only the keyframes change; vvjt.css keeps the timing. */
+.vvj-pattern.vvjt.a-top .vvjt-pane { animation-name: vvjt-pattern-from-top; }
+.vvj-pattern.vvjt.a-bottom .vvjt-pane { animation-name: vvjt-pattern-from-bottom; }
+.vvj-pattern.vvjt.a-left .vvjt-pane { animation-name: vvjt-pattern-from-start; }
+.vvj-pattern.vvjt.a-right .vvjt-pane { animation-name: vvjt-pattern-from-end; }
+.vvj-pattern.vvjt.a-left .vvjt-pane:dir(rtl) { animation-name: vvjt-pattern-from-end; }
+.vvj-pattern.vvjt.a-right .vvjt-pane:dir(rtl) { animation-name: vvjt-pattern-from-start; }
+@keyframes vvjt-pattern-from-top { from { opacity: 0; transform: translateY(-100px); } to { opacity: 1; transform: none; } }
+@keyframes vvjt-pattern-from-bottom { from { opacity: 0; transform: translateY(100px); } to { opacity: 1; transform: none; } }
+@keyframes vvjt-pattern-from-start { from { opacity: 0; transform: translateX(-100px); } to { opacity: 1; transform: none; } }
+@keyframes vvjt-pattern-from-end { from { opacity: 0; transform: translateX(100px); } to { opacity: 1; transform: none; } }

@@ -1,0 +1,21 @@
+label: 'Contents'
+description: 'Numbered contents list on the left with a progress rail, the open chapter on the right.'
+weight: 1
+options:
+  tabs_position: left
+  wrap_tabs: false
+  max_width: 360
+  max_height: 0
+  available_breakpoints: '992'
+  animation: a-left
+  disable_background: true
+  background_buttons: ''
+  background_panes: ''
+  enable_css: false
+  enable_deeplink: false
+features:
+  - active_index
+needs:
+  - 'Fields in this order: the tab label first (vvj_nav_label, plain text; the numbers come from the Pattern), then the image (vvj_image), kicker (vvj_kicker), title, summary (vvj_summary, trimmed to 220 characters) and link (vvj_link).'
+  - 'Show the image with the responsive image style vvj_landscape (16:10).'
+  - 'Give the field elements the classes vvj-kicker, vvj-title, vvj-summary and vvj-link, and wrap the tab label in the class vvj-nav-label.'

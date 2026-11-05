@@ -1,0 +1,22 @@
+label: 'Folder'
+description: 'Tabs joined to a raised card like folder tabs, with a square picture and shareable links to each tab.'
+weight: 3
+options:
+  tabs_position: top
+  wrap_tabs: true
+  max_width: 0
+  max_height: 0
+  available_breakpoints: '992'
+  animation: a-opacity
+  disable_background: true
+  background_buttons: ''
+  background_panes: ''
+  enable_css: false
+  enable_deeplink: true
+  deeplink_identifier: surfaces
+features: []
+needs:
+  - 'Fields in this order: the tab label first (vvj_nav_label, plain text), then the image (vvj_image), kicker (vvj_kicker), title, summary (vvj_summary, trimmed to 160 characters) and link (vvj_link).'
+  - 'Show the image with the image style vvj_square_800 (1:1).'
+  - 'Give the field elements the classes vvj-kicker, vvj-title, vvj-summary and vvj-link, and wrap the tab label in the class vvj-nav-label.'
+  - 'Deep links use the identifier "surfaces"; change it under Deep Linking if this view is about something else, and keep it unique on the page.'
