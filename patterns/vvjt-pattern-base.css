@@ -7,9 +7,9 @@
  * cannot reach into a Pattern. Each Pattern then sets only its own values.
  */
 
-/* Control colours, declared once. Each defaults to the black-and-white token
+/* Control colors, declared once. Each defaults to the black-and-white token
    the rules used before, so the neutral look is unchanged. The Solo and APEX
-   bridges (bridge/vvjt-bridge-*.css) replace them from the theme's colours. */
+   bridges (bridge/vvjt-bridge-*.css) replace them from the theme's colors. */
 :where(.vvj-pattern.vvjt) {
   --vvjt-btn-bg: var(--vvj-ink);
   --vvjt-btn-text: var(--vvj-surface);

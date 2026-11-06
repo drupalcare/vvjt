@@ -70,7 +70,7 @@
   .vvj-pattern.vvjt.vvj-pattern--vvjt-dock .tab-buttons::before { transition: none; }
 }
 
-/* Own ground (owner: the Pattern, not the theme, sets every colour). The root
+/* Own ground (owner: the Pattern, not the theme, sets every color). The root
    is written .vvj-pattern.vvjt.vvj-pattern--vvjt-<p> so these rules outrank
    vvjt's own structural CSS (three classes) and a theme's h1-h6 and a rules,
    without !important. */

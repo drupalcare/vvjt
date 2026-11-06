@@ -3,7 +3,7 @@
 ## [2.0.0] (UNRELEASED)
 
 - Patterns: the bridge reads the shared `--vvj-theme-*` roles instead of spelling theme names.
-- Patterns: under Solo or APEX the Pattern controls take the theme's button and menu colours; black and white stays the default on any other theme.
+- Patterns: under Solo or APEX the Pattern controls take the theme's button and menu colors; black and white stays the default on any other theme.
 - Layout: the breakpoint stylesheets (`vvjt-576` to `vvjt-1400`) no longer match a Pattern, so a Pattern's layout comes from its own CSS only. Classic tabs render as before.
 - Accessibility: long Glossary terms now wrap inside their chip instead of being cut with an ellipsis.
 - Accessibility: the active pane is no longer a live region; Contents shows a visible ink focus ring on the active chip; the Contents and Glossary strips no longer clip the focus ring; the Glossary parallax runs only when motion is allowed.
