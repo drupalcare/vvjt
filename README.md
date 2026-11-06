@@ -5,8 +5,13 @@ Views rows as a tabbed interface: top, bottom, left, or right placement, with
 W3C ARIA APG keyboard navigation, animation presets, configurable backgrounds,
 deep-linking, and responsive vertical-to-horizontal collapse.
 
+- Project page: [drupal.org/project/vvjt](https://www.drupal.org/project/vvjt)
+- Issue queue:
+  [drupal.org/project/issues/vvjt](https://www.drupal.org/project/issues/vvjt)
+
 v2.0 builds on the **`drupal/vvj_core` foundation** (composer auto-installs it).
 Behavior runs in a `<vvjt-tabs>` custom element extending `VvjElementBase`.
+
 
 ## Table of contents
 
@@ -21,7 +26,9 @@ Behavior runs in a `<vvjt-tabs>` custom element extending `VvjElementBase`.
 - Maintainers
 - License
 
+
 ## Overview
+
 
 ### Features
 
@@ -45,14 +52,19 @@ Behavior runs in a `<vvjt-tabs>` custom element extending `VvjElementBase`.
   field-group tabs working
 - **Drupal admin help**: `/admin/help/vvjt`
 
+
 ## Requirements
 
 - Drupal core `^11.3 || ^12`
 - PHP 8.3 or later
 - Drupal core modules Views (`drupal:views`) and Filter (`drupal:filter`)
-- [VVJ Core](https://www.drupal.org/project/vvj_core) (`drupal/vvj_core` `^2.0.1`), which composer installs for you
+- [VVJ Core](https://www.drupal.org/project/vvj_core) (`drupal/vvj_core`
+  `^2.0.1`), which composer installs for you
 
-Optional: the `vvj_patterns` sub-module of `drupal/vvj_core` adds the Pattern select to the format settings (see [Patterns](#patterns)), and `vvj_patterns_demo` adds example content.
+Optional: the `vvj_patterns` sub-module of `drupal/vvj_core` adds the Pattern
+select to the format settings (see [Patterns](#patterns)), and
+`vvj_patterns_demo` adds example content.
+
 
 ## Installation
 
@@ -60,6 +72,7 @@ Optional: the `vvj_patterns` sub-module of `drupal/vvj_core` adds the Pattern se
 composer require drupal/vvjt:^2.0
 drush en vvjt
 ```
+
 
 ### Upgrading from 1.x
 
@@ -77,17 +90,28 @@ preserves:
 Outer rendered tag changed from `<div>` to `<vvjt-tabs>`. Theme selectors
 targeting `.vvjt` keep matching.
 
-`drush updb` enables `vvj_core` (`vvjt_update_10001`) and converts existing views to the v2 option shape (`vvjt_update_10002`). Without `vvj_core` on disk the update stops with a message telling you to download `drupal/vvj_core` and run `drush updb` again.
+`drush updb` enables `vvj_core` (`vvjt_update_10001`) and converts existing
+views to the v2 option shape (`vvjt_update_10002`). Without `vvj_core` on disk
+the update stops with a message telling you to download `drupal/vvj_core` and
+run `drush updb` again.
+
 
 ## Configuration
 
-All settings live in the format settings of the *Views Vanilla JavaScript Tabs* style on a View. They are grouped into layout, animation, styling and responsive sections, and a **Patterns** section when `vvj_patterns` is enabled. The extended help topic is at `/admin/help/vvjt`.
+All settings live in the format settings of the *Views Vanilla JavaScript Tabs*
+style on a View. They are grouped into layout, animation, styling and responsive
+sections, and a **Patterns** section when `vvj_patterns` is enabled. The
+extended help topic is at `/admin/help/vvjt`.
 
-Settings are stored in the View itself, as options of the `views_vvjt` style plugin; their types are declared in `config/schema/vvjt.schema.yml`.
+Settings are stored in the View itself, as options of the `views_vvjt` style
+plugin; their types are declared in `config/schema/vvjt.schema.yml`.
+
 
 ## Patterns
 
-A Pattern is a ready-made design for this format. VVJT ships 5. Enable the `vvj_patterns` sub-module of `drupal/vvj_core` (`drush en vvj_patterns`), open the format settings and choose one in **Patterns** > **Pattern**.
+A Pattern is a ready-made design for this format. VVJT ships 5. Enable the
+`vvj_patterns` sub-module of `drupal/vvj_core` (`drush en vvj_patterns`), open
+the format settings and choose one in **Patterns** > **Pattern**.
 
 | Pattern | Look |
 |---|---|
@@ -97,22 +121,33 @@ A Pattern is a ready-made design for this format. VVJT ships 5. Enable the `vvj_
 | Folder | Tabs joined to a raised card like folder tabs, with a square picture and shareable links to each tab. |
 | Glossary | A scrolling strip of terms with scroll buttons and a counter over a wide cinema picture. |
 
-When you choose a different Pattern and save, its settings replace the layout, animation, styling and deep linking settings of the view; you can still change them afterwards. Choose **None** to keep your own settings. Drupal then shows a message naming the settings the Pattern set.
+When you choose a different Pattern and save, its settings replace the layout,
+animation, styling and deep linking settings of the view; you can still change
+them afterwards. Choose **None** to keep your own settings. Drupal then shows a
+message naming the settings the Pattern set.
 
-Each Pattern also lists what the view still needs, for example the fields to add, their order and the CSS classes to give them. The list appears under **To finish the Pattern** in the Patterns section and as a warning after you save. The `vvj_patterns_demo` sub-module shows a working setup: it adds the "VVJ Slide" content type (fields `vvj_nav_label`, `vvj_image`, `vvj_kicker`, `vvj_summary` and `vvj_link`, besides the title), five demo slides and, as optional config, an example view for each VVJ module named `vvj_demo_<module>`.
+Each Pattern also lists what the view still needs, for example the fields to
+add, their order and the CSS classes to give them. The list appears under **To
+finish the Pattern** in the Patterns section and as a warning after you save.
+The `vvj_patterns_demo` sub-module shows a working setup: it adds the "VVJ
+Slide" content type (fields `vvj_nav_label`, `vvj_image`, `vvj_kicker`,
+`vvj_summary` and `vvj_link`, besides the title), five demo slides and, as
+optional config, an example view for each VVJ module named `vvj_demo_<module>`.
+
 
 ## Usage
 
 1. Create or edit a View.
-2. Set **Format** to *Views Vanilla JavaScript Tabs*.
-3. Set **Show** to *Fields*.
-4. The first field becomes the tab button; remaining fields render in the tab
+1. Set **Format** to *Views Vanilla JavaScript Tabs*.
+1. Set **Show** to *Fields*.
+1. The first field becomes the tab button; remaining fields render in the tab
    pane.
-5. Configure layout / animation / styling / responsive in the format settings.
-6. Save.
+1. Configure layout / animation / styling / responsive in the format settings.
+1. Save.
 
 **Sample view:** Optional config `views.view.vvjt_example` (`config/optional/`)
 installs when there is no ID conflict.
+
 
 ### Tokens in Views text areas
 
@@ -128,6 +163,7 @@ v2 resolves tokens through the shared `vvj_core.token_resolver` service; syntax
 is unchanged from v1. Tokens read from the **first row** of rendered View
 fields. Complex field rewrites are not supported.
 
+
 ### Public API
 
 External code can drive tab groups via `Drupal.vvjt.*`. Pass the deep link
@@ -141,22 +177,35 @@ Drupal.vvjt.getInstance('#vvjt-12345');        // → <vvjt-tabs> element
 Drupal.vvjt.getAllInstances();
 ```
 
+
 ## Troubleshooting
 
-- **There is no Patterns section.** The section appears only while `vvj_patterns` is enabled. Run `drush en vvj_patterns`.
-- **Saving the view changed my settings.** Choosing a different Pattern replaces the layout, animation, styling and deep linking settings. Choose **None** to keep your own.
-- **A Pattern looks unfinished.** Follow the list under **To finish the Pattern**: the fields, their order and the CSS classes the Pattern needs.
-- **After upgrading from 1.x the view fails or `vvj_core` is not enabled.** Run `drush updb`; update `vvjt_update_10001` enables `vvj_core`. Composer installs it automatically, and a manual install needs `drupal/vvj_core` in `modules/contrib/vvj_core` first.
-- **Test errors that name missing infrastructure.** See *Running the tests* in [CONTRIBUTING.md](./CONTRIBUTING.md).
-- **Anything else.** Search or open an issue in the [issue queue](https://www.drupal.org/project/issues/vvjt).
+- **There is no Patterns section.** The section appears only while
+  `vvj_patterns` is enabled. Run `drush en vvj_patterns`.
+- **Saving the view changed my settings.** Choosing a different Pattern replaces
+  the layout, animation, styling and deep linking settings. Choose **None** to
+  keep your own.
+- **A Pattern looks unfinished.** Follow the list under **To finish the
+  Pattern**: the fields, their order and the CSS classes the Pattern needs.
+- **After upgrading from 1.x the view fails or `vvj_core` is not enabled.** Run
+  `drush updb`; update `vvjt_update_10001` enables `vvj_core`. Composer installs
+  it automatically, and a manual install needs `drupal/vvj_core` in
+  `modules/contrib/vvj_core` first.
+- **Test errors that name missing infrastructure.** See *Running the tests* in
+  [CONTRIBUTING.md](./CONTRIBUTING.md).
+- **Anything else.** Search or open an issue in the
+  [issue queue](https://www.drupal.org/project/issues/vvjt).
+
 
 ## Changelog
 
 See [CHANGELOG.md](./CHANGELOG.md).
 
+
 ## Maintainers
 
 - Alaa Haddad - [flashwebcenter](https://www.drupal.org/u/flashwebcenter)
+
 
 ## License
 

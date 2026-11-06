@@ -2,7 +2,7 @@
 
 /**
  * @file
- * VVJT — Views Vanilla Javascript Tabs bootstrap.
+ * VVJT — Views Vanilla JavaScript Tabs bootstrap.
  *
  * Hooks live as OOP `#[Hook]` attribute classes under `src/Hook/`.
  *

@@ -139,14 +139,14 @@ class Tabs extends VvjStylePluginBase {
   protected function buildLayoutSection(array &$form): void {
     $form['layout_section'] = [
       '#type' => 'details',
-      '#title' => $this->t('Layout Settings'),
+      '#title' => $this->t('Layout settings'),
       '#open' => TRUE,
       '#weight' => -40,
     ];
 
     $form['layout_section']['tabs_position'] = [
       '#type' => 'select',
-      '#title' => $this->t('Tabs Position'),
+      '#title' => $this->t('Tabs position'),
       '#options' => [
         VvjtConstants::POSITION_TOP => $this->t('Top'),
         VvjtConstants::POSITION_RIGHT => $this->t('Right'),
@@ -159,14 +159,14 @@ class Tabs extends VvjStylePluginBase {
 
     $form['layout_section']['wrap_tabs'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Wrap Tabs When Exceeded'),
+      '#title' => $this->t('Wrap tabs when exceeded'),
       '#default_value' => $this->options['wrap_tabs'],
       '#description' => $this->t('Check this box to wrap tab buttons if they exceed the available space on any screen size. The default is auto-scroll.'),
     ];
 
     $form['layout_section']['max_width'] = [
       '#type' => 'number',
-      '#title' => $this->t('Max Width (px) for Tabs'),
+      '#title' => $this->t('Max width (px) for tabs'),
       '#default_value' => $this->options['max_width'],
       '#description' => $this->t('Configure the maximum width for each tab button in a horizontal layout or for the tabs container in a vertical layout.<br><br>
 
@@ -184,7 +184,7 @@ class Tabs extends VvjStylePluginBase {
 
     $form['layout_section']['max_height'] = [
       '#type' => 'number',
-      '#title' => $this->t('Max Height (px) for Vertical Tabs Buttons Container (Left/Right)'),
+      '#title' => $this->t('Max height (px) for vertical tabs buttons container (left/right)'),
       '#default_value' => $this->options['max_height'],
       '#description' => $this->t('Defines the maximum height for the buttons container in a vertical layout (Left/Right). Enter zero for auto. This setting does not affect the pane height.'),
       '#step' => 1,
@@ -202,7 +202,7 @@ class Tabs extends VvjStylePluginBase {
   protected function buildAnimationSection(array &$form): void {
     $form['animation_section'] = [
       '#type' => 'details',
-      '#title' => $this->t('Animation Settings'),
+      '#title' => $this->t('Animation settings'),
       '#open' => TRUE,
       '#weight' => -30,
     ];
@@ -222,14 +222,14 @@ class Tabs extends VvjStylePluginBase {
   protected function buildStylingSection(array &$form): void {
     $form['styling_section'] = [
       '#type' => 'details',
-      '#title' => $this->t('Styling Settings'),
+      '#title' => $this->t('Styling settings'),
       '#open' => TRUE,
       '#weight' => -20,
     ];
 
     $form['styling_section']['background_buttons'] = [
       '#type' => 'color',
-      '#title' => $this->t('Tabs Buttons Background Color'),
+      '#title' => $this->t('Tabs buttons background color'),
       '#default_value' => $this->options['background_buttons'],
       '#description' => $this->t('Select the background color to be applied to the tabs buttons. This color will determine the appearance of the buttons in the tab interface.'),
       '#empty_value' => '',
@@ -242,7 +242,7 @@ class Tabs extends VvjStylePluginBase {
 
     $form['styling_section']['background_panes'] = [
       '#type' => 'color',
-      '#title' => $this->t('Tabs Panes Background Color'),
+      '#title' => $this->t('Tabs panes background color'),
       '#default_value' => $this->options['background_panes'],
       '#description' => $this->t('Select the background color to be applied to the content panes within the tabs. This color will be used as the background for the content displayed in each pane.'),
       '#empty_value' => '',
@@ -255,7 +255,7 @@ class Tabs extends VvjStylePluginBase {
 
     $form['styling_section']['disable_background'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Disable Background Colors for Buttons and Panes'),
+      '#title' => $this->t('Disable background colors for buttons and panes'),
       '#default_value' => $this->options['disable_background'],
       '#description' => $this->t('Check this box to completely disable the background colors for both the tabs buttons and the content panes.'),
     ];
@@ -270,7 +270,7 @@ class Tabs extends VvjStylePluginBase {
   protected function buildResponsiveSection(array &$form): void {
     $form['responsive_section'] = [
       '#type' => 'details',
-      '#title' => $this->t('Responsive Settings'),
+      '#title' => $this->t('Responsive settings'),
       '#open' => FALSE,
       '#weight' => -15,
     ];
