@@ -17,6 +17,7 @@ key from 1.x.
 
 ### Added
 
+- Help page: follows the drupal.org help text standard (translatable About and Uses sections) instead of printing README.md as raw text.
 - Patterns: 5 ready-made designs (Dock, Contents, Swatch, Folder, Glossary) chosen in the format settings. They need the `vvj_patterns` sub-module of `drupal/vvj_core`.
 - `drupal/vvj_core` dependency.
 - `<vvjt-tabs>` custom element. Lazy IntersectionObserver hydration;
