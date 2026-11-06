@@ -111,7 +111,7 @@
 
       {# Render the pane #}
       {% set pane %}
-      <div id="{{ pane_id }}" role="tabpanel" data-index="{{ key + 1 }}" aria-hidden="{{ key == 0 ? 'false' : 'true' }}" aria-labelledby="vvjt-button-{{ unique_id }}-{{ key + 1 }}" class="vvjt-pane"{% if vvj_pattern %} tabindex="0"{% endif %} {% if key == 0 %} aria-live="polite"{% endif %}>
+      <div id="{{ pane_id }}" role="tabpanel" data-index="{{ key + 1 }}" aria-hidden="{{ key == 0 ? 'false' : 'true' }}" aria-labelledby="vvjt-button-{{ unique_id }}-{{ key + 1 }}" class="vvjt-pane"{% if vvj_pattern %} tabindex="0"{% endif %}>
         {{ pane_content|safe_html }}
       </div>
       {% endset %}

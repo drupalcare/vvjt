@@ -1,0 +1,32 @@
+/**
+ * @file
+ * vvjt Pattern bridge for Solo: maps the module's colour tokens to the
+ * theme's region colours.
+ *
+ * Token mapping ONLY. Every Pattern rule keeps reading the vvjt tokens
+ * declared in vvjt-pattern-base.css; nothing here paints an element.
+ * `:where()` keeps this at zero specificity, and it loads just after the
+ * base file (weight 1), so it replaces the black-and-white defaults. Each
+ * mapping keeps the black-and-white value as its fallback, so a region that
+ * leaves a colour unset still renders. The Pattern inherits the region it
+ * sits in.
+ */
+/* Colours come from the shared --vvj-theme-* roles (vvj_patterns bridge), so the
+   theme's own colour spelling lives once, there. Each role keeps its black-and-white fallback. */
+:where(.vvj-pattern.vvjt) {
+  --vvjt-btn-bg: var(--vvj-theme-button-bg, var(--vvj-ink));
+  --vvjt-btn-text: var(--vvj-theme-button-text, var(--vvj-surface));
+  --vvjt-tab-active-bg: var(--vvj-theme-active-bg, var(--vvj-ink));
+  --vvjt-tab-active-text: var(--vvj-theme-active-text, var(--vvj-surface));
+  --vvjt-mark: var(--vvj-theme-button-bg, var(--vvj-ink));
+}
+
+@media (forced-colors: active) {
+  :where(.vvj-pattern.vvjt) {
+    --vvjt-btn-bg: ButtonText;
+    --vvjt-btn-text: ButtonFace;
+    --vvjt-tab-active-bg: Highlight;
+    --vvjt-tab-active-text: HighlightText;
+    --vvjt-mark: Highlight;
+  }
+}

@@ -24,7 +24,7 @@
 .vvj-pattern--vvjt-swatch :where(.vvjt-button:hover) img { filter: none; }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-button:active { transform: scale(.95); }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-button.active { color: var(--vvj-ink); }
-.vvj-pattern--vvjt-swatch :where(.vvjt-button.active) img { filter: none; outline-color: var(--vvj-ink); border-radius: 50%; }
+.vvj-pattern--vvjt-swatch :where(.vvjt-button.active) img { filter: none; outline-color: var(--vvjt-mark); border-radius: 50%; }
 
 .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-pane-inner { position: relative; display: grid; }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvj-media { overflow: hidden; border-radius: var(--vvj-radius); aspect-ratio: 3 / 2; }
@@ -43,14 +43,14 @@
    caps it at --vertical-width (132px) and --vertical-height there, which
    squeezed five thumbnails into 132px; the row takes the full width and the
    thumbnails share it. Five classes to outrank .vvjt.vertical.max-w/.max-h. */
-@media (max-width: 767.98px) {
+@container vvj-region (max-width: 719.98px) {
   .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch.vertical .vvjt-inner .tab-buttons { width: 100%; max-width: none; height: auto; max-height: none; gap: 8px; }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-button { flex: 1 1 0; min-width: 44px; }
   .vvj-pattern--vvjt-swatch .tab-panes { flex: none; }
 }
 
 /* At 768 px and up (br-768): rail on the right, scrolling past --vertical-height. */
-@media (min-width: 768px) {
+@container vvj-region (min-width: 720px) {
   .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-inner { flex-direction: row-reverse; align-items: start; gap: 28px; }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .tab-buttons {
     flex-direction: column; flex: 0 0 var(--vertical-width, 132px); max-height: var(--vertical-height, 560px);

@@ -15,8 +15,10 @@
   background: color-mix(in srgb, var(--vvj-card-bg) 45%, transparent);
   transition: color .25s, background .25s, transform .35s var(--vvj-spring);
 }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button:hover { color: var(--vvj-ink); transform: translateY(-2px); }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button:active { transform: translateY(1px); }
+.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button:hover { color: var(--vvj-ink); }
+:where(.vvj-pattern--vvjt-folder) :where(.vvjt-button):not(.active):hover { transform: translateY(-2px); }
+:where(:where(.vvj-pattern--vvjt-folder) :where(.vvjt-button):not(.active):hover)::after { content: ""; position: absolute; inset: -4px; }
+:where(.vvj-pattern--vvjt-folder .vvjt-button):active { transform: translateY(1px); }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active { background: var(--vvj-card-bg); color: var(--vvj-ink); z-index: 1; transform: none; }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active::before,
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active::after {
@@ -24,7 +26,7 @@
 }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active::before { inset: auto auto 0 calc(var(--vvj-folder-radius) * -1); background: radial-gradient(circle at 0 0, transparent var(--vvj-folder-radius), var(--vvj-card-bg) calc(var(--vvj-folder-radius) + .5px)); }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active::after { inset: auto calc(var(--vvj-folder-radius) * -1) 0 auto; background: radial-gradient(circle at 100% 0, transparent var(--vvj-folder-radius), var(--vvj-card-bg) calc(var(--vvj-folder-radius) + .5px)); }
-.vvj-pattern--vvjt-folder :where(.vvjt-button.active) .vvj-nav-label { box-shadow: inset 0 -2px 0 var(--vvj-ink); padding: 0 0 2px; }
+.vvj-pattern--vvjt-folder :where(.vvjt-button.active) .vvj-nav-label { box-shadow: inset 0 -2px 0 var(--vvjt-mark); padding: 0 0 2px; }
 
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .tab-panes { background: var(--vvj-card-bg); border-radius: calc(var(--vvj-folder-radius) * 1.5); padding: clamp(16px, 3vw, 32px); }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-pane-inner { display: grid; gap: clamp(18px, 3vw, 40px); align-items: center; }
@@ -37,10 +39,10 @@
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-summary { margin: 0 0 12px; color: var(--vvj-muted); font-size: 17px; line-height: 1.6; max-width: 46ch; }
 .vvj-pattern--vvjt-folder .vvj-link { color: var(--vvj-ink); }
 
-@media (min-width: 720px) {
+@container vvj-region (min-width: 680px) {
   .vvj-pattern--vvjt-folder .vvjt-pane-inner { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
 }
-@media (max-width: 480px) {
+@container vvj-region (max-width: 440px) {
   .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .tab-buttons { padding: 0 4px; gap: 4px 2px; }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button { padding: 0 14px; border-radius: var(--vvj-folder-radius); }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active::before, .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active::after { display: none; }

@@ -69,6 +69,18 @@ vvjt__1400:
     theme:
       css/vvjt-1400.css: { }
 
+# Theme bridges: token mapping only. vvj_patterns adds the one that matches the
+# active theme as a dependency of vvjt-pattern-base; neutral loads neither.
+pattern-bridge-solo:
+  css:
+    theme:
+      patterns/bridge/vvjt-bridge-solo.css: { weight: 1 }
+
+pattern-bridge-apex:
+  css:
+    theme:
+      patterns/bridge/vvjt-bridge-apex.css: { weight: 1 }
+
 vvjt-pattern-base:
   css:
     theme:

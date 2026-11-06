@@ -60,7 +60,7 @@
   .vvj-pattern.vvjt.vvj-pattern--vvjt-dock .vvjt-button.active { background: var(--vvj-stage-color); }
 }
 
-@media (max-width: 600px) {
+@container vvj-region (max-width: 560px) {
   .vvj-pattern--vvjt-dock .vvj-text { padding-bottom: 120px; }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-dock .tab-buttons { inset: auto auto 20px 50%; }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-dock .vvjt-button { padding: 0 14px; min-width: 0; font-size: 14px; }
@@ -77,9 +77,13 @@
 .vvj-pattern--vvjt-dock .vvj-title { color: var(--vvj-stage-color); }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-dock .vvj-link a { color: var(--vvj-stage-color); text-decoration: none; }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-dock .vvj-link a:hover { text-decoration: underline; text-underline-offset: 4px; }
-/* The dock is a pill sized to its tabs, not a full-width bar. */
-.vvj-pattern.vvjt.vvj-pattern--vvjt-dock .tab-buttons { width: max-content; overflow: visible; flex-wrap: nowrap; }
-@media (max-width: 600px) {
+/* The dock is a pill sized to its tabs, not a full-width bar. When the tabs
+   are wider than the stage, the pill stops at max-width and its tabs scroll
+   inside it, so no tab ever sits outside the dock. */
+.vvj-pattern.vvjt.vvj-pattern--vvjt-dock .tab-buttons { width: max-content; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scrollbar-width: none; flex-wrap: nowrap; }
+:where(.vvj-pattern--vvjt-dock .tab-buttons)::-webkit-scrollbar { display: none; }
+.vvj-pattern.vvjt.vvj-pattern--vvjt-dock .vvjt-button { flex-shrink: 0; }
+@container vvj-region (max-width: 560px) {
   /* The dock spans the stage and the tabs share it, so five labels fit at
      320px without a hidden sideways scroll; auto stays only as a fallback for
      a view with many more tabs. */

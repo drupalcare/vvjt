@@ -7,6 +7,17 @@
  * cannot reach into a Pattern. Each Pattern then sets only its own values.
  */
 
+/* Control colours, declared once. Each defaults to the black-and-white token
+   the rules used before, so the neutral look is unchanged. The Solo and APEX
+   bridges (bridge/vvjt-bridge-*.css) replace them from the theme's colours. */
+:where(.vvj-pattern.vvjt) {
+  --vvjt-btn-bg: var(--vvj-ink);
+  --vvjt-btn-text: var(--vvj-surface);
+  --vvjt-tab-active-bg: var(--vvj-ink);
+  --vvjt-tab-active-text: var(--vvj-surface);
+  --vvjt-mark: var(--vvj-ink);
+}
+
 .vvj-pattern.vvjt {
   position: relative;
   margin: 0;
@@ -15,7 +26,9 @@
 .vvj-pattern.vvjt,
 :where(.vvj-pattern.vvjt) *,
 :where(.vvj-pattern.vvjt) *::before,
-:where(.vvj-pattern.vvjt) *::after { box-sizing: border-box; }
+:where(.vvj-pattern.vvjt) *::after {
+  box-sizing: border-box;
+}
 
 .vvj-pattern.vvjt .vvjt-inner {
   display: flex;
@@ -32,30 +45,30 @@
 
 /* The tab buttons and the glossary scroll buttons: full control reset. */
 :where(.vvj-pattern.vvjt) :is(.vvjt-button, .vvjt-scroll) {
-  appearance: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: auto;
+  min-width: 0;
+  height: auto;
+  min-height: 0;
   margin: 0;
   padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: none;
-  box-shadow: none;
-  color: inherit;
-  font: inherit;
-  line-height: 1.2;
+  cursor: pointer;
+  text-align: center;
+  vertical-align: middle;
+  text-decoration: none;
   letter-spacing: normal;
   text-transform: none;
-  text-decoration: none;
-  text-align: center;
-  width: auto;
-  height: auto;
-  min-width: 0;
-  min-height: 0;
-  vertical-align: middle;
+  color: inherit;
+  border: 0;
+  border-radius: 0;
   outline: 0;
-  cursor: pointer;
+  background: none;
+  box-shadow: none;
+  font: inherit;
+  line-height: 1.2;
+  appearance: none;
   -webkit-tap-highlight-color: transparent;
 }
 :where(.vvj-pattern.vvjt) :is(.vvjt-button, .vvjt-scroll):focus-visible {
@@ -67,16 +80,27 @@
 :where(.vvj-pattern.vvjt) :is(h1, h2, h3, h4, h5, h6, p) {
   margin: 0;
   padding: 0;
+  word-break: normal;
+  hyphens: manual;
+  color: inherit;
   font-size: inherit;
   line-height: inherit;
-  color: inherit;
-  hyphens: manual;
   overflow-wrap: normal;
-  word-break: normal;
 }
-:where(.vvj-pattern.vvjt) :is(ul, ol, li) { list-style: none; margin: 0; padding: 0; }
-:where(.vvj-pattern.vvjt) :is(img, svg) { display: block; max-width: 100%; height: auto; }
-.vvj-pattern.vvjt .vvj-link { margin: 0; padding: 0; }
+:where(.vvj-pattern.vvjt) :is(ul, ol, li) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+:where(.vvj-pattern.vvjt) :is(img, svg) {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.vvj-pattern.vvjt .vvj-link {
+  margin: 0;
+  padding: 0;
+}
 .vvj-pattern.vvjt .vvj-link a {
   /* A standalone link is a control: at least 24px tall (WCAG 2.5.8). */
   display: inline-flex;
@@ -84,17 +108,17 @@
   min-height: 24px;
   margin: 0;
   padding: 0;
+  cursor: pointer;
+  text-align: start;
+  vertical-align: middle;
+  letter-spacing: normal;
+  text-transform: none;
   border: 0;
   border-radius: 0;
   background: none;
   box-shadow: none;
   font: inherit;
   line-height: 1.2;
-  letter-spacing: normal;
-  text-transform: none;
-  text-align: start;
-  vertical-align: middle;
-  cursor: pointer;
 }
 
 .vvj-pattern.vvjt .vvj-media img {
@@ -107,13 +131,61 @@
    animating its top/left/right/bottom offset, which the browser counts as
    layout shift on every tab click; a transform moves the same distance and
    shifts nothing. Only the keyframes change; vvjt.css keeps the timing. */
-:where(.vvj-pattern.vvjt.a-top) .vvjt-pane { animation-name: vvjt-pattern-from-top; }
-:where(.vvj-pattern.vvjt.a-bottom) .vvjt-pane { animation-name: vvjt-pattern-from-bottom; }
-:where(.vvj-pattern.vvjt.a-left) .vvjt-pane { animation-name: vvjt-pattern-from-start; }
-:where(.vvj-pattern.vvjt.a-right) .vvjt-pane { animation-name: vvjt-pattern-from-end; }
-:where(.vvj-pattern.vvjt.a-left) .vvjt-pane:dir(rtl) { animation-name: vvjt-pattern-from-end; }
-:where(.vvj-pattern.vvjt.a-right) .vvjt-pane:dir(rtl) { animation-name: vvjt-pattern-from-start; }
-@keyframes vvjt-pattern-from-top { from { opacity: 0; transform: translateY(-100px); } to { opacity: 1; transform: none; } }
-@keyframes vvjt-pattern-from-bottom { from { opacity: 0; transform: translateY(100px); } to { opacity: 1; transform: none; } }
-@keyframes vvjt-pattern-from-start { from { opacity: 0; transform: translateX(-100px); } to { opacity: 1; transform: none; } }
-@keyframes vvjt-pattern-from-end { from { opacity: 0; transform: translateX(100px); } to { opacity: 1; transform: none; } }
+:where(.vvj-pattern.vvjt.a-top) .vvjt-pane {
+  animation-name: vvjt-pattern-from-top;
+}
+:where(.vvj-pattern.vvjt.a-bottom) .vvjt-pane {
+  animation-name: vvjt-pattern-from-bottom;
+}
+:where(.vvj-pattern.vvjt.a-left) .vvjt-pane {
+  animation-name: vvjt-pattern-from-start;
+}
+:where(.vvj-pattern.vvjt.a-right) .vvjt-pane {
+  animation-name: vvjt-pattern-from-end;
+}
+:where(.vvj-pattern.vvjt.a-left) .vvjt-pane:dir(rtl) {
+  animation-name: vvjt-pattern-from-end;
+}
+:where(.vvj-pattern.vvjt.a-right) .vvjt-pane:dir(rtl) {
+  animation-name: vvjt-pattern-from-start;
+}
+@keyframes vvjt-pattern-from-top {
+  from {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes vvjt-pattern-from-bottom {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes vvjt-pattern-from-start {
+  from {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes vvjt-pattern-from-end {
+  from {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}

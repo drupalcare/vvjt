@@ -2,6 +2,12 @@
 
 ## [2.0.0] (UNRELEASED)
 
+- Patterns: the bridge reads the shared `--vvj-theme-*` roles instead of spelling theme names.
+- Patterns: under Solo or APEX the Pattern controls take the theme's button and menu colours; black and white stays the default on any other theme.
+- Layout: the breakpoint stylesheets (`vvjt-576` to `vvjt-1400`) no longer match a Pattern, so a Pattern's layout comes from its own CSS only. Classic tabs render as before.
+- Accessibility: long Glossary terms now wrap inside their chip instead of being cut with an ellipsis.
+- Accessibility: the active pane is no longer a live region; Contents shows a visible ink focus ring on the active chip; the Contents and Glossary strips no longer clip the focus ring; the Glossary parallax runs only when motion is allowed.
+
 **Drop-in upgrade for 1.x sites.** v2 modernizes internals: extends `vvj_core`
 foundation, ships `<vvjt-tabs>` custom element extending `VvjElementBase`, W3C
 ARIA APG keyboard navigation, View Transitions wrapping tab swaps, while
@@ -25,9 +31,15 @@ key from 1.x.
   conditionally, same as v1.
 - Token resolution delegates to `vvj_core.token_resolver`.
 - Hooks moved to OOP `#[Hook]` classes.
+- Code style: JavaScript and CSS follow Drupal core's ESLint, Stylelint and Prettier rules, and the spell-check job passes with a project word file. Rendering and behavior are unchanged.
+- Layout: Pattern layout now follows the width the Pattern itself gets (container queries on `vvj-region`) instead of the screen width, so Patterns lay out correctly in a narrow content column; overlays and the Pattern root keep screen-width queries.
+- Pattern Contents: its layout now follows the width the view gets, not the screen width, so in a content column beside a sidebar the chapter no longer squeezes into a thin strip (rail from 768px, picture beside text from 1100px of its own width).
 
 ### Fixed
 
+- Vertical tabs now turn into a horizontal row below the chosen 576, 768, 992 or 1200 breakpoint; the narrow rules had targeted the 1400 class only.
+- Hover rules that must beat a rest rule are flattened with `:where()` so no new Pattern selector exceeds 0,2,0; the look is unchanged (check-vvj-cascade: winners changed 0).
+- Patterns: Dock tabs scroll inside the dock when they are wider than the stage, instead of spilling outside it.
 - Update 10002 converts v1 views to the v2 option shape (value types:
   strings and integers stored where v2 declares integer, boolean and float).
 - Non-navigation keys (Tab, Shift+Tab, letters) on a focused tab button are no-
