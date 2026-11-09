@@ -1,6 +1,10 @@
 label: 'Swatch'
 description: 'Photo thumbnails as tabs in a rail on the right; the picture opens as a circle with a words card over it.'
 weight: 2
+stage: boxed
+ground: light
+placement: inner-padding
+serves: [creative, studio, nonprofit]
 options:
   tabs_position: right
   wrap_tabs: false

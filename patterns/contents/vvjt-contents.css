@@ -7,13 +7,13 @@
 .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-inner { display: flex; flex-direction: column; }
 .vvj-pattern--vvjt-contents .tab-panes { padding: 0; }
 /* Pattern Contents: numbered contents list + chapter. */
-.vvj-pattern.vvjt.vvj-pattern--vvjt-contents { max-width: 1320px; margin: 0 auto; padding: clamp(32px, 6vw, 80px) clamp(16px, 4vw, 48px); counter-reset: vvjt-ch; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-inner { gap: 28px; }
+.vvj-pattern.vvjt.vvj-pattern--vvjt-contents { max-width: 1320px; margin: 0 auto; padding: clamp(32px, 6cqi, 80px) clamp(16px, 4cqi, 48px); counter-reset: vvjt-ch; }
+.vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-inner { gap: var(--vvj-space-28, 28px); }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .tab-buttons {
-  flex-direction: row; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+  flex-direction: row; gap: var(--vvj-space-8, 8px); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
   /* 8px on every side holds the whole 3px + 3px focus ring inside the
      scroll box; the negative margin keeps the chips where they were. */
-  padding: 8px; margin: -6px -8px -2px;
+  padding: var(--vvj-space-8, 8px); margin: calc(var(--vvj-space-6, 6px) * -1) calc(var(--vvj-space-8, 8px) * -1) calc(var(--vvj-space-2, 2px) * -1);
 }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .tab-buttons::-webkit-scrollbar { display: none; }
 /* Layout follows the width the pattern gets (vvj-region, set by vvj_core on
@@ -25,11 +25,11 @@
   .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-button { flex: 0 1 auto; max-width: 100%; }
 }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-button {
-  counter-increment: vvjt-ch; scroll-snap-align: start; flex: none; display: flex; align-items: center; gap: 10px;
-  min-height: 48px; padding: 0 18px 0 12px; border: 1px solid var(--vvj-line); text-align: start; border-radius: 999px;
-  color: var(--vvj-muted); font-weight: 600; font-size: 15px; transition: color .3s, border-color .3s, background .3s;
+  counter-increment: vvjt-ch; scroll-snap-align: start; flex: none; display: flex; align-items: center; gap: var(--vvj-space-10, 10px);
+  min-height: 48px; padding: 0 var(--vvj-space-18, 18px) 0 var(--vvj-space-12, 12px); border: 1px solid var(--vvj-line); text-align: start; border-radius: var(--vvj-radius-pill, 999px);
+  color: var(--vvj-muted); font-weight: 600; font-size: var(--vvj-text-15, 0.9375rem); transition: color var(--vvj-dur-300, 0.3s), border-color var(--vvj-dur-300, 0.3s), background var(--vvj-dur-300, 0.3s);
 }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-button::before { content: counter(vvjt-ch, decimal-leading-zero); font-variant-numeric: tabular-nums; font-size: 13px; color: var(--vvj-muted); }
+.vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-button::before { content: counter(vvjt-ch, decimal-leading-zero); font-variant-numeric: tabular-nums; font-size: var(--vvj-text-13, 0.8125rem); color: var(--vvj-muted); }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-button.active { color: var(--vvjt-tab-active-text); background: var(--vvjt-tab-active-bg); border-color: var(--vvjt-tab-active-bg); }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-button.active::before { color: inherit; }
 /* The active chip's text is --vvj-surface, so a currentColor ring vanished on
@@ -37,44 +37,44 @@
    Same weight as vvjt-pattern-base.css, which loads first. */
 :where(.vvj-pattern--vvjt-contents) .vvjt-button:focus-visible { outline-color: var(--vvjt-mark); }
 
-.vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-pane-inner { display: grid; gap: 24px; }
+.vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-pane-inner { display: grid; gap: var(--vvj-space-24, 24px); }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvj-media { overflow: hidden; border-radius: var(--vvj-radius); aspect-ratio: 16 / 10; }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvj-media img { width: 100%; height: 100%; object-fit: cover; }
-.vvj-pattern--vvjt-contents :where(.vvjt-pane[aria-hidden="false"]) .vvj-media { animation: vvjt-contents-wipe .9s var(--vvj-ease-io) both; }
-.vvj-pattern--vvjt-contents :where(.vvjt-pane[aria-hidden="false"]) :where(.vvj-media) img { animation: vvjt-contents-drift 1.4s var(--vvj-ease-out) both; }
+.vvj-pattern--vvjt-contents :where(.vvjt-pane[aria-hidden="false"]) .vvj-media { animation: vvjt-contents-wipe var(--vvj-dur-900, 0.9s) var(--vvj-ease-io) both; }
+.vvj-pattern--vvjt-contents :where(.vvjt-pane[aria-hidden="false"]) :where(.vvj-media) img { animation: vvjt-contents-drift var(--vvj-dur-1400, 1.4s) var(--vvj-ease-out) both; }
 @keyframes vvjt-contents-wipe { from { clip-path: inset(0 100% 0 0 round var(--vvj-radius)); } to { clip-path: inset(0 0 0 0 round var(--vvj-radius)); } }
 @keyframes vvjt-contents-drift { from { transform: scale(1.06) translateX(-2%); } }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvj-kicker { margin: 0 0 8px; color: var(--vvj-ink); font-weight: 700; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvj-title { margin: 0 0 12px; font-family: var(--vvj-font-display); font-weight: 500; font-size: clamp(28px, 3.4vw, 46px); line-height: 1.08; text-wrap: balance; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvj-summary { margin: 0 0 12px; color: var(--vvj-muted); font-size: 17px; line-height: 1.6; max-width: 60ch; }
+.vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvj-kicker { margin: 0 0 var(--vvj-space-8, 8px); color: var(--vvj-ink); font-weight: 700; font-size: var(--vvj-text-13, 0.8125rem); letter-spacing: .12em; text-transform: uppercase; }
+.vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvj-title { margin: 0 0 var(--vvj-space-12, 12px); font-family: var(--vvj-font-display); font-weight: 500; font-size: clamp(28px, 3.4cqi, 46px); line-height: 1.08; text-wrap: balance; }
+.vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvj-summary { margin: 0 0 var(--vvj-space-12, 12px); color: var(--vvj-muted); font-size: var(--vvj-text-17, 1.0625rem); line-height: 1.6; max-width: 60ch; }
 .vvj-pattern--vvjt-contents .vvj-link { color: var(--vvj-ink); text-decoration: underline; text-decoration-color: var(--vvj-ink); text-underline-offset: 6px; text-decoration-thickness: 2px; }
 
 /* From 768px of its own width: the contents rail beside the chapter. */
 @container vvj-region (min-width: 768px) {
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-inner { flex-direction: row; gap: clamp(40px, 5vw, 80px); align-items: start; }
+  .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-inner { flex-direction: row; gap: clamp(40px, 5cqi, 80px); align-items: start; }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .tab-buttons {
-    flex-direction: column; flex: 0 0 var(--vertical-width, 300px); gap: 0; overflow: visible; padding: 0 0 0 22px; margin: 0;
+    flex-direction: column; flex: 0 0 var(--vertical-width, 300px); gap: 0; overflow: visible; padding: 0 0 0 var(--vvj-space-22, 22px); margin: 0;
     position: sticky; inset: 24px auto auto auto;
   }
   /* Rail and its fill: --vvj-index / --vvj-total come from writeState(); empty without JS. */
   .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .tab-buttons::before,
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .tab-buttons::after { content: ""; position: absolute; inset: 0 auto auto 0; width: 2px; height: 100%; background: var(--vvj-line); border-radius: 2px; }
+  .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .tab-buttons::after { content: ""; position: absolute; inset: 0 auto auto 0; width: 2px; height: 100%; background: var(--vvj-line); border-radius: var(--vvj-radius-2, 2px); }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .tab-buttons::after {
     background: var(--vvjt-mark); transform-origin: top;
     transform: scaleY(calc((var(--vvj-index, -1) + 1) / var(--vvj-total, 1)));
-    transition: transform .7s var(--vvj-ease-io);
+    transition: transform var(--vvj-dur-700, 0.7s) var(--vvj-ease-io);
   }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-button {
     display: grid; grid-template-columns: 56px 1fr; align-items: baseline; width: 100%; min-height: 0;
-    padding: 22px 0; border-width: 0 0 1px; border-style: solid; border-color: var(--vvj-line); border-radius: 0; background: none; text-align: start; justify-content: start;
-    font-family: var(--vvj-font-display); font-weight: 500; font-size: clamp(22px, 2vw, 28px); line-height: 1.2; color: var(--vvj-muted);
+    padding: var(--vvj-space-22, 22px) 0; border-width: 0 0 1px; border-style: solid; border-color: var(--vvj-line); border-radius: 0; background: none; text-align: start; justify-content: start;
+    font-family: var(--vvj-font-display); font-weight: 500; font-size: clamp(22px, 2cqi, 28px); line-height: 1.2; color: var(--vvj-muted);
   }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-button:last-child { border-width: 0; }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-button::before {
-    font-family: var(--vvj-font-ui); font-size: 14px; font-weight: 700; color: transparent;
-    -webkit-text-stroke: 1px var(--vvj-muted); font-size: 22px;
+    font-family: var(--vvj-font-ui); font-size: var(--vvj-text-14, 0.875rem); font-weight: 700; color: transparent;
+    -webkit-text-stroke: 1px var(--vvj-muted); font-size: var(--vvj-text-22, 1.375rem);
   }
-  .vvj-pattern--vvjt-contents :where(.vvjt-button) .vvj-nav-label { transition: transform .5s var(--vvj-ease-out); }
+  .vvj-pattern--vvjt-contents :where(.vvjt-button) .vvj-nav-label { transition: transform var(--vvj-dur-500, 0.5s) var(--vvj-ease-out); }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-button:hover { color: var(--vvj-ink); }
   .vvj-pattern--vvjt-contents :where(.vvjt-button:hover) .vvj-nav-label { transform: translateX(6px); }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-button.active { background: none; color: var(--vvj-ink); }
@@ -84,7 +84,7 @@
 }
 /* From 1100px of its own width: picture and text side by side. */
 @container vvj-region (min-width: 1100px) {
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-pane-inner { grid-template-columns: 1.15fr 1fr; align-items: end; gap: 40px; }
+  .vvj-pattern.vvjt.vvj-pattern--vvjt-contents .vvjt-pane-inner { grid-template-columns: 1.15fr 1fr; align-items: end; gap: var(--vvj-space-40, 40px); }
 }
 
 /* Own ground (owner: the Pattern, not the theme, sets every color). The root

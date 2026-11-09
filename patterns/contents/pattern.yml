@@ -1,6 +1,10 @@
 label: 'Contents'
 description: 'Numbered contents list on the left with a progress rail, the open chapter on the right.'
 weight: 1
+stage: boxed
+ground: light
+placement: inner-padding
+serves: [government, university, associations]
 options:
   tabs_position: left
   wrap_tabs: false

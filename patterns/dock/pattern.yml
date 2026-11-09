@@ -1,6 +1,10 @@
 label: 'Dock'
 description: 'Full-width photo stage with the words bottom-left and the tabs in a floating dock at the bottom.'
 weight: 0
+stage: open
+ground: dark
+placement: neither
+serves: [corporate, events, saas]
 options:
   tabs_position: bottom
   wrap_tabs: false

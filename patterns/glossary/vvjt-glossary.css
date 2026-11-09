@@ -7,20 +7,20 @@
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-inner { display: flex; flex-direction: column; }
 .vvj-pattern--vvjt-glossary .tab-panes { padding: 0; }
 /* Pattern Glossary: scrolling term strip with counter and scroll buttons, cinema pane. */
-.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary { max-width: 1440px; margin: 0 auto; padding: clamp(24px, 4vw, 56px) clamp(12px, 3vw, 40px); }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-inner { gap: 18px; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .tab-nav { display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 8px; }
+.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary { max-width: 1440px; margin: 0 auto; padding: clamp(24px, 4cqi, 56px) clamp(12px, 3cqi, 40px); }
+.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-inner { gap: var(--vvj-space-18, 18px); }
+.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .tab-nav { display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: var(--vvj-space-8, 8px); }
 .vvj-pattern--vvjt-glossary .vvjt-scroll-prev { grid-column: 1; grid-row: 1; }
 .vvj-pattern--vvjt-glossary .tab-buttons { grid-column: 2; grid-row: 1; }
 .vvj-pattern--vvjt-glossary .vvjt-scroll-next { grid-column: 3; grid-row: 1; }
 .vvj-pattern--vvjt-glossary .vvjt-count { grid-column: 4; grid-row: 1; }
 
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .tab-buttons {
-  gap: 4px; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x proximity; scrollbar-width: none; min-width: 0;
+  gap: var(--vvj-space-4, 4px); overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x proximity; scrollbar-width: none; min-width: 0;
   --vvj-fade-start: 0px; --vvj-fade-end: 0px;
   /* Room for the focus ring above and below (the scroll box clips it), and a
      focused term scrolls clear of the 48px edge fade. */
-  padding-block: 8px; margin-block: -8px; scroll-padding-inline: 56px;
+  padding-block: var(--vvj-space-8, 8px); margin-block: calc(var(--vvj-space-8, 8px) * -1); scroll-padding-inline: 56px;
   -webkit-mask-image: linear-gradient(90deg, transparent, var(--vvj-mask-solid) var(--vvj-fade-start), var(--vvj-mask-solid) calc(100% - var(--vvj-fade-end)), transparent);
   mask-image: linear-gradient(90deg, transparent, var(--vvj-mask-solid) var(--vvj-fade-start), var(--vvj-mask-solid) calc(100% - var(--vvj-fade-end)), transparent);
 }
@@ -29,13 +29,13 @@
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary.vvj-strip--ready:not(.vvj-strip--at-end) .tab-buttons { --vvj-fade-end: 48px; }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-button {
   position: relative; flex: none; max-width: var(--horizontal-width, 180px); scroll-snap-align: start;
-  display: flex; align-items: center; justify-content: center; text-align: center; min-height: 48px; padding: 8px 16px 12px; white-space: normal; overflow-wrap: anywhere; line-height: 1.2;
-  font-family: var(--vvj-font-display); font-size: clamp(19px, 1.8vw, 24px); color: var(--vvj-muted);
-  transition: color .3s;
+  display: flex; align-items: center; justify-content: center; text-align: center; min-height: 48px; padding: var(--vvj-space-8, 8px) var(--vvj-space-16, 16px) var(--vvj-space-12, 12px); white-space: normal; overflow-wrap: anywhere; line-height: 1.2;
+  font-family: var(--vvj-font-display); font-size: clamp(19px, 1.8cqi, 24px); color: var(--vvj-muted);
+  transition: color var(--vvj-dur-300, 0.3s);
 }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-button::after {
   content: ""; position: absolute; inset: auto 16px 6px 16px; height: 2px; background: var(--vvjt-mark);
-  transform: scaleX(0); transform-origin: left; transition: transform .5s var(--vvj-ease-io);
+  transform: scaleX(0); transform-origin: left; transition: transform var(--vvj-dur-500, 0.5s) var(--vvj-ease-io);
 }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-button:hover { color: var(--vvj-ink); }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-button.active { color: var(--vvj-ink); }
@@ -43,7 +43,7 @@
 
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-scroll {
   width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--vvj-line); background: none; color: var(--vvj-ink);
-  display: grid; place-items: center; cursor: pointer; font-size: 20px; transition: background .25s, color .25s, transform .4s var(--vvj-spring);
+  display: grid; place-items: center; cursor: pointer; font-size: var(--vvj-text-20, 1.25rem); transition: background var(--vvj-dur-250, 0.25s), color var(--vvj-dur-250, 0.25s), transform var(--vvj-dur-400, 0.4s) var(--vvj-spring);
 }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-scroll:hover { background: var(--vvjt-btn-bg); color: var(--vvjt-btn-text); }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-scroll:active { transform: scale(.92); }
@@ -51,9 +51,9 @@
 /* Without JS (or with nothing to scroll) the buttons would do nothing: hide them. */
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary:not(.vvj-strip--ready) .vvjt-scroll,
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary.vvj-strip--static .vvjt-scroll { display: none; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-count { margin: 0 0 0 8px; font-variant-numeric: tabular-nums; font-size: 15px; color: var(--vvj-muted); white-space: nowrap; }
+.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-count { margin: 0; margin-inline-start: var(--vvj-space-8, 8px); font-variant-numeric: tabular-nums; font-size: var(--vvj-text-15, 0.9375rem); color: var(--vvj-muted); white-space: nowrap; }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-count-now { color: var(--vvj-ink); font-weight: 700; }
-.vvj-pattern--vvjt-glossary .vvjt-count-sep { margin: 0 4px; }
+.vvj-pattern--vvjt-glossary .vvjt-count-sep { margin: 0 var(--vvj-space-4, 4px); }
 
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-pane-inner { display: grid; overflow: hidden; border-radius: var(--vvj-radius); background: var(--vvj-stage-bg); color: var(--vvj-stage-color); }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvj-media { overflow: hidden; aspect-ratio: 21 / 9; }
@@ -66,10 +66,10 @@
     @keyframes vvjt-glossary-drift { from { transform: translateY(-10%); } to { transform: translateY(0); } }
   }
 }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvj-text { display: grid; grid-template-columns: auto 1fr; gap: 4px 28px; align-items: baseline; padding: 22px clamp(18px, 3vw, 36px) 26px; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvj-kicker { grid-column: 1; margin: 0; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--vvj-stage-muted); }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvj-title { grid-column: 1; margin: 0; font-family: var(--vvj-font-display); font-weight: 500; font-size: clamp(30px, 3.6vw, 52px); line-height: 1; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvj-summary { grid-column: 2; grid-row: 1 / 3; margin: 0; font-size: 17px; line-height: 1.6; color: var(--vvj-stage-muted); max-width: 62ch; }
+.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvj-text { display: grid; grid-template-columns: auto 1fr; gap: var(--vvj-space-4, 4px) var(--vvj-space-28, 28px); align-items: baseline; padding: var(--vvj-space-22, 22px) clamp(18px, 3cqi, 36px) var(--vvj-space-26, 26px); }
+.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvj-kicker { grid-column: 1; margin: 0; font-size: var(--vvj-text-13, 0.8125rem); letter-spacing: .12em; text-transform: uppercase; color: var(--vvj-stage-muted); }
+.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvj-title { grid-column: 1; margin: 0; font-family: var(--vvj-font-display); font-weight: 500; font-size: clamp(30px, 3.6cqi, 52px); line-height: 1; }
+.vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvj-summary { grid-column: 2; grid-row: 1 / 3; margin: 0; font-size: var(--vvj-text-17, 1.0625rem); line-height: 1.6; color: var(--vvj-stage-muted); max-width: 62ch; }
 
 @container vvj-region (max-width: 560px) {
   .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .tab-nav { grid-template-columns: 1fr auto auto auto; }
@@ -79,7 +79,7 @@
   .vvj-pattern--vvjt-glossary .vvjt-scroll-next { grid-column: 4; }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvj-media { aspect-ratio: 16 / 10; }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvj-text { grid-template-columns: 1fr; }
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvj-summary { grid-column: 1; grid-row: auto; margin-top: 8px; }
+  .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvj-summary { grid-column: 1; grid-row: auto; margin-top: var(--vvj-space-8, 8px); }
 }
 
 /* Own ground (owner: the Pattern, not the theme, sets every color). The root
@@ -106,5 +106,5 @@
    nothing is left to scroll. */
 @container vvj-region (max-width: 560px) {
   .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-inner .tab-buttons { flex-wrap: wrap; overflow-x: visible; -webkit-mask-image: none; mask-image: none; }
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-inner .tab-buttons .vvjt-button { padding: 8px 12px 12px; }
+  .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-inner .tab-buttons .vvjt-button { padding: var(--vvj-space-8, 8px) var(--vvj-space-12, 12px) var(--vvj-space-12, 12px); }
 }

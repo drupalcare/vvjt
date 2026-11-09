@@ -1,6 +1,10 @@
 label: 'Folder'
 description: 'Tabs joined to a raised card like folder tabs, with a square picture and shareable links to each tab.'
 weight: 3
+stage: boxed
+ground: light
+placement: inner-padding
+serves: [associations, government, healthcare]
 options:
   tabs_position: top
   wrap_tabs: true

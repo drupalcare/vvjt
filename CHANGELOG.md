@@ -39,6 +39,10 @@ key from 1.x.
 
 ### Fixed
 
+- Patterns: Glossary's counter keeps its 12 px from the scroll button on right-to-left pages.
+- Patterns: spacing, corner radius, type size, shadow and motion read shared `--vvj-*` variables with fallbacks, so a site or theme can adjust them in one place; a few odd values moved to the nearest step, under 10%.
+- Patterns: each Pattern states its stage, ground, placement and the kinds of site it serves best in `pattern.yml`.
+- Patterns: sizes that followed the screen width (`vw`) now follow the Pattern's own width (`cqi`), so a Pattern in a sidebar or narrow column keeps its proportions.
 - Vertical tabs now turn into a horizontal row below the chosen 576, 768, 992 or 1200 breakpoint; the narrow rules had targeted the 1400 class only.
 - Hover rules that must beat a rest rule are flattened with `:where()` so no new Pattern selector exceeds 0,2,0; the look is unchanged (check-vvj-cascade: winners changed 0).
 - Patterns: Dock tabs scroll inside the dock when they are wider than the stage, instead of spilling outside it.
