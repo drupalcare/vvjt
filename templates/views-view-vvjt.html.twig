@@ -98,12 +98,12 @@
       {% if deeplink_config.enabled and deeplink_config.identifier %}
         {# Deep linking enabled - use anchor link #}
         {% set tab_link = '#tabs-' ~ deeplink_config.identifier ~ '-' ~ (key + 1) %}
-        <a id="vvjt-button-{{ unique_id }}-{{ key + 1 }}" href="{{ tab_link }}" class="button vvjt-button" aria-label="{{ button_content|striptags|trim|t }}" aria-selected="{{ key == 0 ? 'true' : 'false' }}" aria-controls="{{ pane_id }}" {% if not vvj_pattern %}aria-expanded="{{ key == 0 ? 'true' : 'false' }}" {% endif %}role="tab" {% if key != 0 %}tabindex="-1"{% endif %}{% if horizontal_width %} style="--horizontal-width: {{ horizontal_width }};"{% endif %}>
+        <a id="vvjt-button-{{ unique_id }}-{{ key + 1 }}" href="{{ tab_link }}" class="button vvjt-button" aria-selected="{{ key == 0 ? 'true' : 'false' }}" aria-controls="{{ pane_id }}" {% if not vvj_pattern %}aria-expanded="{{ key == 0 ? 'true' : 'false' }}" {% endif %}role="tab" {% if key != 0 %}tabindex="-1"{% endif %}{% if horizontal_width %} style="--horizontal-width: {{ horizontal_width }};"{% endif %}>
           {{ button_content|safe_html }}
         </a>
       {% else %}
         {# Default button #}
-        <button id="vvjt-button-{{ unique_id }}-{{ key + 1 }}" class="button vvjt-button" aria-label="{{ button_content|striptags|trim|t }}" aria-selected="{{ key == 0 ? 'true' : 'false' }}" aria-controls="{{ pane_id }}" {% if not vvj_pattern %}aria-expanded="{{ key == 0 ? 'true' : 'false' }}" {% endif %}type="button" role="tab" {% if key != 0 %}tabindex="-1"{% endif %}{% if horizontal_width %} style="--horizontal-width: {{ horizontal_width }};"{% endif %}>
+        <button id="vvjt-button-{{ unique_id }}-{{ key + 1 }}" class="button vvjt-button" aria-selected="{{ key == 0 ? 'true' : 'false' }}" aria-controls="{{ pane_id }}" {% if not vvj_pattern %}aria-expanded="{{ key == 0 ? 'true' : 'false' }}" {% endif %}type="button" role="tab" {% if key != 0 %}tabindex="-1"{% endif %}{% if horizontal_width %} style="--horizontal-width: {{ horizontal_width }};"{% endif %}>
           {{ button_content|safe_html }}
         </button>
       {% endif %}

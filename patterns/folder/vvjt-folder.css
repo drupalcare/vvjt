@@ -4,56 +4,178 @@
  */
 /* Structure first, so every rule below (breakpoints included) can change it:
    vvjt's own CSS makes the inner a grid and pads the panes. */
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-inner { display: flex; flex-direction: column; }
-.vvj-pattern--vvjt-folder .tab-panes { padding: 0; }
-/* Pattern Folder: tabs joined to the card with inverted corners. */
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder { --vvj-card-bg: var(--vvj-raised); --vvj-folder-radius: 14px; max-width: 1200px; margin: 0 auto; padding: clamp(28px, 5cqi, 72px) clamp(12px, 4cqi, 48px); }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .tab-buttons { flex-wrap: wrap; gap: 0 var(--vvj-space-2, 2px); padding: 0 calc(var(--vvj-folder-radius) + 2px); }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button {
-  position: relative; min-height: 48px; padding: 0 var(--vvj-space-20, 20px); border-radius: var(--vvj-folder-radius) var(--vvj-folder-radius) 0 0;
-  font-size: var(--vvj-text-15, 0.9375rem); font-weight: 600; color: var(--vvj-muted); display: inline-flex; align-items: center;
-  background: color-mix(in srgb, var(--vvj-card-bg) 45%, transparent);
-  transition: color var(--vvj-dur-250, 0.25s), background var(--vvj-dur-250, 0.25s), transform var(--vvj-dur-350, 0.35s) var(--vvj-spring);
+.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-inner {
+  display: flex;
+  flex-direction: column;
 }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button:hover { color: var(--vvj-ink); }
-:where(.vvj-pattern--vvjt-folder) :where(.vvjt-button):not(.active):hover { transform: translateY(-2px); }
-:where(:where(.vvj-pattern--vvjt-folder) :where(.vvjt-button):not(.active):hover)::after { content: ""; position: absolute; inset: -4px; }
-:where(.vvj-pattern--vvjt-folder .vvjt-button):active { transform: translateY(1px); }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active { background: var(--vvj-card-bg); color: var(--vvj-ink); z-index: 1; transform: none; }
+.vvj-pattern--vvjt-folder .tab-panes {
+  padding: 0;
+}
+/* Pattern Folder: tabs joined to the card with inverted corners. */
+.vvj-pattern.vvjt.vvj-pattern--vvjt-folder {
+  --vvj-card-bg: var(--vvj-raised);
+  --vvj-folder-radius: 14px;
+
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(28px, 5cqi, 72px) clamp(12px, 4cqi, 48px);
+}
+.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .tab-buttons {
+  flex-wrap: wrap;
+  gap: 0 var(--vvj-space-2, 2px);
+  padding: 0 calc(var(--vvj-folder-radius) + 2px);
+}
+.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 var(--vvj-space-20, 20px);
+  transition:
+    color var(--vvj-dur-250, 0.25s),
+    background var(--vvj-dur-250, 0.25s),
+    transform var(--vvj-dur-350, 0.35s) var(--vvj-spring);
+  color: var(--vvj-muted);
+  border-radius: var(--vvj-folder-radius) var(--vvj-folder-radius) 0 0;
+  background: color-mix(in sRGB, var(--vvj-card-bg) 45%, transparent);
+  font-size: var(--vvj-text-15, 0.9375rem);
+  font-weight: 600;
+}
+.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button:hover {
+  color: var(--vvj-ink);
+}
+:where(.vvj-pattern--vvjt-folder) :where(.vvjt-button):not(.active):hover {
+  transform: translateY(-2px);
+}
+:where(:where(.vvj-pattern--vvjt-folder) :where(.vvjt-button):not(.active):hover)::after {
+  position: absolute;
+  content: "";
+  inset: -4px;
+}
+:where(.vvj-pattern--vvjt-folder .vvjt-button):active {
+  transform: translateY(1px);
+}
+.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active {
+  z-index: 1;
+  transform: none;
+  color: var(--vvj-ink);
+  background: var(--vvj-card-bg);
+}
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active::before,
 .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active::after {
-  content: ""; position: absolute; inset: auto auto 0 auto; width: var(--vvj-folder-radius); height: var(--vvj-folder-radius); pointer-events: none;
+  position: absolute;
+  width: var(--vvj-folder-radius);
+  height: var(--vvj-folder-radius);
+  content: "";
+  pointer-events: none;
+  inset: auto auto 0 auto;
 }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active::before { inset: auto auto 0 calc(var(--vvj-folder-radius) * -1); background: radial-gradient(circle at 0 0, transparent var(--vvj-folder-radius), var(--vvj-card-bg) calc(var(--vvj-folder-radius) + .5px)); }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active::after { inset: auto calc(var(--vvj-folder-radius) * -1) 0 auto; background: radial-gradient(circle at 100% 0, transparent var(--vvj-folder-radius), var(--vvj-card-bg) calc(var(--vvj-folder-radius) + .5px)); }
-.vvj-pattern--vvjt-folder :where(.vvjt-button.active) .vvj-nav-label { box-shadow: inset 0 -2px 0 var(--vvjt-mark); padding: 0 0 var(--vvj-space-2, 2px); }
+.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active::before {
+  inset: auto auto 0 calc(var(--vvj-folder-radius) * -1);
+  background: radial-gradient(circle at 0 0, transparent var(--vvj-folder-radius), var(--vvj-card-bg) calc(var(--vvj-folder-radius) + 0.5px));
+}
+.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active::after {
+  inset: auto calc(var(--vvj-folder-radius) * -1) 0 auto;
+  background: radial-gradient(circle at 100% 0, transparent var(--vvj-folder-radius), var(--vvj-card-bg) calc(var(--vvj-folder-radius) + 0.5px));
+}
+.vvj-pattern--vvjt-folder :where(.vvjt-button.active) .vvj-nav-label {
+  padding: 0 0 var(--vvj-space-2, 2px);
+  box-shadow: inset 0 -2px 0 var(--vvjt-mark);
+}
 
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .tab-panes { background: var(--vvj-card-bg); border-radius: calc(var(--vvj-folder-radius) * 1.5); padding: clamp(16px, 3cqi, 32px); }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-pane-inner { display: grid; gap: clamp(18px, 3cqi, 40px); align-items: center; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-media { overflow: hidden; border-radius: var(--vvj-folder-radius); aspect-ratio: 1; max-height: 460px; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-media img { width: 100%; height: 100%; object-fit: cover; }
-.vvj-pattern--vvjt-folder :where(.vvjt-pane[aria-hidden="false"]) :where(.vvj-media) img { animation: vvjt-folder-zoom var(--vvj-dur-1800, 1.8s) var(--vvj-ease-out) both; }
-@keyframes vvjt-folder-zoom { from { transform: scale(1.18); } }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-kicker { margin: 0 0 var(--vvj-space-6, 6px); font-size: var(--vvj-text-13, 0.8125rem); font-weight: 700; color: var(--vvj-muted); letter-spacing: .1em; text-transform: uppercase; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-title { margin: 0 0 var(--vvj-space-10, 10px); font-family: var(--vvj-font-display); font-weight: 500; font-size: clamp(32px, 4.4cqi, 60px); line-height: 1; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-summary { margin: 0 0 var(--vvj-space-12, 12px); color: var(--vvj-muted); font-size: var(--vvj-text-17, 1.0625rem); line-height: 1.6; max-width: 46ch; }
-.vvj-pattern--vvjt-folder .vvj-link { color: var(--vvj-ink); }
+.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .tab-panes {
+  padding: clamp(16px, 3cqi, 32px);
+  border-radius: calc(var(--vvj-folder-radius) * 1.5);
+  background: var(--vvj-card-bg);
+}
+.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-pane-inner {
+  display: grid;
+  gap: clamp(18px, 3cqi, 40px);
+  align-items: center;
+}
+.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-media {
+  overflow: hidden;
+  max-height: 460px;
+  border-radius: var(--vvj-folder-radius);
+  aspect-ratio: 1;
+}
+.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.vvj-pattern--vvjt-folder :where(.vvjt-pane[aria-hidden="false"]) :where(.vvj-media) img {
+  animation: vvjt-folder-zoom var(--vvj-dur-1800, 1.8s) var(--vvj-ease-out) both;
+}
+@keyframes vvjt-folder-zoom {
+  from {
+    transform: scale(1.18);
+  }
+}
+.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-kicker {
+  margin: 0 0 var(--vvj-space-6, 6px);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--vvj-muted);
+  font-size: var(--vvj-text-13, 0.8125rem);
+  font-weight: 700;
+}
+.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-title {
+  margin: 0 0 var(--vvj-space-10, 10px);
+  font-family: var(--vvj-font-display);
+  font-size: clamp(32px, 4.4cqi, 60px);
+  font-weight: 500;
+  line-height: 1;
+}
+.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-summary {
+  max-width: 46ch;
+  margin: 0 0 var(--vvj-space-12, 12px);
+  color: var(--vvj-muted);
+  font-size: var(--vvj-text-17, 1.0625rem);
+  line-height: 1.6;
+}
+.vvj-pattern--vvjt-folder .vvj-link {
+  color: var(--vvj-ink);
+}
 
 @container vvj-region (min-width: 680px) {
-  .vvj-pattern--vvjt-folder .vvjt-pane-inner { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+  .vvj-pattern--vvjt-folder .vvjt-pane-inner {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  }
 }
 @container vvj-region (max-width: 440px) {
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .tab-buttons { padding: 0 var(--vvj-space-4, 4px); gap: var(--vvj-space-4, 4px) var(--vvj-space-2, 2px); }
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button { padding: 0 var(--vvj-space-14, 14px); border-radius: var(--vvj-folder-radius); }
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active::before, .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active::after { display: none; }
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active { border-radius: var(--vvj-folder-radius) var(--vvj-folder-radius) 0 0; }
+  .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .tab-buttons {
+    padding: 0 var(--vvj-space-4, 4px);
+    gap: var(--vvj-space-4, 4px) var(--vvj-space-2, 2px);
+  }
+  .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button {
+    padding: 0 var(--vvj-space-14, 14px);
+    border-radius: var(--vvj-folder-radius);
+  }
+  .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active::before,
+  .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active::after {
+    display: none;
+  }
+  .vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvjt-button.active {
+    border-radius: var(--vvj-folder-radius) var(--vvj-folder-radius) 0 0;
+  }
 }
 
 /* Own ground (owner: the Pattern, not the theme, sets every color). The root
    is written .vvj-pattern.vvjt.vvj-pattern--vvjt-<p> so these rules outrank
    vvjt's own structural CSS (three classes) and a theme's h1-h6 and a rules,
    without !important. */
-.vvj-pattern--vvjt-folder { background: var(--vvj-surface); color: var(--vvj-ink); }
-.vvj-pattern--vvjt-folder .vvj-title { color: var(--vvj-ink); }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-link a { color: var(--vvj-ink); text-underline-offset: 4px; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-link a:hover { text-decoration-thickness: 2px; }
+.vvj-pattern--vvjt-folder {
+  color: var(--vvj-ink);
+  background: var(--vvj-surface);
+}
+.vvj-pattern--vvjt-folder .vvj-title {
+  color: var(--vvj-ink);
+}
+.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-link a {
+  color: var(--vvj-ink);
+  text-underline-offset: 4px;
+}
+.vvj-pattern.vvjt.vvj-pattern--vvjt-folder .vvj-link a:hover {
+  text-decoration-thickness: 2px;
+}

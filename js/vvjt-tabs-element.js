@@ -87,10 +87,22 @@
     }
 
     _updateAriaLabels() {
-      this._buttons.forEach((button) => {
-        const img = button.querySelector('img');
-        const label = img?.alt || button.textContent?.trim() || Drupal.t('Tab');
-        button.setAttribute('aria-label', label);
+      // The accessible name comes from the tab's own content (visible text,
+      // plus any image alt), so the spoken name contains the visible words.
+      // A label is set only when the content gives no name at all.
+      this._buttons.forEach((button, index) => {
+        const hasText = button.textContent?.trim() !== '';
+        const hasAlt = Array.from(button.querySelectorAll('img')).some(
+          (img) => (img.getAttribute('alt') ?? '').trim() !== '',
+        );
+        if (hasText || hasAlt) {
+          button.removeAttribute('aria-label');
+        } else {
+          button.setAttribute(
+            'aria-label',
+            Drupal.t('Tab @index', { '@index': index + 1 }),
+          );
+        }
       });
     }
 

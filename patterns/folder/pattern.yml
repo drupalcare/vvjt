@@ -19,6 +19,10 @@ options:
   enable_deeplink: true
   deeplink_identifier: surfaces
 features: []
+pictures:
+  vvj_image:
+    style: vvj_square_800
+    responsive: false
 needs:
   - 'Fields in this order: the tab label first (vvj_nav_label, plain text), then the image (vvj_image), kicker (vvj_kicker), title, summary (vvj_summary, trimmed to 160 characters) and link (vvj_link).'
   - 'Show the image with the image style vvj_square_800 (1:1).'

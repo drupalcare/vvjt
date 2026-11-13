@@ -21,7 +21,11 @@ features:
   - active_index
   - scroll_buttons
   - counter
+pictures:
+  vvj_image:
+    style: vvj_cinema_1680
+    responsive: false
 needs:
   - 'Fields in this order: the tab label first (vvj_nav_label, plain text), then the image (vvj_image), kicker (vvj_kicker), title and summary (vvj_summary, trimmed to 160 characters).'
-  - 'Show the image with the responsive image style vvj_cinema (21:9).'
+  - 'Show the image with the image style vvj_cinema_1680 (21:9).'
   - 'Give the field elements the classes vvj-kicker, vvj-title and vvj-summary.'

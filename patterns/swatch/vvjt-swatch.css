@@ -4,66 +4,191 @@
  */
 /* Structure first, so every rule below (breakpoints included) can change it:
    vvjt's own CSS makes the inner a grid and pads the panes. */
-.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-inner { display: flex; flex-direction: column; }
-.vvj-pattern--vvjt-swatch .tab-panes { padding: 0; }
+.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-inner {
+  display: flex;
+  flex-direction: column;
+}
+.vvj-pattern--vvjt-swatch .tab-panes {
+  padding: 0;
+}
 /* Pattern Swatch: thumbnail rail on the right, circle reveal. */
-.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch { max-width: 1320px; margin: 0 auto; padding: clamp(28px, 5cqi, 72px) clamp(16px, 4cqi, 48px); }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-inner { gap: var(--vvj-space-20, 20px); }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .tab-buttons { order: 2; gap: var(--vvj-space-12, 12px); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; padding: var(--vvj-space-6, 6px); }
-.vvj-pattern--vvjt-swatch .tab-panes { order: 1; }
+.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: clamp(28px, 5cqi, 72px) clamp(16px, 4cqi, 48px);
+}
+.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-inner {
+  gap: var(--vvj-space-20, 20px);
+}
+.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .tab-buttons {
+  overflow-x: auto;
+  order: 2;
+  padding: var(--vvj-space-6, 6px);
+  gap: var(--vvj-space-12, 12px);
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+}
+.vvj-pattern--vvjt-swatch .tab-panes {
+  order: 1;
+}
 .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-button {
-  flex: 0 0 104px; scroll-snap-align: start; display: grid; gap: var(--vvj-space-6, 6px); padding: var(--vvj-space-4, 4px); border-radius: calc(var(--vvj-radius) - 4px);
-  font-size: var(--vvj-text-13, 0.8125rem); font-weight: 600; text-align: center; color: var(--vvj-muted);
-  transition: color var(--vvj-dur-300, 0.3s), transform var(--vvj-dur-450, 0.45s) var(--vvj-spring);
+  display: grid;
+  flex: 0 0 104px;
+  padding: var(--vvj-space-4, 4px);
+  transition:
+    color var(--vvj-dur-300, 0.3s),
+    transform var(--vvj-dur-450, 0.45s) var(--vvj-spring);
+  text-align: center;
+  color: var(--vvj-muted);
+  border-radius: calc(var(--vvj-radius) - 4px);
+  font-size: var(--vvj-text-13, 0.8125rem);
+  font-weight: 600;
+  scroll-snap-align: start;
+  gap: var(--vvj-space-6, 6px);
 }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-button img {
-  width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: calc(var(--vvj-radius) - 6px);
-  outline: 2px solid transparent; outline-offset: 2px; filter: saturate(.55) brightness(.92);
-  transition: filter var(--vvj-dur-400, 0.4s), outline-color var(--vvj-dur-300, 0.3s), border-radius var(--vvj-dur-500, 0.5s) var(--vvj-ease-io);
+  width: 100%;
+  transition:
+    filter var(--vvj-dur-400, 0.4s),
+    outline-color var(--vvj-dur-300, 0.3s),
+    border-radius var(--vvj-dur-500, 0.5s) var(--vvj-ease-io);
+  object-fit: cover;
+  filter: saturate(0.55) brightness(0.92);
+  border-radius: calc(var(--vvj-radius) - 6px);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  aspect-ratio: 1;
 }
-.vvj-pattern--vvjt-swatch :where(.vvjt-button:hover) img { filter: none; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-button:active { transform: scale(.95); }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-button.active { color: var(--vvj-ink); }
-.vvj-pattern--vvjt-swatch :where(.vvjt-button.active) img { filter: none; outline-color: var(--vvjt-mark); border-radius: 50%; }
+.vvj-pattern--vvjt-swatch :where(.vvjt-button:hover) img {
+  filter: none;
+}
+.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-button:active {
+  transform: scale(0.95);
+}
+.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-button.active {
+  color: var(--vvj-ink);
+}
+.vvj-pattern--vvjt-swatch :where(.vvjt-button.active) img {
+  filter: none;
+  border-radius: 50%;
+  outline-color: var(--vvjt-mark);
+}
 
-.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-pane-inner { position: relative; display: grid; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvj-media { overflow: hidden; border-radius: var(--vvj-radius); aspect-ratio: 3 / 2; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvj-media img { width: 100%; height: 100%; object-fit: cover; }
-.vvj-pattern--vvjt-swatch :where(.vvjt-pane[aria-hidden="false"]) .vvj-media { animation: vvjt-swatch-circle var(--vvj-dur-1000, 1s) var(--vvj-ease-io) both; }
-@keyframes vvjt-swatch-circle { from { clip-path: circle(0% at 100% 50%); } to { clip-path: circle(150% at 100% 50%); } }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvj-text {
-  position: relative; margin: calc(var(--vvj-space-56, 56px) * -1) var(--vvj-space-16, 16px) 0; padding: var(--vvj-space-22, 22px) var(--vvj-space-24, 24px); background: var(--vvj-raised); color: var(--vvj-ink);
-  border-radius: var(--vvj-radius); max-width: 520px; box-shadow: 0 1px 0 var(--vvj-line);
+.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-pane-inner {
+  position: relative;
+  display: grid;
 }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvj-kicker { margin: 0 0 var(--vvj-space-6, 6px); font-size: var(--vvj-text-13, 0.8125rem); font-weight: 700; color: var(--vvj-muted); letter-spacing: .08em; text-transform: uppercase; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvj-title { margin: 0 0 var(--vvj-space-8, 8px); font-family: var(--vvj-font-display); font-weight: 500; font-size: clamp(26px, 3cqi, 40px); line-height: 1.1; }
-.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvj-summary { margin: 0; color: var(--vvj-muted); font-size: var(--vvj-text-16, 1rem); line-height: 1.6; }
+.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvj-media {
+  overflow: hidden;
+  border-radius: var(--vvj-radius);
+  aspect-ratio: 3 / 2;
+}
+.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvj-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.vvj-pattern--vvjt-swatch :where(.vvjt-pane[aria-hidden="false"]) .vvj-media {
+  animation: vvjt-swatch-circle var(--vvj-dur-1000, 1s) var(--vvj-ease-io) both;
+}
+@keyframes vvjt-swatch-circle {
+  from {
+    clip-path: circle(0% at 100% 50%);
+  }
+  to {
+    clip-path: circle(150% at 100% 50%);
+  }
+}
+.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvj-text {
+  position: relative;
+  max-width: 520px;
+  margin: calc(var(--vvj-space-56, 56px) * -1) var(--vvj-space-16, 16px) 0;
+  padding: var(--vvj-space-22, 22px) var(--vvj-space-24, 24px);
+  color: var(--vvj-ink);
+  border-radius: var(--vvj-radius);
+  background: var(--vvj-raised);
+  box-shadow: 0 1px 0 var(--vvj-line);
+}
+.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvj-kicker {
+  margin: 0 0 var(--vvj-space-6, 6px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--vvj-muted);
+  font-size: var(--vvj-text-13, 0.8125rem);
+  font-weight: 700;
+}
+.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvj-title {
+  margin: 0 0 var(--vvj-space-8, 8px);
+  font-family: var(--vvj-font-display);
+  font-size: clamp(26px, 3cqi, 40px);
+  font-weight: 500;
+  line-height: 1.1;
+}
+.vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvj-summary {
+  margin: 0;
+  color: var(--vvj-muted);
+  font-size: var(--vvj-text-16, 1rem);
+  line-height: 1.6;
+}
 
 /* Below 768px the rail is a row under the picture. vvjt-vertical.css still
    caps it at --vertical-width (132px) and --vertical-height there, which
    squeezed five thumbnails into 132px; the row takes the full width and the
    thumbnails share it. Five classes to outrank .vvjt.vertical.max-w/.max-h. */
 @container vvj-region (max-width: 719.98px) {
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch.vertical .vvjt-inner .tab-buttons { width: 100%; max-width: none; height: auto; max-height: none; gap: var(--vvj-space-8, 8px); }
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-button { flex: 1 1 0; min-width: 44px; }
-  .vvj-pattern--vvjt-swatch .tab-panes { flex: none; }
+  .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch.vertical .vvjt-inner .tab-buttons {
+    width: 100%;
+    max-width: none;
+    height: auto;
+    max-height: none;
+    gap: var(--vvj-space-8, 8px);
+  }
+  .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-button {
+    flex: 1 1 0;
+    min-width: 44px;
+  }
+  .vvj-pattern--vvjt-swatch .tab-panes {
+    flex: none;
+  }
 }
 
 /* At 768 px and up (br-768): rail on the right, scrolling past --vertical-height. */
 @container vvj-region (min-width: 720px) {
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-inner { flex-direction: row-reverse; align-items: start; gap: var(--vvj-space-28, 28px); }
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .tab-buttons {
-    flex-direction: column; flex: 0 0 var(--vertical-width, 132px); max-height: var(--vertical-height, 560px);
-    overflow-x: hidden; overflow-y: auto; scroll-snap-type: y mandatory;
+  .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-inner {
+    flex-direction: row-reverse;
+    align-items: start;
+    gap: var(--vvj-space-28, 28px);
   }
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-button { flex: none; }
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .tab-panes { flex: 1; min-width: 0; }
-  .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvj-text { position: absolute; inset: auto auto 24px 24px; margin: 0; }
+  .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .tab-buttons {
+    overflow-x: hidden;
+    overflow-y: auto;
+    flex: 0 0 var(--vertical-width, 132px);
+    flex-direction: column;
+    max-height: var(--vertical-height, 560px);
+    scroll-snap-type: y mandatory;
+  }
+  .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-button {
+    flex: none;
+  }
+  .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .tab-panes {
+    flex: 1;
+    min-width: 0;
+  }
+  .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvj-text {
+    position: absolute;
+    inset: auto auto 24px 24px;
+    margin: 0;
+  }
 }
 
 /* Own ground (owner: the Pattern, not the theme, sets every color). The root
    is written .vvj-pattern.vvjt.vvj-pattern--vvjt-<p> so these rules outrank
    vvjt's own structural CSS (three classes) and a theme's h1-h6 and a rules,
    without !important. */
-.vvj-pattern--vvjt-swatch { background: var(--vvj-surface); color: var(--vvj-ink); }
-.vvj-pattern--vvjt-swatch .vvj-title { color: var(--vvj-ink); }
+.vvj-pattern--vvjt-swatch {
+  color: var(--vvj-ink);
+  background: var(--vvj-surface);
+}
+.vvj-pattern--vvjt-swatch .vvj-title {
+  color: var(--vvj-ink);
+}

@@ -30,6 +30,12 @@
   font-weight: normal;
 }
 
+/* Keyboard focus keeps a visible ring (the rule above removes the outline). */
+.vvjt .vvjt-inner .tab-buttons .vvjt-button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
 /* Active Indicator Bar */
 .vvjt .vvjt-inner .tab-buttons .vvjt-button.active::after {
   position: absolute;

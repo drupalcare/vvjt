@@ -6,6 +6,7 @@
 - Patterns: under Solo or APEX the Pattern controls take the theme's button and menu colors; black and white stays the default on any other theme.
 - Layout: the breakpoint stylesheets (`vvjt-576` to `vvjt-1400`) no longer match a Pattern, so a Pattern's layout comes from its own CSS only. Classic tabs render as before.
 - Accessibility: long Glossary terms now wrap inside their chip instead of being cut with an ellipsis.
+- Accessibility: tabs keep a visible keyboard focus ring when the optional style is on; a tab is named by its own visible text (and image alt), never by text passed through translation.
 - Accessibility: the active pane is no longer a live region; Contents shows a visible ink focus ring on the active chip; the Contents and Glossary strips no longer clip the focus ring; the Glossary parallax runs only when motion is allowed.
 
 **Drop-in upgrade for 1.x sites.** v2 modernizes internals: extends `vvj_core`
