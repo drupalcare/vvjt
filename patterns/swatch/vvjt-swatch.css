@@ -160,11 +160,13 @@
     gap: var(--vvj-space-28, 28px);
   }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .tab-buttons {
+    flex-direction: column;
+    /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+    flex: 0 0 var(--vertical-width, 132px);
+    max-height: var(--vertical-height, 560px);
+    /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
     overflow-x: hidden;
     overflow-y: auto;
-    flex: 0 0 var(--vertical-width, 132px);
-    flex-direction: column;
-    max-height: var(--vertical-height, 560px);
     scroll-snap-type: y mandatory;
   }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-swatch .vvjt-button {

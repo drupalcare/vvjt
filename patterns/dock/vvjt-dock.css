@@ -105,20 +105,24 @@
 
 /* The dock. */
 .vvj-pattern.vvjt.vvj-pattern--vvjt-dock .tab-buttons {
+  order: 2;
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
   position: absolute;
   z-index: 3;
-  order: 2;
-  max-width: calc(100% - 32px);
-  padding: var(--vvj-space-6, 6px);
-  transform: translateX(-50%);
-  border: 1px solid var(--vvj-glass-line);
-  border-radius: var(--vvj-radius-pill, 999px);
-  background: var(--vvj-glass-bg);
-  box-shadow: var(--vvj-glass-shadow);
   inset: auto auto 32px 50%;
+  transform: translateX(-50%);
   gap: var(--vvj-space-4, 4px);
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+  padding: var(--vvj-space-6, 6px);
+  border-radius: var(--vvj-radius-pill, 999px);
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+  max-width: calc(100% - 32px);
+  background: var(--vvj-glass-bg);
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+  border: 1px solid var(--vvj-glass-line);
   -webkit-backdrop-filter: blur(18px) saturate(1.4);
   backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow: var(--vvj-glass-shadow);
 }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-dock .vvjt-button {
   position: relative;
@@ -163,19 +167,23 @@
     anchor-name: --vvjt-dock-active;
   }
   .vvj-pattern.vvjt.vvj-pattern--vvjt-dock .tab-buttons::before {
+    content: "";
+    /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
     position: absolute;
     z-index: 0;
-    top: anchor(top);
-    right: anchor(right);
-    bottom: anchor(bottom);
+    position-anchor: --vvjt-dock-active;
     left: anchor(left);
-    content: "";
+    /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+    right: anchor(right);
+    /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+    top: anchor(top);
+    bottom: anchor(bottom);
+    border-radius: var(--vvj-radius-pill, 999px);
+    background: var(--vvj-stage-color);
+    /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
     transition:
       left var(--vvj-dur-550, 0.55s) var(--vvj-spring),
       right var(--vvj-dur-550, 0.55s) var(--vvj-spring);
-    border-radius: var(--vvj-radius-pill, 999px);
-    background: var(--vvj-stage-color);
-    position-anchor: --vvjt-dock-active;
   }
 }
 @supports not (anchor-name: --a) {

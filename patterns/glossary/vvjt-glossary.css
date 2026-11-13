@@ -44,15 +44,15 @@
 }
 
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .tab-buttons {
+  --vvj-fade-start: 0px;
+  --vvj-fade-end: 0px;
+
   gap: var(--vvj-space-4, 4px);
   overflow-x: auto;
   scroll-behavior: smooth;
   scroll-snap-type: x proximity;
   scrollbar-width: none;
   min-width: 0;
-
-  --vvj-fade-start: 0px;
-  --vvj-fade-end: 0px;
   /* Room for the focus ring above and below (the scroll box clips it), and a
      focused term scrolls clear of the 48px edge fade. */
   padding-block: var(--vvj-space-8, 8px);
@@ -110,20 +110,24 @@
 }
 
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-scroll {
-  display: grid;
-  place-items: center;
   width: 44px;
   height: 44px;
+  border-radius: 50%;
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+  border: 1px solid var(--vvj-line);
+  background: none;
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+  color: var(--vvj-ink);
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
+  display: grid;
+  place-items: center;
   cursor: pointer;
+  font-size: var(--vvj-text-20, 1.25rem);
+  /* stylelint-disable-next-line order/properties-order -- declaration order changes the result here (shorthand and longhand, all, or a physical and logical pair) */
   transition:
     background var(--vvj-dur-250, 0.25s),
     color var(--vvj-dur-250, 0.25s),
     transform var(--vvj-dur-400, 0.4s) var(--vvj-spring);
-  color: var(--vvj-ink);
-  border: 1px solid var(--vvj-line);
-  border-radius: 50%;
-  background: none;
-  font-size: var(--vvj-text-20, 1.25rem);
 }
 .vvj-pattern.vvjt.vvj-pattern--vvjt-glossary .vvjt-scroll:hover {
   color: var(--vvjt-btn-text);
