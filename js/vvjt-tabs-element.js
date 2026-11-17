@@ -215,7 +215,9 @@
       if (!pane) {
         return;
       }
-      this.withTransition(() => this._showTab(button, pane, true));
+      // No View Transition here: its whole-page snapshot fade flickers on
+      // iOS (vvjb #3638891).
+      this._showTab(button, pane, true);
 
       if (deeplinkEnabled && this._inner.dataset.deeplinkId) {
         const index = Array.from(this._buttons).indexOf(button) + 1;
@@ -319,7 +321,7 @@
       if (!button || !pane) {
         return false;
       }
-      this.withTransition(() => this._showTab(button, pane, false));
+      this._showTab(button, pane, false);
       if (
         this._inner &&
         this._inner.dataset.deeplinkEnabled === 'true' &&

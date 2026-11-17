@@ -2,6 +2,7 @@
 
 ## [2.0.0] (UNRELEASED)
 
+- iPhone: switching tabs no longer flickers; the whole-page View Transition is gone.
 - Patterns: the bridge reads the shared `--vvj-theme-*` roles instead of spelling theme names.
 - Patterns: under Solo or APEX the Pattern controls take the theme's button and menu colors; black and white stays the default on any other theme.
 - Layout: the breakpoint stylesheets (`vvjt-576` to `vvjt-1400`) no longer match a Pattern, so a Pattern's layout comes from its own CSS only. Classic tabs render as before.
